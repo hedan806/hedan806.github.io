@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on Honlyc - A super concise theme for Hugo</title>
+    <link>http://www.honlyc.com/post/</link>
+    <description>Recent content in Posts on Honlyc - A super concise theme for Hugo</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Mon, 01 Apr 2019 17:11:16 +0800</lastBuildDate>
+    
+	<atom:link href="http://www.honlyc.com/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>First</title>
+      <link>http://www.honlyc.com/post/first/</link>
+      <pubDate>Mon, 01 Apr 2019 17:11:16 +0800</pubDate>
+      
+      <guid>http://www.honlyc.com/post/first/</guid>
+      <description> My First Blog. </description>
+    </item>
+    
+  </channel>
+</rss>
