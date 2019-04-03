@@ -3,6 +3,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://www.honlyc.com/post/first/</loc>
+    <lastmod>2019-04-01T17:11:16+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
     <loc>http://www.honlyc.com/categories/</loc>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
@@ -10,6 +17,14 @@
   
   <url>
     <loc>http://www.honlyc.com/</loc>
+    <lastmod>2019-04-01T17:11:16+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.honlyc.com/post/</loc>
+    <lastmod>2019-04-01T17:11:16+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>

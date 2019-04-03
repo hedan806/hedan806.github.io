@@ -6,9 +6,19 @@
     <description>Recent content on Honlyc - A super concise theme for Hugo</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
+    <lastBuildDate>Mon, 01 Apr 2019 17:11:16 +0800</lastBuildDate>
     
 	<atom:link href="http://www.honlyc.com/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>First</title>
+      <link>http://www.honlyc.com/post/first/</link>
+      <pubDate>Mon, 01 Apr 2019 17:11:16 +0800</pubDate>
+      
+      <guid>http://www.honlyc.com/post/first/</guid>
+      <description>1. Git push 需要填写密码的问题</description>
+    </item>
     
   </channel>
 </rss>
