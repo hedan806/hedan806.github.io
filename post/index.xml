@@ -12,12 +12,12 @@
     
     
     <item>
-      <title>Go Ssh Guide</title>
+      <title>使用 Go 来进行远程执行命令</title>
       <link>http://www.honlyc.com/post/go-ssh-guide/</link>
       <pubDate>Wed, 03 Apr 2019 15:42:14 +0800</pubDate>
       
       <guid>http://www.honlyc.com/post/go-ssh-guide/</guid>
-      <description>使用 Go 来进行远程执行命令</description>
+      <description>封装一个Cli类，来作为主要执行的对象 1 2 3 4 5 6 7 8 type Cli struct { IP string //IP地址 Username string //用户名 Password string //密码 Port int //端口号 client *ssh.Client //ssh客户端 LastResult</description>
     </item>
     
     <item>
