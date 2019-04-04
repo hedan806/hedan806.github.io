@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>spring on Honlyc - Your are free</title>
+    <link>http://www.honlyc.com/categories/spring/</link>
+    <description>Recent content in spring on Honlyc - Your are free</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Thu, 04 Apr 2019 15:39:44 +0800</lastBuildDate>
+    
+	<atom:link href="http://www.honlyc.com/categories/spring/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Spring Webflux 获取请求 IP 的方法</title>
+      <link>http://www.honlyc.com/post/spring-webflux-remote-ip/</link>
+      <pubDate>Thu, 04 Apr 2019 15:39:44 +0800</pubDate>
+      
+      <guid>http://www.honlyc.com/post/spring-webflux-remote-ip/</guid>
+      <description>问题描述 在使用WebFlux时，因为业务需要，要获取请求 IP 并作为日志输出。我使用的是RouterFunction方式的路由： 1 2 3 4 5 6 7 8</description>
+    </item>
+    
+  </channel>
+</rss>
