@@ -6,10 +6,19 @@
     <description>Recent content in Posts on Honlyc - Your are free</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 04 Apr 2019 17:50:09 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 06 Apr 2019 22:08:54 +0800</lastBuildDate>
     
 	<atom:link href="http://www.honlyc.com/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Go Web 读取配置文件</title>
+      <link>http://www.honlyc.com/post/go-web-config/</link>
+      <pubDate>Sat, 06 Apr 2019 22:08:54 +0800</pubDate>
+      
+      <guid>http://www.honlyc.com/post/go-web-config/</guid>
+      <description>Viper 简介 viper是spf13大神开发的开源配置解决方案，另外docker kubernetes等项目都在用的命令行解决方案cobra也是出自他</description>
+    </item>
     
     <item>
       <title>Hugo 常用修改</title>
