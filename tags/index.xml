@@ -20,11 +20,29 @@
     </item>
     
     <item>
+      <title>linux</title>
+      <link>http://www.honlyc.com/tags/linux/</link>
+      <pubDate>Thu, 13 Jun 2019 17:24:05 +0800</pubDate>
+      
+      <guid>http://www.honlyc.com/tags/linux/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>spring</title>
       <link>http://www.honlyc.com/tags/spring/</link>
       <pubDate>Thu, 04 Apr 2019 15:39:44 +0800</pubDate>
       
       <guid>http://www.honlyc.com/tags/spring/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>static file</title>
+      <link>http://www.honlyc.com/tags/static-file/</link>
+      <pubDate>Tue, 16 Apr 2019 17:14:49 +0800</pubDate>
+      
+      <guid>http://www.honlyc.com/tags/static-file/</guid>
       <description></description>
     </item>
     
@@ -43,6 +61,15 @@
       <pubDate>Sat, 06 Apr 2019 22:08:54 +0800</pubDate>
       
       <guid>http://www.honlyc.com/tags/viper/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>vue</title>
+      <link>http://www.honlyc.com/tags/vue/</link>
+      <pubDate>Tue, 16 Apr 2019 17:14:49 +0800</pubDate>
+      
+      <guid>http://www.honlyc.com/tags/vue/</guid>
       <description></description>
     </item>
     
