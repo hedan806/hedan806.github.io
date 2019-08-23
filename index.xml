@@ -6,10 +6,37 @@
     <description>Recent content on Honlyc - Your are free</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 13 Jun 2019 17:24:05 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 23 Aug 2019 14:17:17 +0800</lastBuildDate>
     
 	<atom:link href="http://www.honlyc.com/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>解决 Golang https 请求时，x509: certificate signed by unknown authority 问题</title>
+      <link>http://www.honlyc.com/post/golang-x509-certificate-unknown-authority/</link>
+      <pubDate>Fri, 23 Aug 2019 14:17:17 +0800</pubDate>
+      
+      <guid>http://www.honlyc.com/post/golang-x509-certificate-unknown-authority/</guid>
+      <description>在使用http请求https://**网站时，报了x509: certificate signed by unknown authority这个错误。经查阅，是由于目标网站的CA证书在本机没有，</description>
+    </item>
+    
+    <item>
+      <title>Elasticsearch Unassigned Process</title>
+      <link>http://www.honlyc.com/post/elasticsearch-unassigned-process/</link>
+      <pubDate>Fri, 02 Aug 2019 14:18:00 +0800</pubDate>
+      
+      <guid>http://www.honlyc.com/post/elasticsearch-unassigned-process/</guid>
+      <description>问题 在使用ES时，有时候在服务器突然挂掉后重启时，会导致有Shard的状态变成 了UNASSIGEND,此时，本身集群的数据是不准确的，因为这</description>
+    </item>
+    
+    <item>
+      <title>Ubuntu Init</title>
+      <link>http://www.honlyc.com/post/ubuntu-init/</link>
+      <pubDate>Tue, 23 Jul 2019 09:53:35 +0800</pubDate>
+      
+      <guid>http://www.honlyc.com/post/ubuntu-init/</guid>
+      <description>[TOC] sudo 不需要输入密码 1 sudo vi /etc/sudoers 找到%sudo ALL=(ALL:ALL) ALL这一行，修改为：%sudo ALL=(ALL:ALL) NOPASSWD:ALL; 这样，所有sudo组内的用户使用sudo就不需要输入密码啦。</description>
+    </item>
     
     <item>
       <title>Linux 中分析超大 JVM dump 文件</title>

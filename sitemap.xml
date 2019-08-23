@@ -3,6 +3,27 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://www.honlyc.com/post/golang-x509-certificate-unknown-authority/</loc>
+    <lastmod>2019-08-23T14:17:17+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.honlyc.com/post/elasticsearch-unassigned-process/</loc>
+    <lastmod>2019-08-02T14:18:00+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.honlyc.com/post/ubuntu-init/</loc>
+    <lastmod>2019-07-23T09:53:35+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
     <loc>http://www.honlyc.com/post/linux-hrpof/</loc>
     <lastmod>2019-06-13T17:24:05+08:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -59,14 +80,14 @@
   
   <url>
     <loc>http://www.honlyc.com/</loc>
-    <lastmod>2019-06-13T17:24:05+08:00</lastmod>
+    <lastmod>2019-08-23T14:17:17+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>http://www.honlyc.com/post/</loc>
-    <lastmod>2019-06-13T17:24:05+08:00</lastmod>
+    <lastmod>2019-08-23T14:17:17+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
