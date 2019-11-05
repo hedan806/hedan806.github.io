@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Elasticsearch 6.1.4 upgrade to 7.4.0 - Honlyc - Your are free</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="Honlyc" /><meta name="description" content="[TOC] 1. 集群改动 1. Zen Discovery 改动 不再有discovery.zen.minimum_master_nodes这个控制集群脑裂的配置，转而由集群自主控制，" /><meta name="keywords" content="Honlyc, golanh, java, 分享" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.54.0 with even 4.0.0" />
+
+
+<link rel="canonical" href="http://www.honlyc.com/post/elasticsearch-6.1.4-upgrade-to-7.4.0-problem/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<link href="/dist/even.c2a46f00.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Elasticsearch 6.1.4 upgrade to 7.4.0" />
+<meta property="og:description" content="[TOC] 1. 集群改动 1. Zen Discovery 改动 不再有discovery.zen.minimum_master_nodes这个控制集群脑裂的配置，转而由集群自主控制，" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://www.honlyc.com/post/elasticsearch-6.1.4-upgrade-to-7.4.0-problem/" />
+<meta property="article:published_time" content="2019-10-09T14:18:00&#43;08:00"/>
+<meta property="article:modified_time" content="2019-10-09T14:18:00&#43;08:00"/>
+
+<meta itemprop="name" content="Elasticsearch 6.1.4 upgrade to 7.4.0">
+<meta itemprop="description" content="[TOC] 1. 集群改动 1. Zen Discovery 改动 不再有discovery.zen.minimum_master_nodes这个控制集群脑裂的配置，转而由集群自主控制，">
+
+
+<meta itemprop="datePublished" content="2019-10-09T14:18:00&#43;08:00" />
+<meta itemprop="dateModified" content="2019-10-09T14:18:00&#43;08:00" />
+<meta itemprop="wordCount" content="571">
+
+
+
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Elasticsearch 6.1.4 upgrade to 7.4.0"/>
+<meta name="twitter:description" content="[TOC] 1. 集群改动 1. Zen Discovery 改动 不再有discovery.zen.minimum_master_nodes这个控制集群脑裂的配置，转而由集群自主控制，"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Honlyc</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Honlyc</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Elasticsearch 6.1.4 upgrade to 7.4.0</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2019-10-09 </span>
+        
+          <span class="more-meta"> 571 words </span>
+          <span class="more-meta"> 2 mins read </span>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+<ul>
+<li><a href="#1-集群改动">1. 集群改动</a>
+<ul>
+<li><a href="#1-zen-discovery-改动">1. Zen Discovery 改动</a></li>
+</ul></li>
+<li><a href="#2-插件改动">2. 插件改动</a>
+<ul>
+<li><a href="#1-indexstore-和-directoryservice-被移除">1. IndexStore 和 DirectoryService 被移除</a></li>
+<li><a href="#2-slf4j-log4j12-包依赖问题">2. <code>slf4j-log4j12</code>包依赖问题</a></li>
+</ul></li>
+<li><a href="#3-参数调整-优化">3. 参数调整（优化）</a>
+<ul>
+<li><a href="#1-慢查询超时设置">1. 慢查询超时设置</a></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      
+
+<p>[TOC]</p>
+
+<h1 id="1-集群改动">1. 集群改动</h1>
+
+<h2 id="1-zen-discovery-改动">1. Zen Discovery 改动</h2>
+
+<p><img src="http://img.honlyc.com/20191009155635.png" alt="" /></p>
+
+<p>不再有<code>discovery.zen.minimum_master_nodes</code>这个控制集群脑裂的配置，转而由集群自主控制，并且新版在启动一个新的集群的时候需要有<code>cluster.initial_master_nodes</code>初始化集群列表。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-yml" data-lang="yml"><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-yml" data-lang="yml">discovery.seed_hosts<span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;10.20.5.39:9201&#34;</span><span class="p">,</span><span class="s2">&#34;10.20.5.39:9400&#34;</span><span class="p">]</span><span class="w">
+</span><span class="w"></span>cluster.initial_master_nodes<span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;10.20.5.39:9201&#34;</span><span class="p">]</span></code></pre></td></tr></table>
+</div>
+</div>
+<p><code>discovery.seed_hosts</code>：7.x版本新增参数，写入候选主节点的设备地址，来开启服务时就可以被选为主节点，由<code>discovery.zen.ping.unicast.hosts</code>参数改变而来。</p>
+
+<p><code>cluster.initial_master_nodes</code>： 7.x版本新增参数，写入候选主节点的设备地址，来开启服务时就可以被选为主节点。</p>
+
+<h1 id="2-插件改动">2. 插件改动</h1>
+
+<h2 id="1-indexstore-和-directoryservice-被移除">1. IndexStore 和 DirectoryService 被移除</h2>
+
+<p>PR: <a href="https://github.com/elastic/elasticsearch/pull/42446">Remove IndexStore and DirectoryService</a></p>
+
+<p>主要修改：</p>
+
+<ol>
+<li>移除所有<code>IndexStore</code>类，将继承<code>FsDirectoryService</code>的类换成实现<code>IndexStorePlugin.DirectoryFactory</code>接口。</li>
+</ol>
+
+<h2 id="2-slf4j-log4j12-包依赖问题">2. <code>slf4j-log4j12</code>包依赖问题</h2>
+
+<p>由于<code>Hdfs</code>模块内，依赖了<code>slf4j-log4j12</code>，但是内部包有冲突，需要排除后，手动依赖一个指定版本。</p>
+
+<p>此时，会报</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">java.security.AccessControlException: access denied <span class="o">(</span><span class="s2">&#34;jaCustomva.lang.RuntimePermission&#34;</span> <span class="s2">&#34;createSecurityManager&#34;</span><span class="o">)</span></code></pre></td></tr></table>
+</div>
+</div>
+<p>错误，具体原因并未找到。</p>
+
+<p>解决办法为：排除冲突包，依赖指定版本：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-xml" data-lang="xml"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-xml" data-lang="xml"><span class="nt">&lt;dependency&gt;</span>
+			<span class="nt">&lt;artifactId&gt;</span>slf4j-log4j12<span class="nt">&lt;/artifactId&gt;</span>
+			<span class="nt">&lt;groupId&gt;</span>org.slf4j<span class="nt">&lt;/groupId&gt;</span>
+			<span class="nt">&lt;version&gt;</span>1.7.10<span class="nt">&lt;/version&gt;</span>
+		<span class="nt">&lt;/dependency&gt;</span></code></pre></td></tr></table>
+</div>
+</div>
+<h1 id="3-参数调整-优化">3. 参数调整（优化）</h1>
+
+<h2 id="1-慢查询超时设置">1. 慢查询超时设置</h2>
+
+<p>默认查询的超时是<code>-1</code>，即不超时。超时设置使用：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-json" data-lang="json"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-json" data-lang="json"><span class="err">PUT</span> <span class="err">_cluster/settings</span>
+<span class="p">{</span>
+   <span class="nt">&#34;transient&#34;</span><span class="p">:</span> <span class="p">{</span><span class="nt">&#34;search.default_search_timeout&#34;</span><span class="p">:</span><span class="s2">&#34;250s&#34;</span><span class="p">}</span>
+<span class="p">}</span></code></pre></td></tr></table>
+</div>
+</div>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">Honlyc</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        2019-10-09
+        
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a></span>
+  </p>
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">Reward</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/wxpay.png">
+        <span>wechat</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/alipay.png">
+        <span>alipay</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/golang-x509-certificate-unknown-authority/">
+            <span class="next-text nav-default">解决 Golang https 请求时，x509: certificate signed by unknown authority 问题</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-stack-overflow" title="stack-overflow"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="http://localhost:1313" class="iconfont icon-zhihu" title="zhihu"></a>
+      <a href="http://localhost:1313" class="iconfont icon-douban" title="douban"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="http://www.honlyc.com/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2017 - 
+    2019
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">Honlyc</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+<script type="text/javascript" src="/dist/even.26188efa.min.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>
