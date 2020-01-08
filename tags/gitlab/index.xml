@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>gitlab on Honlyc - Your are free</title>
+    <link>http://www.honlyc.com/tags/gitlab/</link>
+    <description>Recent content in gitlab on Honlyc - Your are free</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 19 Nov 2019 13:49:59 +0800</lastBuildDate>
+    
+	<atom:link href="http://www.honlyc.com/tags/gitlab/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>私有 GitLab 仓库 &#43; picGo 快速实现图床</title>
+      <link>http://www.honlyc.com/post/picgo-private-gitlab/</link>
+      <pubDate>Tue, 19 Nov 2019 13:49:59 +0800</pubDate>
+      
+      <guid>http://www.honlyc.com/post/picgo-private-gitlab/</guid>
+      <description>文章写完了，才发现Gitlab是可以直接粘贴图片的&amp;hellip;（逃&amp;hellip;.. 公司有自己的私有Gitlab库，但是没有自己的图床</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -51,7 +51,7 @@
 
 <meta itemprop="datePublished" content="2019-10-09T14:18:00&#43;08:00" />
 <meta itemprop="dateModified" content="2019-10-09T14:18:00&#43;08:00" />
-<meta itemprop="wordCount" content="571">
+<meta itemprop="wordCount" content="1003">
 
 
 
@@ -126,8 +126,8 @@
       <div class="post-meta">
         <span class="post-time"> 2019-10-09 </span>
         
-          <span class="more-meta"> 571 words </span>
-          <span class="more-meta"> 2 mins read </span>
+          <span class="more-meta"> 1003 words </span>
+          <span class="more-meta"> 3 mins read </span>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
       </div>
     </header>
@@ -149,6 +149,7 @@
 <li><a href="#3-参数调整-优化">3. 参数调整（优化）</a>
 <ul>
 <li><a href="#1-慢查询超时设置">1. 慢查询超时设置</a></li>
+<li><a href="#2-mapping-动态字段设置">2. <code>Mapping</code>动态字段设置</a></li>
 </ul></li>
 </ul>
 </nav>
@@ -243,6 +244,102 @@
 <span class="p">}</span></code></pre></td></tr></table>
 </div>
 </div>
+<h2 id="2-mapping-动态字段设置">2. <code>Mapping</code>动态字段设置</h2>
+
+<p>当前线上集群的磁盘占用大小：</p>
+
+<p><img src="http://img.honlyc.com/20191113143106.png" alt="" /></p>
+
+<p>而<code>V2</code>集群的磁盘占用大小为：</p>
+
+<p><img src="http://img.honlyc.com/20191113143202.png" alt="" /></p>
+
+<p>可以看到，同样的数据量，磁盘占用相差了 30G 左右，差距很大。</p>
+
+<p>经分析，查看两者的<code>Schema</code>，<code>V2</code>版本的<code>schema</code>多出了一些动态创建的字段，而这些字段本身是不需要的，导致磁盘占用变大，部分数据如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-json" data-lang="json"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-json" data-lang="json">       <span class="s2">&#34;picUrl&#34;</span> <span class="err">:</span> <span class="p">{</span>
+          <span class="nt">&#34;type&#34;</span> <span class="p">:</span> <span class="s2">&#34;text&#34;</span><span class="p">,</span>
+          <span class="nt">&#34;fields&#34;</span> <span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&#34;keyword&#34;</span> <span class="p">:</span> <span class="p">{</span>
+              <span class="nt">&#34;type&#34;</span> <span class="p">:</span> <span class="s2">&#34;keyword&#34;</span><span class="p">,</span>
+              <span class="nt">&#34;ignore_above&#34;</span> <span class="p">:</span> <span class="mi">256</span>
+            <span class="p">}</span>
+          <span class="p">}</span>
+        <span class="p">}</span><span class="err">,</span>
+        <span class="s2">&#34;platform&#34;</span> <span class="err">:</span> <span class="p">{</span>
+          <span class="nt">&#34;type&#34;</span> <span class="p">:</span> <span class="s2">&#34;keyword&#34;</span><span class="p">,</span>
+          <span class="nt">&#34;eager_global_ordinals&#34;</span> <span class="p">:</span> <span class="kc">true</span>
+        <span class="p">}</span><span class="err">,</span>
+        <span class="s2">&#34;position&#34;</span> <span class="err">:</span> <span class="p">{</span>
+          <span class="nt">&#34;type&#34;</span> <span class="p">:</span> <span class="s2">&#34;text&#34;</span><span class="p">,</span>
+          <span class="nt">&#34;fields&#34;</span> <span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&#34;keyword&#34;</span> <span class="p">:</span> <span class="p">{</span>
+              <span class="nt">&#34;type&#34;</span> <span class="p">:</span> <span class="s2">&#34;keyword&#34;</span><span class="p">,</span>
+              <span class="nt">&#34;ignore_above&#34;</span> <span class="p">:</span> <span class="mi">256</span>
+            <span class="p">}</span>
+          <span class="p">}</span>
+        <span class="p">}</span><span class="err">,</span></code></pre></td></tr></table>
+</div>
+</div>
+<p>因为默认的<code>dynamic</code>是<code>true</code>，所以在添加数据时，对于没有在<code>mapping</code>中定义的字段，<code>es</code>会自动添加该字段。</p>
+
+<p>解决方案：</p>
+
+<p>在<code>mapping</code>中，指定<code>dynamic</code>为<code>false</code>：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-json" data-lang="json"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-json" data-lang="json"><span class="s2">&#34;mappings&#34;</span> <span class="err">:</span> <span class="p">{</span>
+      <span class="nt">&#34;dynamic&#34;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span> 
+      <span class="nt">&#34;_source&#34;</span> <span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&#34;enabled&#34;</span> <span class="p">:</span> <span class="kc">false</span>
+      <span class="p">},</span>
+      <span class="err">...</span><span class="p">}</span>	</code></pre></td></tr></table>
+</div>
+</div>
+<blockquote>
+<p>对于<code>dynamic</code>字段的取值有三种：</p>
+
+<p><code>true</code>：允许<code>ES</code>动态创建<code>mapping</code>；</p>
+
+<p><code>false</code>：不允许<code>ES</code>动态创建<code>mapping</code>，但是数据可以写入；</p>
+
+<p><code>strict</code>：当写入数据中有<code>mapping</code>定义之外的数据，直接报错，不能进行写入；</p>
+</blockquote>
+
     </div>
 
     <div class="post-copyright">
@@ -280,7 +377,11 @@
 </div><footer class="post-footer">
       
       <nav class="post-nav">
-        
+        <a class="prev" href="/post/picgo-private-gitlab/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">私有 GitLab 仓库 &#43; picGo 快速实现图床</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
         <a class="next" href="/post/golang-x509-certificate-unknown-authority/">
             <span class="next-text nav-default">解决 Golang https 请求时，x509: certificate signed by unknown authority 问题</span>
             <span class="next-text nav-mobile">Next</span>
@@ -326,7 +427,7 @@
   <span class="copyright-year">
     &copy; 
     2017 - 
-    2019
+    2020
     <span class="heart">
       <i class="iconfont icon-heart"></i>
     </span>
