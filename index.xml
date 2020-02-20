@@ -6,10 +6,19 @@
     <description>Recent content on Honlyc - Your are free</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 20 Feb 2020 14:49:01 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 20 Feb 2020 14:58:46 +0800</lastBuildDate>
     
 	<atom:link href="http://www.honlyc.com/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Centos Init</title>
+      <link>http://www.honlyc.com/post/centos-init/</link>
+      <pubDate>Thu, 20 Feb 2020 14:58:46 +0800</pubDate>
+      
+      <guid>http://www.honlyc.com/post/centos-init/</guid>
+      <description> Docker Step1: Update 1  sudo yum check-update   Step2: Install the Dependencies 1  sudo yum install -y yum-utils device-mapper-persistent-data lvm2   Step3: Add the Docker Repository to CentOS 1  sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo   Step4: Install Docker 1  sudo yum install docker   Step5: Install Docker-compose </description>
+    </item>
     
     <item>
       <title>Ambari in Action 1</title>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>Ambari in Action 1 - Honlyc - Your are free</title>
+  <title>Centos Init - Honlyc - Your are free</title>
   <meta name="renderer" content="webkit" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -16,7 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="Honlyc" /><meta name="description" content="Ambari 使用（1）" /><meta name="keywords" content="Honlyc, golanh, java, 分享" />
+<meta name="author" content="Honlyc" /><meta name="description" content=" Docker Step1: Update 1  sudo yum check-update   Step2: Install the Dependencies 1  sudo yum install -y yum-utils device-mapper-persistent-data lvm2   Step3: Add the Docker Repository to CentOS 1  sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo   Step4: Install Docker 1  sudo yum install docker   Step5: Install Docker-compose " /><meta name="keywords" content="Honlyc, golanh, java, 分享" />
 
 
 
@@ -26,7 +26,7 @@
 <meta name="generator" content="Hugo 0.54.0 with even 4.0.0" />
 
 
-<link rel="canonical" href="http://www.honlyc.com/post/ambari-in-action-1/" />
+<link rel="canonical" href="http://www.honlyc.com/post/centos-init/" />
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -38,27 +38,27 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
-<meta property="og:title" content="Ambari in Action 1" />
-<meta property="og:description" content="Ambari 使用（1）" />
+<meta property="og:title" content="Centos Init" />
+<meta property="og:description" content=" Docker Step1: Update 1  sudo yum check-update   Step2: Install the Dependencies 1  sudo yum install -y yum-utils device-mapper-persistent-data lvm2   Step3: Add the Docker Repository to CentOS 1  sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo   Step4: Install Docker 1  sudo yum install docker   Step5: Install Docker-compose " />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://www.honlyc.com/post/ambari-in-action-1/" />
-<meta property="article:published_time" content="2020-02-20T14:49:01&#43;08:00"/>
-<meta property="article:modified_time" content="2020-02-20T14:49:01&#43;08:00"/>
+<meta property="og:url" content="http://www.honlyc.com/post/centos-init/" />
+<meta property="article:published_time" content="2020-02-20T14:58:46&#43;08:00"/>
+<meta property="article:modified_time" content="2020-02-20T14:58:46&#43;08:00"/>
 
-<meta itemprop="name" content="Ambari in Action 1">
-<meta itemprop="description" content="Ambari 使用（1）">
+<meta itemprop="name" content="Centos Init">
+<meta itemprop="description" content=" Docker Step1: Update 1  sudo yum check-update   Step2: Install the Dependencies 1  sudo yum install -y yum-utils device-mapper-persistent-data lvm2   Step3: Add the Docker Repository to CentOS 1  sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo   Step4: Install Docker 1  sudo yum install docker   Step5: Install Docker-compose ">
 
 
-<meta itemprop="datePublished" content="2020-02-20T14:49:01&#43;08:00" />
-<meta itemprop="dateModified" content="2020-02-20T14:49:01&#43;08:00" />
-<meta itemprop="wordCount" content="6">
+<meta itemprop="datePublished" content="2020-02-20T14:58:46&#43;08:00" />
+<meta itemprop="dateModified" content="2020-02-20T14:58:46&#43;08:00" />
+<meta itemprop="wordCount" content="42">
 
 
 
 <meta itemprop="keywords" content="" />
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Ambari in Action 1"/>
-<meta name="twitter:description" content="Ambari 使用（1）"/>
+<meta name="twitter:title" content="Centos Init"/>
+<meta name="twitter:description" content=" Docker Step1: Update 1  sudo yum check-update   Step2: Install the Dependencies 1  sudo yum install -y yum-utils device-mapper-persistent-data lvm2   Step3: Add the Docker Repository to CentOS 1  sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo   Step4: Install Docker 1  sudo yum install docker   Step5: Install Docker-compose "/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -121,12 +121,12 @@
           <article class="post">
     
     <header class="post-header">
-      <h1 class="post-title">Ambari in Action 1</h1>
+      <h1 class="post-title">Centos Init</h1>
 
       <div class="post-meta">
         <span class="post-time"> 2020-02-20 </span>
         
-          <span class="more-meta"> 6 words </span>
+          <span class="more-meta"> 42 words </span>
           <span class="more-meta"> 1 min read </span>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
       </div>
@@ -137,7 +137,14 @@
   <div class="post-toc-content always-active">
     <nav id="TableOfContents">
 <ul>
-<li><a href="#ambari-使用-1">Ambari 使用（1）</a></li>
+<li><a href="#docker">Docker</a>
+<ul>
+<li><a href="#step1-update">Step1: Update</a></li>
+<li><a href="#step2-install-the-dependencies">Step2: Install the Dependencies</a></li>
+<li><a href="#step3-add-the-docker-repository-to-centos">Step3: Add the Docker Repository to CentOS</a></li>
+<li><a href="#step4-install-docker">Step4: Install Docker</a></li>
+<li><a href="#step5-install-docker-compose">Step5: Install Docker-compose</a></li>
+</ul></li>
 </ul>
 </nav>
   </div>
@@ -145,7 +152,45 @@
     <div class="post-content">
       
 
-<h1 id="ambari-使用-1">Ambari 使用（1）</h1>
+<h1 id="docker">Docker</h1>
+
+<h2 id="step1-update">Step1: Update</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">sudo yum check-update</code></pre></td></tr></table>
+</div>
+</div>
+<h2 id="step2-install-the-dependencies">Step2: Install the Dependencies</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">sudo yum install -y yum-utils device-mapper-persistent-data lvm2</code></pre></td></tr></table>
+</div>
+</div>
+<h2 id="step3-add-the-docker-repository-to-centos">Step3: Add the Docker Repository to CentOS</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo</code></pre></td></tr></table>
+</div>
+</div>
+<h2 id="step4-install-docker">Step4: Install Docker</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">sudo yum install docker</code></pre></td></tr></table>
+</div>
+</div>
+<h2 id="step5-install-docker-compose">Step5: Install Docker-compose</h2>
 
     </div>
 
@@ -184,13 +229,9 @@
 </div><footer class="post-footer">
       
       <nav class="post-nav">
-        <a class="prev" href="/post/centos-init/">
-            <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">Centos Init</span>
-            <span class="prev-text nav-mobile">Prev</span>
-          </a>
-        <a class="next" href="/post/picgo-private-gitlab/">
-            <span class="next-text nav-default">私有 GitLab 仓库 &#43; picGo 快速实现图床</span>
+        
+        <a class="next" href="/post/ambari-in-action-1/">
+            <span class="next-text nav-default">Ambari in Action 1</span>
             <span class="next-text nav-mobile">Next</span>
             <i class="iconfont icon-right"></i>
           </a>
