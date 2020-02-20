@@ -3,6 +3,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://www.honlyc.com/post/ambari-in-action-1/</loc>
+    <lastmod>2020-02-20T14:49:01+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
     <loc>http://www.honlyc.com/post/picgo-private-gitlab/</loc>
     <lastmod>2019-11-19T13:49:59+08:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -100,14 +107,14 @@
   
   <url>
     <loc>http://www.honlyc.com/</loc>
-    <lastmod>2019-11-19T13:49:59+08:00</lastmod>
+    <lastmod>2020-02-20T14:49:01+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>http://www.honlyc.com/post/</loc>
-    <lastmod>2019-11-19T13:49:59+08:00</lastmod>
+    <lastmod>2020-02-20T14:49:01+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>

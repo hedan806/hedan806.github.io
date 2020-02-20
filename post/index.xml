@@ -6,10 +6,19 @@
     <description>Recent content in Posts on Honlyc - Your are free</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Tue, 19 Nov 2019 13:49:59 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 20 Feb 2020 14:49:01 +0800</lastBuildDate>
     
 	<atom:link href="http://www.honlyc.com/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Ambari in Action 1</title>
+      <link>http://www.honlyc.com/post/ambari-in-action-1/</link>
+      <pubDate>Thu, 20 Feb 2020 14:49:01 +0800</pubDate>
+      
+      <guid>http://www.honlyc.com/post/ambari-in-action-1/</guid>
+      <description>Ambari 使用（1）</description>
+    </item>
     
     <item>
       <title>私有 GitLab 仓库 &#43; picGo 快速实现图床</title>
