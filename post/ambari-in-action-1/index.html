@@ -16,7 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="Honlyc" /><meta name="description" content="Ambari 使用（1）" /><meta name="keywords" content="Honlyc, golanh, java, 分享" />
+<meta name="author" content="Honlyc" /><meta name="description" content="[TOC] Ambari 的安装 因为各种原因，如果直接用Ambari的官方包进行安装时，速度会极慢，而官方本身也是支持离线安装的。所以，本文使用离线安装的方式。 一" /><meta name="keywords" content="Honlyc, golanh, java, 分享" />
 
 
 
@@ -39,26 +39,26 @@
 
 
 <meta property="og:title" content="Ambari in Action 1" />
-<meta property="og:description" content="Ambari 使用（1）" />
+<meta property="og:description" content="[TOC] Ambari 的安装 因为各种原因，如果直接用Ambari的官方包进行安装时，速度会极慢，而官方本身也是支持离线安装的。所以，本文使用离线安装的方式。 一" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://www.honlyc.com/post/ambari-in-action-1/" />
 <meta property="article:published_time" content="2020-02-20T14:49:01&#43;08:00"/>
 <meta property="article:modified_time" content="2020-02-20T14:49:01&#43;08:00"/>
 
 <meta itemprop="name" content="Ambari in Action 1">
-<meta itemprop="description" content="Ambari 使用（1）">
+<meta itemprop="description" content="[TOC] Ambari 的安装 因为各种原因，如果直接用Ambari的官方包进行安装时，速度会极慢，而官方本身也是支持离线安装的。所以，本文使用离线安装的方式。 一">
 
 
 <meta itemprop="datePublished" content="2020-02-20T14:49:01&#43;08:00" />
 <meta itemprop="dateModified" content="2020-02-20T14:49:01&#43;08:00" />
-<meta itemprop="wordCount" content="6">
+<meta itemprop="wordCount" content="1119">
 
 
 
 <meta itemprop="keywords" content="" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Ambari in Action 1"/>
-<meta name="twitter:description" content="Ambari 使用（1）"/>
+<meta name="twitter:description" content="[TOC] Ambari 的安装 因为各种原因，如果直接用Ambari的官方包进行安装时，速度会极慢，而官方本身也是支持离线安装的。所以，本文使用离线安装的方式。 一"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -126,8 +126,8 @@
       <div class="post-meta">
         <span class="post-time"> 2020-02-20 </span>
         
-          <span class="more-meta"> 6 words </span>
-          <span class="more-meta"> 1 min read </span>
+          <span class="more-meta"> 1119 words </span>
+          <span class="more-meta"> 3 mins read </span>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
       </div>
     </header>
@@ -137,7 +137,22 @@
   <div class="post-toc-content always-active">
     <nav id="TableOfContents">
 <ul>
-<li><a href="#ambari-使用-1">Ambari 使用（1）</a></li>
+<li><a href="#ambari-的安装">Ambari 的安装</a>
+<ul>
+<li><a href="#一-下载离线包">一、下载离线包</a></li>
+<li><a href="#二-安装-nginx-并搭建本地源">二、安装 Nginx，并搭建本地源</a>
+<ul>
+<li><a href="#nginx-配置">nginx 配置</a></li>
+<li><a href="#解压下载好的离线包">解压下载好的离线包</a></li>
+</ul></li>
+<li><a href="#三-配置本地-repo">三、配置本地 Repo</a></li>
+</ul></li>
+<li><a href="#elasticsearch">Elasticsearch</a></li>
+<li><a href="#遇到问题">遇到问题</a>
+<ul>
+<li><a href="#1-getpwuid-error">1. getpwuid() Error</a></li>
+<li><a href="#2-elasticsearch">2. Elasticsearch</a></li>
+</ul></li>
 </ul>
 </nav>
   </div>
@@ -145,8 +160,301 @@
     <div class="post-content">
       
 
-<h1 id="ambari-使用-1">Ambari 使用（1）</h1>
+<p>[TOC]</p>
 
+<h1 id="ambari-的安装">Ambari 的安装</h1>
+
+<p>因为各种原因，如果直接用<code>Ambari</code>的官方包进行安装时，速度会极慢，而官方本身也是支持离线安装的。所以，本文使用离线安装的方式。</p>
+
+<h2 id="一-下载离线包">一、下载离线包</h2>
+
+<p>离线包的地址可以在官网找到：<a href="https://docs.cloudera.com/HDPDocuments/Ambari-2.7.4.0/bk_ambari-installation/content/hdp_314_repositories.html">Ambari</a></p>
+
+<p>Ambari 2.7.4：<a href="http://public-repo-1.hortonworks.com/ambari/centos7/2.x/updates/2.7.4.0/ambari-2.7.4.0-centos7.tar.gz">http://public-repo-1.hortonworks.com/ambari/centos7/2.x/updates/2.7.4.0/ambari-2.7.4.0-centos7.tar.gz</a></p>
+
+<p>HDP-3.1.4.0：</p>
+
+<p>HDP：<a href="http://public-repo-1.hortonworks.com/HDP/centos7/3.x/updates/3.1.4.0/HDP-3.1.4.0-centos7-rpm.tar.gz">http://public-repo-1.hortonworks.com/HDP/centos7/3.x/updates/3.1.4.0/HDP-3.1.4.0-centos7-rpm.tar.gz</a>
+HDP-UTILS：<a href="http://public-repo-1.hortonworks.com/HDP-UTILS-1.1.0.22/repos/centos7/HDP-UTILS-1.1.0.22-centos7.tar.gz">http://public-repo-1.hortonworks.com/HDP-UTILS-1.1.0.22/repos/centos7/HDP-UTILS-1.1.0.22-centos7.tar.gz</a>
+HDP-GPL：<a href="http://public-repo-1.hortonworks.com/HDP-GPL/centos7/3.x/updates/3.1.4.0/HDP-GPL-3.1.4.0-centos7-gpl.tar.gz">http://public-repo-1.hortonworks.com/HDP-GPL/centos7/3.x/updates/3.1.4.0/HDP-GPL-3.1.4.0-centos7-gpl.tar.gz</a></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">http://10.20.1.21/HDP/centos7/3.1.4.0-315/
+http://10.20.1.21/HDP-UTILS/centos7/1.1.0.22/
+http://10.20.1.21/HDP-GPL/centos7/3.1.4.0-315/</code></pre></td></tr></table>
+</div>
+</div>
+<h2 id="二-安装-nginx-并搭建本地源">二、安装 Nginx，并搭建本地源</h2>
+
+<p>主要通过<code>docker</code>来进行搭建，快捷。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-yml" data-lang="yml"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-yml" data-lang="yml">version<span class="p">:</span><span class="w"> </span><span class="s2">&#34;2&#34;</span><span class="w">
+</span><span class="w"></span>services<span class="p">:</span><span class="w">
+</span><span class="w">  </span>nginx<span class="p">:</span><span class="w">
+</span><span class="w">    </span>image<span class="p">:</span><span class="w"> </span>nginx<span class="p">:</span>${NGINX_VERSION}<span class="w">
+</span><span class="w">    </span>container_name<span class="p">:</span><span class="w"> </span>nginx<span class="w">
+</span><span class="w">    </span>ports<span class="p">:</span><span class="w">
+</span><span class="w">      </span>-<span class="w"> </span><span class="s2">&#34;80:80&#34;</span><span class="w">
+</span><span class="w">      </span>-<span class="w"> </span><span class="s2">&#34;443:443&#34;</span><span class="w">
+</span><span class="w">    </span>volumes<span class="p">:</span><span class="w">
+</span><span class="w">      </span>-<span class="w"> </span>/home/user/ambari/data<span class="p">:</span>/var/www/html/ambari/<span class="p">:</span>rw<span class="w">
+</span><span class="w">      </span>-<span class="w"> </span>${NGINX_CONFD_DIR}<span class="p">:</span>/etc/nginx/conf.d/<span class="p">:</span>rw<span class="w">
+</span><span class="w">      </span>-<span class="w"> </span>${NGINX_CONF_FILE}<span class="p">:</span>/etc/nginx/nginx.conf<span class="p">:</span>ro<span class="w">
+</span><span class="w">      </span>-<span class="w"> </span>${NGINX_LOG_DIR}<span class="p">:</span>/var/log/nginx/<span class="p">:</span>rw<span class="w">
+</span><span class="w">    </span>restart<span class="p">:</span><span class="w"> </span>always</code></pre></td></tr></table>
+</div>
+</div>
+<p>配置文件<code>.env</code>:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nv">NGINX_VERSION</span><span class="o">=</span>latest
+<span class="nv">NGINX_HTTP_HOST_PORT</span><span class="o">=</span><span class="m">80</span>
+<span class="nv">NGINX_HTTPS_HOST_PORT</span><span class="o">=</span><span class="m">443</span>
+<span class="nv">NGINX_CONFD_DIR</span><span class="o">=</span>./conf/conf.d
+<span class="nv">NGINX_CONF_FILE</span><span class="o">=</span>./conf/nginx.conf
+<span class="nv">NGINX_LOG_DIR</span><span class="o">=</span>./log</code></pre></td></tr></table>
+</div>
+</div>
+<h3 id="nginx-配置">nginx 配置</h3>
+
+<p>在<code>nginx.conf</code>中，<code>http</code>字段添加：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="n">autoindex</span> <span class="n">on</span><span class="p">;</span>
+<span class="n">autoindex_exact_size</span> <span class="n">on</span><span class="p">;</span>
+ <span class="n">autoindex_localtime</span> <span class="n">on</span><span class="p">;</span></code></pre></td></tr></table>
+</div>
+</div>
+<p>添加<code>defaul.conf</code>文件到<code>conf.d</code>文件夹中：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">server {
+    listen       80;
+    server_name  p001021.antfact.com;
+    root   /var/www/html/ambari;
+    index  index.php index.html index.htm index.xml;
+
+    #location / {
+    #    root ambari;
+    #}
+    error_page   500 502 503 504  /50x.html;
+    location = /50x.html {
+        root   /usr/share/nginx/html;
+    }
+
+}</pre></td></tr></table>
+</div>
+</div>
+<h3 id="解压下载好的离线包">解压下载好的离线包</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">tar -zxvf HDP-GPL-3.1.4.0-centos7-gpl.tar.gz -C /home/user/ambari/data/
+tar -zxvf HDP-3.1.4.0-centos7-rpm.tar.gz  -C /home/user/ambari/data/
+tar -zxvf HDP-UTILS-1.1.0.22-centos7.tar.gz -C /home/user/ambari/data/
+tar -zxvf ambari-2.7.4.0-centos7.tar.gz -C /home/user/ambari/data/</pre></td></tr></table>
+</div>
+</div>
+<h2 id="三-配置本地-repo">三、配置本地 Repo</h2>
+
+<ol>
+<li>下载相关工具</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">   yum install -y yum-utils
+   yum repolist
+   yum install -y createrepo wget</code></pre></td></tr></table>
+</div>
+</div>
+<ol>
+<li>配置 Ambari Repo</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">   // 下载2.7.4.0版本的ambari.repo
+   <span class="c1"># wget -O /etc/yum.repos.d/ambari.repo http://public-repo-1.hortonworks.com/ambari/centos7/2.x/updates/2.7.4.0/ambari.repo</span></code></pre></td></tr></table>
+</div>
+</div>
+<ol>
+<li>修改<code>ambari.repo</code>文件</li>
+</ol>
+
+<p>将<code>baseurl</code>替换成我们自己<code>Nginx</code>搭建的地址，这里注意，先自己访问一下地址，可能路径名称有些不一样。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">   <span class="c1">#VERSION_NUMBER=2.7.4.0-118</span>
+   <span class="o">[</span>ambari-2.7.4.0<span class="o">]</span>
+   <span class="c1">#json.url = http://public-repo-1.hortonworks.com/HDP/hdp_urlinfo.json</span>
+   <span class="nv">name</span><span class="o">=</span>ambari Version - ambari-2.7.4.0
+   <span class="nv">baseurl</span><span class="o">=</span>http://192.168.200.20/ambari/centos7/2.7.4.0-118/
+   <span class="nv">gpgcheck</span><span class="o">=</span><span class="m">1</span>
+   <span class="nv">gpgkey</span><span class="o">=</span>http://192.168.200.20/ambari/centos7/2.7.4.0-118/RPM-GPG-KEY/RPM-GPG-KEY-Jenkins
+   <span class="nv">enabled</span><span class="o">=</span><span class="m">1</span>
+   <span class="nv">priority</span><span class="o">=</span><span class="m">1</span></code></pre></td></tr></table>
+</div>
+</div>
+<ol>
+<li>修改<code>hdp.repo</code>文件</li>
+</ol>
+
+<p>同样的，下载并修改<code>hdp.repo</code>文件。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">   
+   <span class="c1">#VERSION_NUMBER=3.1.4.0-315</span>
+   <span class="o">[</span>HDP-3.1.4.0-315<span class="o">]</span>
+   <span class="nv">name</span><span class="o">=</span>HDP Version - HDP-3.1.4.0-315
+   <span class="nv">baseurl</span><span class="o">=</span>http://192.168.200.20/HDP/centos7
+   <span class="nv">gpgcheck</span><span class="o">=</span><span class="m">1</span>
+   <span class="nv">gpgkey</span><span class="o">=</span>http://192.168.200.20/HDP/centos7/3.1.4.0-315/RPM-GPG-KEY/RPM-GPG-KEY-Jenkins
+   <span class="nv">enabled</span><span class="o">=</span><span class="m">1</span>
+   <span class="nv">priority</span><span class="o">=</span><span class="m">1</span>
+    
+   <span class="o">[</span>HDP-UTILS-1.1.0.22<span class="o">]</span>
+   <span class="nv">name</span><span class="o">=</span>HDP-UTILS Version - HDP-UTILS-1.1.0.22
+   <span class="nv">baseurl</span><span class="o">=</span>http://192.168.200.20/HDP-UTILS/
+   <span class="nv">gpgcheck</span><span class="o">=</span><span class="m">1</span>
+   <span class="nv">gpgkey</span><span class="o">=</span>http://192.168.200.20/HDP-UTILS/centos7/1.1.0.22/RPM-GPG-KEY/RPM-GPG-KEY-Jenkins
+   <span class="nv">enabled</span><span class="o">=</span><span class="m">1</span>
+   <span class="nv">priority</span><span class="o">=</span><span class="m">1</span></code></pre></td></tr></table>
+</div>
+</div>
+<ol>
+<li>生成本地源</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">   createrepo /psth_to_ambari/HDP/centos7/
+   createrepo /psth_to_ambari/HDP-UTILS/</code></pre></td></tr></table>
+</div>
+</div>
+<h1 id="elasticsearch">Elasticsearch</h1>
+
+<p><a href="https://github.com/steven-dfheinz/dfhz_elk_mpack">https://github.com/steven-dfheinz/dfhz_elk_mpack</a></p>
+
+<h1 id="遇到问题">遇到问题</h1>
+
+<h2 id="1-getpwuid-error">1. getpwuid() Error</h2>
+
+<blockquote>
+<p>提示: 如果安装配置用户时，出现如下报错：
+ERROR: Unexpected error &lsquo;getpwuid(): uid not found: 1001&rsquo;</p>
+
+<p>可以查看ambari.repo文件的权限，修改为默认的root 644权限即可。</p>
+</blockquote>
+
+<h2 id="2-elasticsearch">2. Elasticsearch</h2>
+
+<p>对<code>ambari-server</code>执行命令：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">python /var/lib/ambari-server/resources/scripts/configs.py -u admin -p admin -n <span class="o">[</span>CLUSTER_NAME<span class="o">]</span> -l <span class="o">[</span>CLUSTER_FQDN<span class="o">]</span> -t <span class="m">8080</span> -a <span class="nb">set</span> -c cluster-env -k  ignore_groupsusers_create -v true</code></pre></td></tr></table>
+</div>
+</div>
     </div>
 
     <div class="post-copyright">
@@ -232,6 +540,7 @@
   </div>
 
   <span class="copyright-year">
+<a href="http://www.miitbeian.gov.cn/">湘ICP备16020053号-1</a>
     &copy; 
     2017 - 
     2020
@@ -241,6 +550,7 @@
     <span class="author">Honlyc</span>
   </span>
 </div>
+
     </footer>
 
     <div class="back-to-top" id="back-to-top">
