@@ -45,7 +45,6 @@
 <meta property="og:type" content="website" />
 <meta property="og:url" content="http://www.honlyc.com/" />
 
-<meta property="og:updated_time" content="2019-08-23T14:17:17&#43;08:00"/>
 
 <meta itemprop="name" content="Honlyc - Your are free">
 <meta itemprop="description" content="Hugo theme even example site.">
@@ -115,109 +114,36 @@
           <section id="posts" class="posts">
     <article class="post">
   <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/golang-x509-certificate-unknown-authority/">解决 Golang https 请求时，x509: certificate signed by unknown authority 问题</a></h1>
+    <h1 class="post-title"><a class="post-link" href="/post/elasticsearch-decider-custom/"></a></h1>
     <div class="post-meta">
-      <span class="post-time"> 2019-08-23 </span>
+      <span class="post-time"> 0001-01-01 </span>
       
-        <span class="more-meta"> 681 words </span>
-        <span class="more-meta"> 2 mins read </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      在使用http请求https://**网站时，报了x509: certificate signed by unknown authority这个错误。经查阅，是由于目标网站的CA证书在本机没有，
-    </div>
-    <div class="read-more">
-      <a href="/post/golang-x509-certificate-unknown-authority/" class="read-more-link">Read more..</a>
-    </div>
-  </div>
-</article>
-
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/elasticsearch-unassigned-process/">Elasticsearch Unassigned Process</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 2019-08-02 </span>
-      
-        <span class="more-meta"> 443 words </span>
+        <span class="more-meta"> 57 words </span>
         <span class="more-meta"> 1 min read </span>
     </div>
   </header>
   
   <div class="post-content">
     <div class="post-summary">
-      问题 在使用ES时，有时候在服务器突然挂掉后重启时，会导致有Shard的状态变成 了UNASSIGEND,此时，本身集群的数据是不准确的，因为这
+       title: &ldquo;Custom Elasticsearch Shard Allocation Decider&rdquo; date: 2019-11-05T16:08:31+08:00 draft: true tags: [&ldquo;plugins&rdquo;,&ldquo;shard&rdquo;] categories: [&ldquo;elk&rdquo;]
+[TOC]
+场景 对于一台机器部署了多个ES实例时，在分配Shard时，可能会存在热点的情况，如下图：
+在同一台机器上的不同实例上，分配了两个Primary Shard，这样会导致这一台机器的负载要比其他的高，会影响整个集群的查询响应。
+当前ES的配置中，并没有具体的参数可以避免这一情况，类似的参数有：
+cluster.routing.allocation.same_shard.host：默认值是false，如果设置为true，那么就不允许将一个primary shard和replica shard分配到同一个物理机上，也许这个物理机上启动了多个es实例。
+通过这个参数，我们同样可以自定义一个参数，来控制是否根据同一个机器，来进行Shard的分配。
+分析源码 1. SameShardAllocationDecider分析 由cluster.routing.allocation.same_shard.host这个参数，我们可以分析源码，来借鉴其中的写法。
+通过查看，我们找到org.elasticsearch.cluster.routing.allocation.decider.SameShardAllocationDecider这个类，其中继承了抽象类AllocationDecider，主要实现了两个方法：
+ public Decision canAllocate(ShardRouting shardRouting, RoutingNode node, RoutingAllocation allocation)
+public Decision canForceAllocatePrimary(ShardRouting shardRouting, RoutingNode node, RoutingAllocation allocation)
+ 具体是代码实现相对简单：
+大概逻辑是，判断checkNode和Node的HostAddress是否相同，如果相同，则返回不可分配的决定；如果不同，则返回可以分配的决定。
+2. 决策器插件的加载 在org.elasticsearch.cluster.ClusterModule类中，可以看到createAllocationDeciders(Settings settings, ClusterSettings clusterSettings, List&lt;ClusterPlugin&gt; clusterPlugins)方法是用来初始化所有决策器的。
+我们可以通过编写ClusterPlugin来进行自定义决策器的加载及使用。
+插件编写 
     </div>
     <div class="read-more">
-      <a href="/post/elasticsearch-unassigned-process/" class="read-more-link">Read more..</a>
-    </div>
-  </div>
-</article>
-
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/ubuntu-init/">Ubuntu Init</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 2019-07-23 </span>
-      
-        <span class="more-meta"> 69 words </span>
-        <span class="more-meta"> 1 min read </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      [TOC] sudo 不需要输入密码 1 sudo vi /etc/sudoers 找到%sudo ALL=(ALL:ALL) ALL这一行，修改为：%sudo ALL=(ALL:ALL) NOPASSWD:ALL; 这样，所有sudo组内的用户使用sudo就不需要输入密码啦。
-    </div>
-    <div class="read-more">
-      <a href="/post/ubuntu-init/" class="read-more-link">Read more..</a>
-    </div>
-  </div>
-</article>
-
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/linux-hrpof/">Linux 中分析超大 JVM dump 文件</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 2019-06-13 </span>
-      <div class="post-category">
-          <a href="/categories/jvm/"> jvm </a>
-          </div>
-        <span class="more-meta"> 521 words </span>
-        <span class="more-meta"> 2 mins read </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      1. 场景 在使用Elasticsearch时，碰到内存溢出的情况，因为配置了-XX:+HeapDumpOnOutOfMemoryError索引会
-    </div>
-    <div class="read-more">
-      <a href="/post/linux-hrpof/" class="read-more-link">Read more..</a>
-    </div>
-  </div>
-</article>
-
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/go-web-vue-static-embed/">Gin 和 Vue 项目打包静态文件</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 2019-04-16 </span>
-      <div class="post-category">
-          <a href="/categories/golang/"> golang </a>
-          </div>
-        <span class="more-meta"> 679 words </span>
-        <span class="more-meta"> 2 mins read </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      在使用 Go 语言带来的便利时，我们往往也热衷于打包成单一的可执行文件，这样不仅方便传输，也便于维护。 如果是普通的Go程序，倒是直接可以编译成可执
-    </div>
-    <div class="read-more">
-      <a href="/post/go-web-vue-static-embed/" class="read-more-link">Read more..</a>
+      <a href="/post/elasticsearch-decider-custom/" class="read-more-link">Read more..</a>
     </div>
   </div>
 </article>
@@ -225,14 +151,11 @@
     </section>
   
   <nav class="pagination">
-    <a class="prev" href="/">
+    <a class="prev" href="/page/3/">
         <i class="iconfont icon-left"></i>
         <span class="prev-text">Prev</span>
       </a>
-    <a class="next" href="/page/3/">
-        <span class="next-text">Next</span>
-        <i class="iconfont icon-right"></i>
-      </a>
+    
   </nav>
         </div>
         

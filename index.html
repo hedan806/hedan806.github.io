@@ -45,7 +45,7 @@
 <meta property="og:type" content="website" />
 <meta property="og:url" content="http://www.honlyc.com/" />
 
-<meta property="og:updated_time" content="2020-02-20T14:58:46&#43;08:00"/>
+<meta property="og:updated_time" content="2020-03-13T19:52:02&#43;08:00"/>
 
 <meta itemprop="name" content="Honlyc - Your are free">
 <meta itemprop="description" content="Hugo theme even example site.">
@@ -113,6 +113,27 @@
       <div class="content-wrapper">
         <div id="content" class="content">
           <section id="posts" class="posts">
+    <article class="post">
+  <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/ambari-custom-alert-notification/">Ambari Custom Alert Notification</a></h1>
+    <div class="post-meta">
+      <span class="post-time"> 2020-03-13 </span>
+      
+        <span class="more-meta"> 357 words </span>
+        <span class="more-meta"> 1 min read </span>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      [TOC] Ambari 自定义告警通知 创建一个自定义告警通知项： 1 2 3 4 5 6 7 8 9 10 11 12 13 14 curl -i -u admin:admin -H &#39;X-Requested-By: ambari&#39; -X POST &#34;http://ambari-server:8080/api/v1/alert_targets&#34; -d &#39; { &#34;AlertTarget&#34;: { &#34;name&#34;: &#34;test_dispatcher&#34;, &#34;description&#34;: &#34;Custom Notification Dispatcher&#34;, &#34;notification_type&#34;: &#34;ALERT_SCRIPT&#34;, &#34;global&#34;: true, &#34;alert_states&#34;: [&#34;CRITICAL&#34;,&#34;WARNING&#34;,&#34;UNKNOWN&#34;,&#34;OK&#34;], &#34;properties&#34;: { &#34;ambari.dispatch-property.script&#34;: &#34;notification.dispatch.alert.script&#34; } } }
+    </div>
+    <div class="read-more">
+      <a href="/post/ambari-custom-alert-notification/" class="read-more-link">Read more..</a>
+    </div>
+  </div>
+</article>
+
     <article class="post">
   <header class="post-header">
     <h1 class="post-title"><a class="post-link" href="/post/centos-init/">Centos Init</a></h1>
@@ -195,27 +216,6 @@
     </div>
     <div class="read-more">
       <a href="/post/elasticsearch-6.1.4-upgrade-to-7.4.0-problem/" class="read-more-link">Read more..</a>
-    </div>
-  </div>
-</article>
-
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/golang-x509-certificate-unknown-authority/">解决 Golang https 请求时，x509: certificate signed by unknown authority 问题</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 2019-08-23 </span>
-      
-        <span class="more-meta"> 681 words </span>
-        <span class="more-meta"> 2 mins read </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      在使用http请求https://**网站时，报了x509: certificate signed by unknown authority这个错误。经查阅，是由于目标网站的CA证书在本机没有，
-    </div>
-    <div class="read-more">
-      <a href="/post/golang-x509-certificate-unknown-authority/" class="read-more-link">Read more..</a>
     </div>
   </div>
 </article>
