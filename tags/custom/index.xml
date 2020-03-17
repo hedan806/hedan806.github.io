@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>custom on Honlyc - Your are free</title>
+    <link>http://www.honlyc.com/tags/custom/</link>
+    <description>Recent content in custom on Honlyc - Your are free</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Fri, 13 Mar 2020 19:52:02 +0800</lastBuildDate>
+    
+	<atom:link href="http://www.honlyc.com/tags/custom/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Ambari 自定义告警通知</title>
+      <link>http://www.honlyc.com/post/ambari-custom-alert-notification/</link>
+      <pubDate>Fri, 13 Mar 2020 19:52:02 +0800</pubDate>
+      
+      <guid>http://www.honlyc.com/post/ambari-custom-alert-notification/</guid>
+      <description>Ambari 自定义告警通知 创建一个自定义告警通知项： 1 2 3 4 5 6 7 8 9 10 11 12 13 14 curl -i -u admin:admin -H &amp;#39;X-Requested-By: ambari&amp;#39; -X POST &amp;#34;http://ambari-server:8080/api/v1/alert_targets&amp;#34; -d &amp;#39; { &amp;#34;AlertTarget&amp;#34;: { &amp;#34;name&amp;#34;: &amp;#34;test_dispatcher&amp;#34;, &amp;#34;description&amp;#34;: &amp;#34;Custom Notification Dispatcher&amp;#34;, &amp;#34;notification_type&amp;#34;: &amp;#34;ALERT_SCRIPT&amp;#34;, &amp;#34;global&amp;#34;: true, &amp;#34;alert_states&amp;#34;: [&amp;#34;CRITICAL&amp;#34;,&amp;#34;WARNING&amp;#34;,&amp;#34;UNKNOWN&amp;#34;,&amp;#34;OK&amp;#34;], &amp;#34;properties&amp;#34;: { &amp;#34;ambari.dispatch-property.script&amp;#34;: &amp;#34;notification.dispatch.alert.script&amp;#34; } } } 编</description>
+    </item>
+    
+  </channel>
+</rss>

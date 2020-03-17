@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>Ambari in Action 1 - Honlyc - Your are free</title>
+  <title>Ambari 的安装 - Honlyc - Your are free</title>
   <meta name="renderer" content="webkit" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -16,7 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="Honlyc" /><meta name="description" content="[TOC] Ambari 的安装 因为各种原因，如果直接用Ambari的官方包进行安装时，速度会极慢，而官方本身也是支持离线安装的。所以，本文使用离线安装的方式。 一" /><meta name="keywords" content="Honlyc, golanh, java, 分享" />
+<meta name="author" content="Honlyc" /><meta name="description" content="[TOC] 因为各种原因，如果直接用Ambari的官方包进行安装时，速度会极慢，而官方本身也是支持离线安装的。所以，本文使用离线安装的方式。 一、下载离" /><meta name="keywords" content="Honlyc, golanh, java, 分享" />
 
 
 
@@ -38,27 +38,27 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
-<meta property="og:title" content="Ambari in Action 1" />
-<meta property="og:description" content="[TOC] Ambari 的安装 因为各种原因，如果直接用Ambari的官方包进行安装时，速度会极慢，而官方本身也是支持离线安装的。所以，本文使用离线安装的方式。 一" />
+<meta property="og:title" content="Ambari 的安装" />
+<meta property="og:description" content="[TOC] 因为各种原因，如果直接用Ambari的官方包进行安装时，速度会极慢，而官方本身也是支持离线安装的。所以，本文使用离线安装的方式。 一、下载离" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://www.honlyc.com/post/ambari-in-action-1/" />
 <meta property="article:published_time" content="2020-02-20T14:49:01&#43;08:00"/>
 <meta property="article:modified_time" content="2020-02-20T14:49:01&#43;08:00"/>
 
-<meta itemprop="name" content="Ambari in Action 1">
-<meta itemprop="description" content="[TOC] Ambari 的安装 因为各种原因，如果直接用Ambari的官方包进行安装时，速度会极慢，而官方本身也是支持离线安装的。所以，本文使用离线安装的方式。 一">
+<meta itemprop="name" content="Ambari 的安装">
+<meta itemprop="description" content="[TOC] 因为各种原因，如果直接用Ambari的官方包进行安装时，速度会极慢，而官方本身也是支持离线安装的。所以，本文使用离线安装的方式。 一、下载离">
 
 
 <meta itemprop="datePublished" content="2020-02-20T14:49:01&#43;08:00" />
 <meta itemprop="dateModified" content="2020-02-20T14:49:01&#43;08:00" />
-<meta itemprop="wordCount" content="1119">
+<meta itemprop="wordCount" content="1115">
 
 
 
-<meta itemprop="keywords" content="" />
+<meta itemprop="keywords" content="install," />
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Ambari in Action 1"/>
-<meta name="twitter:description" content="[TOC] Ambari 的安装 因为各种原因，如果直接用Ambari的官方包进行安装时，速度会极慢，而官方本身也是支持离线安装的。所以，本文使用离线安装的方式。 一"/>
+<meta name="twitter:title" content="Ambari 的安装"/>
+<meta name="twitter:description" content="[TOC] 因为各种原因，如果直接用Ambari的官方包进行安装时，速度会极慢，而官方本身也是支持离线安装的。所以，本文使用离线安装的方式。 一、下载离"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -121,12 +121,14 @@
           <article class="post">
     
     <header class="post-header">
-      <h1 class="post-title">Ambari in Action 1</h1>
+      <h1 class="post-title">Ambari 的安装</h1>
 
       <div class="post-meta">
         <span class="post-time"> 2020-02-20 </span>
-        
-          <span class="more-meta"> 1119 words </span>
+        <div class="post-category">
+            <a href="/categories/ambari/"> ambari </a>
+            </div>
+          <span class="more-meta"> 1115 words </span>
           <span class="more-meta"> 3 mins read </span>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
       </div>
@@ -137,7 +139,7 @@
   <div class="post-toc-content always-active">
     <nav id="TableOfContents">
 <ul>
-<li><a href="#ambari-的安装">Ambari 的安装</a>
+<li>
 <ul>
 <li><a href="#一-下载离线包">一、下载离线包</a></li>
 <li><a href="#二-安装-nginx-并搭建本地源">二、安装 Nginx，并搭建本地源</a>
@@ -161,8 +163,6 @@
       
 
 <p>[TOC]</p>
-
-<h1 id="ambari-的安装">Ambari 的安装</h1>
 
 <p>因为各种原因，如果直接用<code>Ambari</code>的官方包进行安装时，速度会极慢，而官方本身也是支持离线安装的。所以，本文使用离线安装的方式。</p>
 
@@ -490,7 +490,9 @@ ERROR: Unexpected error &lsquo;getpwuid(): uid not found: 1001&rsquo;</p>
       </label>
   </div>
 </div><footer class="post-footer">
-      
+      <div class="post-tags">
+          <a href="/tags/install/">install</a>
+          </div>
       <nav class="post-nav">
         <a class="prev" href="/post/centos-init/">
             <i class="iconfont icon-left"></i>

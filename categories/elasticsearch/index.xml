@@ -12,12 +12,12 @@
     
     
     <item>
-      <title>Elasticsearch 7.4</title>
+      <title>Docker 部署 Elasticsearch 7.4.0 集群并添加安全认证</title>
       <link>http://www.honlyc.com/post/elasticsearch-7.4.0-auth/</link>
       <pubDate>Mon, 16 Mar 2020 20:48:13 +0800</pubDate>
       
       <guid>http://www.honlyc.com/post/elasticsearch-7.4.0-auth/</guid>
-      <description>Elasticsearch 7.4.0 集群添加认证 本文主要介绍基于Docker部署时，Elasticsearch如何添加认证。 主要步骤 1. 生成认证秘钥 使用一个镜像，专门生成一个</description>
+      <description>本文主要介绍基于Docker部署时，Elasticsearch如何添加认证。 主要步骤 1. 生成认证秘钥 使用一个镜像，专门生成一个秘钥，使用p12</description>
     </item>
     
   </channel>

@@ -21,11 +21,29 @@
     </item>
     
     <item>
+      <title>alert</title>
+      <link>http://www.honlyc.com/tags/alert/</link>
+      <pubDate>Fri, 13 Mar 2020 19:52:02 +0800</pubDate>
+      
+      <guid>http://www.honlyc.com/tags/alert/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>auth</title>
       <link>http://www.honlyc.com/tags/auth/</link>
       <pubDate>Mon, 16 Mar 2020 20:48:13 +0800</pubDate>
       
       <guid>http://www.honlyc.com/tags/auth/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>custom</title>
+      <link>http://www.honlyc.com/tags/custom/</link>
+      <pubDate>Fri, 13 Mar 2020 19:52:02 +0800</pubDate>
+      
+      <guid>http://www.honlyc.com/tags/custom/</guid>
       <description></description>
     </item>
     
@@ -44,6 +62,15 @@
       <pubDate>Sat, 06 Apr 2019 22:08:54 +0800</pubDate>
       
       <guid>http://www.honlyc.com/tags/golang/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>install</title>
+      <link>http://www.honlyc.com/tags/install/</link>
+      <pubDate>Thu, 20 Feb 2020 14:49:01 +0800</pubDate>
+      
+      <guid>http://www.honlyc.com/tags/install/</guid>
       <description></description>
     </item>
     

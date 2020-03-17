@@ -12,16 +12,16 @@
     
     
     <item>
-      <title>Elasticsearch 7.4</title>
+      <title>Docker 部署 Elasticsearch 7.4.0 集群并添加安全认证</title>
       <link>http://www.honlyc.com/post/elasticsearch-7.4.0-auth/</link>
       <pubDate>Mon, 16 Mar 2020 20:48:13 +0800</pubDate>
       
       <guid>http://www.honlyc.com/post/elasticsearch-7.4.0-auth/</guid>
-      <description>Elasticsearch 7.4.0 集群添加认证 本文主要介绍基于Docker部署时，Elasticsearch如何添加认证。 主要步骤 1. 生成认证秘钥 使用一个镜像，专门生成一个</description>
+      <description>本文主要介绍基于Docker部署时，Elasticsearch如何添加认证。 主要步骤 1. 生成认证秘钥 使用一个镜像，专门生成一个秘钥，使用p12</description>
     </item>
     
     <item>
-      <title>Ambari Custom Alert Notification</title>
+      <title>Ambari 自定义告警通知</title>
       <link>http://www.honlyc.com/post/ambari-custom-alert-notification/</link>
       <pubDate>Fri, 13 Mar 2020 19:52:02 +0800</pubDate>
       
@@ -39,12 +39,12 @@
     </item>
     
     <item>
-      <title>Ambari in Action 1</title>
+      <title>Ambari 的安装</title>
       <link>http://www.honlyc.com/post/ambari-in-action-1/</link>
       <pubDate>Thu, 20 Feb 2020 14:49:01 +0800</pubDate>
       
       <guid>http://www.honlyc.com/post/ambari-in-action-1/</guid>
-      <description>[TOC] Ambari 的安装 因为各种原因，如果直接用Ambari的官方包进行安装时，速度会极慢，而官方本身也是支持离线安装的。所以，本文使用离线安装的方式。 一</description>
+      <description>[TOC] 因为各种原因，如果直接用Ambari的官方包进行安装时，速度会极慢，而官方本身也是支持离线安装的。所以，本文使用离线安装的方式。 一、下载离</description>
     </item>
     
     <item>

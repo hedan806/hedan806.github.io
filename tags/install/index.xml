@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>install on Honlyc - Your are free</title>
+    <link>http://www.honlyc.com/tags/install/</link>
+    <description>Recent content in install on Honlyc - Your are free</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Thu, 20 Feb 2020 14:49:01 +0800</lastBuildDate>
+    
+	<atom:link href="http://www.honlyc.com/tags/install/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Ambari 的安装</title>
+      <link>http://www.honlyc.com/post/ambari-in-action-1/</link>
+      <pubDate>Thu, 20 Feb 2020 14:49:01 +0800</pubDate>
+      
+      <guid>http://www.honlyc.com/post/ambari-in-action-1/</guid>
+      <description>[TOC] 因为各种原因，如果直接用Ambari的官方包进行安装时，速度会极慢，而官方本身也是支持离线安装的。所以，本文使用离线安装的方式。 一、下载离</description>
+    </item>
+    
+  </channel>
+</rss>
