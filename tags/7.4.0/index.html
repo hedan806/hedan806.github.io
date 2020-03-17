@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>Honlyc - Your are free</title>
+  <title>7.4.0 · Honlyc - Your are free</title>
   <meta name="renderer" content="webkit" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -26,9 +26,9 @@
 <meta name="generator" content="Hugo 0.54.0 with even 4.0.0" />
 
 
-<link rel="canonical" href="http://www.honlyc.com/" />
-  <link href="http://www.honlyc.com/index.xml" rel="alternate" type="application/rss+xml" title="Honlyc - Your are free" />
-  <link href="http://www.honlyc.com/index.xml" rel="feed" type="application/rss+xml" title="Honlyc - Your are free" />
+<link rel="canonical" href="http://www.honlyc.com/tags/7.4.0/" />
+  <link href="http://www.honlyc.com/tags/7.4.0/index.xml" rel="alternate" type="application/rss+xml" title="Honlyc - Your are free" />
+  <link href="http://www.honlyc.com/tags/7.4.0/index.xml" rel="feed" type="application/rss+xml" title="Honlyc - Your are free" />
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -40,18 +40,18 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
-<meta property="og:title" content="Honlyc - Your are free" />
+<meta property="og:title" content="7.4.0" />
 <meta property="og:description" content="Hugo theme even example site." />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="http://www.honlyc.com/" />
+<meta property="og:url" content="http://www.honlyc.com/tags/7.4.0/" />
 
-<meta property="og:updated_time" content="2019-04-01T17:11:16&#43;08:00"/>
+<meta property="og:updated_time" content="2020-03-16T20:48:13&#43;08:00"/>
 
-<meta itemprop="name" content="Honlyc - Your are free">
+<meta itemprop="name" content="7.4.0">
 <meta itemprop="description" content="Hugo theme even example site.">
 
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Honlyc - Your are free"/>
+<meta name="twitter:title" content="7.4.0"/>
 <meta name="twitter:description" content="Hugo theme even example site."/>
 
 <!--[if lte IE 9]>
@@ -112,73 +112,27 @@
     <main id="main" class="main">
       <div class="content-wrapper">
         <div id="content" class="content">
-          <section id="posts" class="posts">
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/first/">Git 基本使用</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 2019-04-01 </span>
-      
-        <span class="more-meta"> 12 words </span>
-        <span class="more-meta"> 1 min read </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      1. Git push 需要填写密码的问题
-    </div>
-    <div class="read-more">
-      <a href="/post/first/" class="read-more-link">Read more..</a>
-    </div>
-  </div>
-</article>
+          <section id="archive" class="archive">
+  <div class="archive-title tag">
+        <h2 class="archive-name">7.4.0</h2>
+      </div>
 
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/elasticsearch-decider-custom/"></a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 0001-01-01 </span>
-      
-        <span class="more-meta"> 57 words </span>
-        <span class="more-meta"> 1 min read </span>
+  <div class="archive-post">
+      <span class="archive-post-time">
+        2020-03-16
+      </span>
+      <span class="archive-post-title">
+        <a href="/post/elasticsearch-7.4.0-auth/" class="archive-post-link">
+          Elasticsearch 7.4
+        </a>
+      </span>
     </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-       title: &ldquo;Custom Elasticsearch Shard Allocation Decider&rdquo; date: 2019-11-05T16:08:31+08:00 draft: true tags: [&ldquo;plugins&rdquo;,&ldquo;shard&rdquo;] categories: [&ldquo;elk&rdquo;]
-[TOC]
-场景 对于一台机器部署了多个ES实例时，在分配Shard时，可能会存在热点的情况，如下图：
-在同一台机器上的不同实例上，分配了两个Primary Shard，这样会导致这一台机器的负载要比其他的高，会影响整个集群的查询响应。
-当前ES的配置中，并没有具体的参数可以避免这一情况，类似的参数有：
-cluster.routing.allocation.same_shard.host：默认值是false，如果设置为true，那么就不允许将一个primary shard和replica shard分配到同一个物理机上，也许这个物理机上启动了多个es实例。
-通过这个参数，我们同样可以自定义一个参数，来控制是否根据同一个机器，来进行Shard的分配。
-分析源码 1. SameShardAllocationDecider分析 由cluster.routing.allocation.same_shard.host这个参数，我们可以分析源码，来借鉴其中的写法。
-通过查看，我们找到org.elasticsearch.cluster.routing.allocation.decider.SameShardAllocationDecider这个类，其中继承了抽象类AllocationDecider，主要实现了两个方法：
- public Decision canAllocate(ShardRouting shardRouting, RoutingNode node, RoutingAllocation allocation)
-public Decision canForceAllocatePrimary(ShardRouting shardRouting, RoutingNode node, RoutingAllocation allocation)
- 具体是代码实现相对简单：
-大概逻辑是，判断checkNode和Node的HostAddress是否相同，如果相同，则返回不可分配的决定；如果不同，则返回可以分配的决定。
-2. 决策器插件的加载 在org.elasticsearch.cluster.ClusterModule类中，可以看到createAllocationDeciders(Settings settings, ClusterSettings clusterSettings, List&lt;ClusterPlugin&gt; clusterPlugins)方法是用来初始化所有决策器的。
-我们可以通过编写ClusterPlugin来进行自定义决策器的加载及使用。
-插件编写 
-    </div>
-    <div class="read-more">
-      <a href="/post/elasticsearch-decider-custom/" class="read-more-link">Read more..</a>
-    </div>
-  </div>
-</article>
+</section>
 
-    </section>
+<nav class="pagination">
   
-  <nav class="pagination">
-    <a class="prev" href="/page/3/">
-        <i class="iconfont icon-left"></i>
-        <span class="prev-text">Prev</span>
-      </a>
-    
-  </nav>
+  
+</nav>
         </div>
         
 
