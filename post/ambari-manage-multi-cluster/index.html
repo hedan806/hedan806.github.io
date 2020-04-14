@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Ambari Suport Manage Multi Cluster - Honlyc - Your are free</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="Honlyc" /><meta name="description" content="**注意： 本文使用的版本是Ambari 2.7.4 ** 场景 在使用Ambari的时候，它本身默认是只能管理一个集群的。这在实际使用的时候，会比较不方便，尤" /><meta name="keywords" content="Honlyc, golanh, java, 分享" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.54.0 with even 4.0.0" />
+
+
+<link rel="canonical" href="http://www.honlyc.com/post/ambari-manage-multi-cluster/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<link href="/dist/even.c2a46f00.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Ambari Suport Manage Multi Cluster" />
+<meta property="og:description" content="**注意： 本文使用的版本是Ambari 2.7.4 ** 场景 在使用Ambari的时候，它本身默认是只能管理一个集群的。这在实际使用的时候，会比较不方便，尤" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://www.honlyc.com/post/ambari-manage-multi-cluster/" />
+<meta property="article:published_time" content="2020-04-14T16:34:08&#43;08:00"/>
+<meta property="article:modified_time" content="2020-04-14T16:34:08&#43;08:00"/>
+
+<meta itemprop="name" content="Ambari Suport Manage Multi Cluster">
+<meta itemprop="description" content="**注意： 本文使用的版本是Ambari 2.7.4 ** 场景 在使用Ambari的时候，它本身默认是只能管理一个集群的。这在实际使用的时候，会比较不方便，尤">
+
+
+<meta itemprop="datePublished" content="2020-04-14T16:34:08&#43;08:00" />
+<meta itemprop="dateModified" content="2020-04-14T16:34:08&#43;08:00" />
+<meta itemprop="wordCount" content="2190">
+
+
+
+<meta itemprop="keywords" content="custom,cluster," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Ambari Suport Manage Multi Cluster"/>
+<meta name="twitter:description" content="**注意： 本文使用的版本是Ambari 2.7.4 ** 场景 在使用Ambari的时候，它本身默认是只能管理一个集群的。这在实际使用的时候，会比较不方便，尤"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Honlyc</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Honlyc</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Ambari Suport Manage Multi Cluster</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2020-04-14 </span>
+        <div class="post-category">
+            <a href="/categories/ambari/"> ambari </a>
+            </div>
+          <span class="more-meta"> 2190 words </span>
+          <span class="more-meta"> 5 mins read </span>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+<ul>
+<li><a href="#场景">场景</a></li>
+<li><a href="#代码分析">代码分析</a></li>
+<li><a href="#验证">验证</a></li>
+<li><a href="#优化">优化</a></li>
+<li><a href="#再优化">再优化</a></li>
+<li><a href="#总结">总结</a></li>
+</ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      
+
+<p>**注意： 本文使用的版本是<code>Ambari 2.7.4</code> **</p>
+
+<h1 id="场景">场景</h1>
+
+<p>在使用<code>Ambari</code>的时候，它本身默认是只能管理一个集群的。这在实际使用的时候，会比较不方便，尤其是如果用来管理<code>ElasticSearch</code>，<code>Redis</code>一类的集群时，因为集群数量多，就更加捉襟见肘了。</p>
+
+<p>而如果想要管理多个集群，要么就付费使用<code>Clouder Manager</code>企业版，这个是支持多集群管理的；或者就一个集群对应一个<code>Ambari</code>，分别访问；另外就只能自己进行二次开发了，其实<code>Ambari</code>本身是可以通过<code>Rest API</code>创建多个集群的，只是在<code>Ambari-Web</code>项目中，只能看到一个。</p>
+
+<h1 id="代码分析">代码分析</h1>
+
+<p>前面也说了，实际<code>Ambari</code>是支持多集群管理的，只是<code>ambari-web</code>项目只能看到一个。而<code>ambari-web</code>项目就是用<code>ember.js</code>写的前端项目，实际都是使用<code>Rest API</code>调用<code>ambari-server</code>的。</p>
+
+<p>因为我不是很会前端代码，而且也没有使用过<code>ember</code>框架，所以看在分析代码时，还是比较费劲，让我们一起来进行分析吧。</p>
+
+<p>首先，我们可以在<code>app/app.js</code>文件中，找到一个<code>clusterName</code>的属性定义，然后全局搜索这个属性，寻找看哪个地方进行了赋值。</p>
+
+<p>一个一个排除中&hellip;&hellip;</p>
+
+<p>最后，我们可以看到在这个文件中<code>app/controllers/global/cluster_controller.js</code>，有这样的代码：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-javascript" data-lang="javascript">  <span class="cm">/**
+</span><span class="cm">   * load cluster name
+</span><span class="cm">   */</span>
+  <span class="nx">loadClusterName</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">reload</span><span class="p">,</span> <span class="nx">deferred</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">dfd</span> <span class="o">=</span> <span class="nx">deferred</span> <span class="o">||</span> <span class="nx">$</span><span class="p">.</span><span class="nx">Deferred</span><span class="p">();</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="nx">App</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;clusterName&#39;</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="nx">reload</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">App</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">&#39;clusterName&#39;</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;clusterName&#39;</span><span class="p">));</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">&#39;isClusterNameLoaded&#39;</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+      <span class="nx">dfd</span><span class="p">.</span><span class="nx">resolve</span><span class="p">();</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="nx">App</span><span class="p">.</span><span class="nx">ajax</span><span class="p">.</span><span class="nx">send</span><span class="p">({</span>
+        <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;cluster.load_cluster_name&#39;</span><span class="p">,</span>
+        <span class="nx">sender</span><span class="o">:</span> <span class="k">this</span><span class="p">,</span>
+        <span class="nx">data</span><span class="o">:</span> <span class="p">{</span>
+          <span class="nx">reloadPopupText</span><span class="o">:</span> <span class="nx">Em</span><span class="p">.</span><span class="nx">I18n</span><span class="p">.</span><span class="nx">t</span><span class="p">(</span><span class="s1">&#39;app.reloadPopup.noClusterName.text&#39;</span><span class="p">),</span>
+          <span class="nx">errorLogMessage</span><span class="o">:</span> <span class="s1">&#39;failed on loading cluster name&#39;</span><span class="p">,</span>
+          <span class="nx">callback</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">loadClusterName</span><span class="p">,</span>
+          <span class="nx">args</span><span class="o">:</span> <span class="p">[</span><span class="nx">reload</span><span class="p">,</span> <span class="nx">dfd</span><span class="p">],</span>
+          <span class="nx">shouldUseDefaultHandler</span><span class="o">:</span> <span class="kc">true</span>
+        <span class="p">},</span>
+        <span class="nx">success</span><span class="o">:</span> <span class="s1">&#39;reloadSuccessCallback&#39;</span><span class="p">,</span>
+        <span class="nx">error</span><span class="o">:</span> <span class="s1">&#39;reloadErrorCallback&#39;</span><span class="p">,</span>
+        <span class="nx">callback</span><span class="o">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+          <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">App</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;currentStackVersion&#39;</span><span class="p">))</span> <span class="p">{</span>
+            <span class="nx">App</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">&#39;currentStackVersion&#39;</span><span class="p">,</span> <span class="nx">App</span><span class="p">.</span><span class="nx">defaultStackVersion</span><span class="p">);</span>
+          <span class="p">}</span>
+        <span class="p">}</span>
+      <span class="p">}).</span><span class="nx">then</span><span class="p">(</span>
+        <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+          <span class="nx">dfd</span><span class="p">.</span><span class="nx">resolve</span><span class="p">();</span>
+        <span class="p">},</span>
+        <span class="kc">null</span>
+      <span class="p">);</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="nx">dfd</span><span class="p">.</span><span class="nx">promise</span><span class="p">();</span>
+  <span class="p">},</span>
+</code></pre></td></tr></table>
+</div>
+</div>
+<p>可以看到，这个就是用来加载集群名称的，然后可以看到回调方法为：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="nx">reloadSuccessCallback</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">_super</span><span class="p">();</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nx">items</span> <span class="o">&amp;&amp;</span> <span class="nx">data</span><span class="p">.</span><span class="nx">items</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">App</span><span class="p">.</span><span class="nx">setProperties</span><span class="p">({</span>
+        <span class="nx">clusterId</span><span class="o">:</span> <span class="nx">data</span><span class="p">.</span><span class="nx">items</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">Clusters</span><span class="p">.</span><span class="nx">cluster_id</span><span class="p">,</span>
+        <span class="nx">clusterName</span><span class="o">:</span> <span class="nx">data</span><span class="p">.</span><span class="nx">items</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">Clusters</span><span class="p">.</span><span class="nx">cluster_name</span><span class="p">,</span>
+        <span class="nx">currentStackVersion</span><span class="o">:</span> <span class="nx">data</span><span class="p">.</span><span class="nx">items</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">Clusters</span><span class="p">.</span><span class="nx">version</span><span class="p">,</span>
+        <span class="nx">isKerberosEnabled</span><span class="o">:</span> <span class="nx">data</span><span class="p">.</span><span class="nx">items</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">Clusters</span><span class="p">.</span><span class="nx">security_type</span> <span class="o">===</span> <span class="s1">&#39;KERBEROS&#39;</span>
+      <span class="p">});</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">&#39;isClusterNameLoaded&#39;</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+</code></pre></td></tr></table>
+</div>
+</div>
+<p>哈哈～～，请允许我嘚瑟一下，这部分代码相当的一目了然：如果集群的数量大于<code>0</code>时，只取第一个集群，并设置给<code>App</code>。</p>
+
+<p>貌似找到了关键代码，那就得先验证是否可行了。</p>
+
+<h1 id="验证">验证</h1>
+
+<p>因为是纯前端框架，我们修改这部分代码时，可以不用进行打包，直接修改服务端的文件即可。</p>
+
+<p>在服务端，编辑<code>/usr/lib/ambari-server/web/javascript/app.js</code>这个文件，找到前面所说的代码，并做修改：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="nx">reloadSuccessCallback</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">_super</span><span class="p">();</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nx">items</span> <span class="o">&amp;&amp;</span> <span class="nx">data</span><span class="p">.</span><span class="nx">items</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">App</span><span class="p">.</span><span class="nx">setProperties</span><span class="p">({</span>
+        <span class="nx">clusterId</span><span class="o">:</span> <span class="nx">data</span><span class="p">.</span><span class="nx">items</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nx">Clusters</span><span class="p">.</span><span class="nx">cluster_id</span><span class="p">,</span>
+        <span class="nx">clusterName</span><span class="o">:</span> <span class="nx">data</span><span class="p">.</span><span class="nx">items</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nx">Clusters</span><span class="p">.</span><span class="nx">cluster_name</span><span class="p">,</span>
+        <span class="nx">currentStackVersion</span><span class="o">:</span> <span class="nx">data</span><span class="p">.</span><span class="nx">items</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nx">Clusters</span><span class="p">.</span><span class="nx">version</span><span class="p">,</span>
+        <span class="nx">isKerberosEnabled</span><span class="o">:</span> <span class="nx">data</span><span class="p">.</span><span class="nx">items</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nx">Clusters</span><span class="p">.</span><span class="nx">security_type</span> <span class="o">===</span> <span class="s1">&#39;KERBEROS&#39;</span>
+      <span class="p">});</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">&#39;isClusterNameLoaded&#39;</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+</code></pre></td></tr></table>
+</div>
+</div>
+<blockquote>
+<p>注意：在进行这个修改之前，需要通过<code>Rest Api</code>再创建一个集群，保证当前<code>Ambari</code>中，有两个集群存在，否则会报错的。</p>
+</blockquote>
+
+<p>这里可以看到，我把集群的获取下标改为了<code>1</code>，因为当前<code>Ambari</code>拥有两个集群，所以这个就会是取第二个集群，而不是默认的第一个。</p>
+
+<p>保存文件，直接刷新<code>Ambari</code>的管理页面。</p>
+
+<p>搞定！可以看到，集群变为了第二个，证明这个方法是可行的。当然，我们不可能每次切换集群时，都去手动修改下标吧。让我们再来优化一下。Comn On～</p>
+
+<h1 id="优化">优化</h1>
+
+<p>这里的优化思路就是把集群名字加到页面的<code>Url</code>中去，比如：<code>?cluster=cluster1</code>，因为页面是纯前端项目，所有请求都是通过异步加载的，没有改变本身页面的<code>url</code>，所以这个方法也是可行的。</p>
+
+<p>还是修改上面的文件：<code>/usr/lib/ambari-server/web/javascript/app.js</code>，上代码：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="nx">reloadSuccessCallback</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">_super</span><span class="p">();</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nx">items</span> <span class="o">&amp;&amp;</span> <span class="nx">data</span><span class="p">.</span><span class="nx">items</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">cluster</span> <span class="o">=</span> <span class="nb">window</span><span class="p">.</span><span class="nx">location</span><span class="p">.</span><span class="nx">search</span><span class="p">.</span><span class="nx">match</span><span class="p">(</span><span class="sr">/cluster=([^&amp;]+)/</span><span class="p">);</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">cluster</span> <span class="o">&amp;&amp;</span> <span class="nx">cluster</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">cluster</span> <span class="o">=</span> <span class="nx">cluster</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+        <span class="p">}</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;cluster: &#34;</span><span class="p">,</span><span class="nx">cluster</span><span class="p">)</span>
+
+        <span class="kd">let</span> <span class="nx">clusterInfo</span> <span class="o">=</span> <span class="nx">data</span><span class="p">.</span><span class="nx">items</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+
+        <span class="k">for</span><span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="k">in</span> <span class="nx">data</span><span class="p">.</span><span class="nx">items</span><span class="p">){</span>
+            <span class="k">if</span><span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nx">items</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">Clusters</span><span class="p">.</span><span class="nx">cluster_name</span> <span class="o">===</span> <span class="nx">cluster</span><span class="p">){</span>
+                <span class="nx">clusterInfo</span> <span class="o">=</span> <span class="nx">data</span><span class="p">.</span><span class="nx">items</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span>
+                <span class="k">break</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+
+        <span class="nx">App</span><span class="p">.</span><span class="nx">setProperties</span><span class="p">({</span>
+        <span class="nx">clusterId</span><span class="o">:</span> <span class="nx">clusterInfo</span><span class="p">.</span><span class="nx">Clusters</span><span class="p">.</span><span class="nx">cluster_id</span><span class="p">,</span>
+        <span class="nx">clusterName</span><span class="o">:</span> <span class="nx">clusterInfo</span><span class="p">.</span><span class="nx">Clusters</span><span class="p">.</span><span class="nx">cluster_name</span><span class="p">,</span>
+        <span class="nx">currentStackVersion</span><span class="o">:</span> <span class="nx">clusterInfo</span><span class="p">.</span><span class="nx">Clusters</span><span class="p">.</span><span class="nx">version</span><span class="p">,</span>
+        <span class="nx">isKerberosEnabled</span><span class="o">:</span> <span class="nx">clusterInfo</span><span class="p">.</span><span class="nx">Clusters</span><span class="p">.</span><span class="nx">security_type</span> <span class="o">===</span> <span class="s1">&#39;KERBEROS&#39;</span>
+      <span class="p">});</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">&#39;isClusterNameLoaded&#39;</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+</code></pre></td></tr></table>
+</div>
+</div>
+<p>不怎么会写前端，就将就着看吧，基本功能还是实现了。</p>
+
+<p>保存，现在我们访问<code>ambari</code>页面时，就可以加集群的参数了。</p>
+
+<p>分别访问<code>http://localhost:8001/?cluster=cluster1</code> 和<code>http://localhost:8001/?cluster=cluster2</code>，就可以看到两个不同的集群啦。</p>
+
+<p>到这里，基本的多集群方案就可用了。但有人就要问了，每次我都要手动输入，而且也看不到当前拥有的集群列表，咋办？</p>
+
+<p>那我们再来优化一下：</p>
+
+<h1 id="再优化">再优化</h1>
+
+<p>我们通过<code>http://localhost:8001/clusters?fields=Clusters/security_type,Clusters/version,Clusters/cluster_id</code>这个接口，可以获取集群列表：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-json" data-lang="json"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&#34;href&#34;</span> <span class="p">:</span> <span class="s2">&#34;http://localhost:8001/api/v1/clusters?fields=Clusters/provisioning_state,Clusters/security_type,Clusters/version,Clusters/cluster_id&amp;_=1586855363652&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;items&#34;</span> <span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&#34;href&#34;</span> <span class="p">:</span> <span class="s2">&#34;http://localhost:8001/api/v1/clusters/cluster&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;Clusters&#34;</span> <span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&#34;cluster_id&#34;</span> <span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="nt">&#34;cluster_name&#34;</span> <span class="p">:</span> <span class="s2">&#34;cluster&#34;</span><span class="p">,</span>
+        <span class="nt">&#34;provisioning_state&#34;</span> <span class="p">:</span> <span class="s2">&#34;INSTALLED&#34;</span><span class="p">,</span>
+        <span class="nt">&#34;security_type&#34;</span> <span class="p">:</span> <span class="s2">&#34;NONE&#34;</span><span class="p">,</span>
+        <span class="nt">&#34;version&#34;</span> <span class="p">:</span> <span class="s2">&#34;HDP-3.0&#34;</span>
+      <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nt">&#34;href&#34;</span> <span class="p">:</span> <span class="s2">&#34;http://localhost:8001/api/v1/clusters/cluster2&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;Clusters&#34;</span> <span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&#34;cluster_id&#34;</span> <span class="p">:</span> <span class="mi">52</span><span class="p">,</span>
+        <span class="nt">&#34;cluster_name&#34;</span> <span class="p">:</span> <span class="s2">&#34;cluster2&#34;</span><span class="p">,</span>
+        <span class="nt">&#34;provisioning_state&#34;</span> <span class="p">:</span> <span class="s2">&#34;INSTALLED&#34;</span><span class="p">,</span>
+        <span class="nt">&#34;security_type&#34;</span> <span class="p">:</span> <span class="s2">&#34;NONE&#34;</span><span class="p">,</span>
+        <span class="nt">&#34;version&#34;</span> <span class="p">:</span> <span class="s2">&#34;HDP-3.0&#34;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">}</span></code></pre></td></tr></table>
+</div>
+</div>
+<p>然后用<code>Vuejs</code>或者其他的作为一个列表显示，然后把连接分别指向<code>http://localhost:8001/?cluster={clusterName}</code>，这样就可以看到当前所有集群，并直接进行跳转了。</p>
+
+<p><img src="http://img.honlyc.com/20200414195750.png" alt="" /></p>
+
+<h1 id="总结">总结</h1>
+
+<p>从最终效果来看，其实修改的地方本身不多，但其中的思路还是比较重要，如何分析现有系统、找到需要修改的地方，这里其实用得最多的就是全局搜索了，搜索到对应的属性或方法，然后依次排除。</p>
+
+<p>不得不说，搞定一个这样的<code>技巧</code>还是非常有成就感的，不仅自身的思路得到了提升，同时也节省了很多多余的工作。因为不这样解决的话，就要自己去做二次开发了。</p>
+
+<p>其实对于<code>Ambari</code>支持多集群管理，在网上搜索到的都没有类似的处理方式，算是有一点成就感吧。</p>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">Honlyc</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        2020-04-14
+        
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content">转载请注明出处。<a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a></span>
+  </p>
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">Reward</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/wxpay.png">
+        <span>wechat</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/alipay.png">
+        <span>alipay</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/custom/">custom</a>
+          <a href="/tags/cluster/">cluster</a>
+          </div>
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/elasticsearch-docker-jvm/">
+            <span class="next-text nav-default">在 Elasticsearch Docker 容器中，导出堆栈信息</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-stack-overflow" title="stack-overflow"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="http://localhost:1313" class="iconfont icon-zhihu" title="zhihu"></a>
+      <a href="http://localhost:1313" class="iconfont icon-douban" title="douban"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="http://www.honlyc.com/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+  </div>
+
+  <span class="copyright-year">
+<a href="www.beian.miit.gov.cn">湘ICP备16020053号-1</a>
+    &copy; 
+    2017 - 
+    2020
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">Honlyc</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+<script type="text/javascript" src="/dist/even.26188efa.min.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

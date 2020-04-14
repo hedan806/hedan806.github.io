@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>在 Elasticsearch Docker 容器中，导出堆栈信息 - Honlyc - Your are free</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="Honlyc" /><meta name="description" content="[TOC] 场景 因为在集群中，GC频繁： 初步排查 该集群的Heap是分配了 32G，从图中可以看到，每次都达到了 28G。 查看集群数据总量 1 GET /_cat/allocation?v&amp;amp;h=shards,disk.indices,disk.used,disk.avail 查看各节点的" /><meta name="keywords" content="Honlyc, golanh, java, 分享" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.54.0 with even 4.0.0" />
+
+
+<link rel="canonical" href="http://www.honlyc.com/post/elasticsearch-docker-jvm/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<link href="/dist/even.c2a46f00.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="在 Elasticsearch Docker 容器中，导出堆栈信息" />
+<meta property="og:description" content="[TOC] 场景 因为在集群中，GC频繁： 初步排查 该集群的Heap是分配了 32G，从图中可以看到，每次都达到了 28G。 查看集群数据总量 1 GET /_cat/allocation?v&amp;h=shards,disk.indices,disk.used,disk.avail 查看各节点的" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://www.honlyc.com/post/elasticsearch-docker-jvm/" />
+<meta property="article:published_time" content="2020-03-31T11:23:47&#43;08:00"/>
+<meta property="article:modified_time" content="2020-03-31T11:23:47&#43;08:00"/>
+
+<meta itemprop="name" content="在 Elasticsearch Docker 容器中，导出堆栈信息">
+<meta itemprop="description" content="[TOC] 场景 因为在集群中，GC频繁： 初步排查 该集群的Heap是分配了 32G，从图中可以看到，每次都达到了 28G。 查看集群数据总量 1 GET /_cat/allocation?v&amp;h=shards,disk.indices,disk.used,disk.avail 查看各节点的">
+
+
+<meta itemprop="datePublished" content="2020-03-31T11:23:47&#43;08:00" />
+<meta itemprop="dateModified" content="2020-03-31T11:23:47&#43;08:00" />
+<meta itemprop="wordCount" content="771">
+
+
+
+<meta itemprop="keywords" content="heap analysis," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="在 Elasticsearch Docker 容器中，导出堆栈信息"/>
+<meta name="twitter:description" content="[TOC] 场景 因为在集群中，GC频繁： 初步排查 该集群的Heap是分配了 32G，从图中可以看到，每次都达到了 28G。 查看集群数据总量 1 GET /_cat/allocation?v&amp;h=shards,disk.indices,disk.used,disk.avail 查看各节点的"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Honlyc</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Honlyc</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">在 Elasticsearch Docker 容器中，导出堆栈信息</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2020-03-31 </span>
+        <div class="post-category">
+            <a href="/categories/elasticsearch/"> elasticsearch </a>
+            <a href="/categories/jvm/"> jvm </a>
+            </div>
+          <span class="more-meta"> 771 words </span>
+          <span class="more-meta"> 2 mins read </span>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+<ul>
+<li><a href="#场景">场景</a></li>
+<li><a href="#初步排查">初步排查</a>
+<ul>
+<li><a href="#查看集群数据总量">查看集群数据总量</a></li>
+<li><a href="#查看各节点的-segement-memory-和-cache-占用量">查看各节点的<code>segement memory</code>和<code>cache</code>占用量</a></li>
+</ul></li>
+<li><a href="#heap-dump-分析">Heap Dump 分析</a>
+<ul>
+<li><a href="#docker-内进行-jmap"><code>Docker</code>内进行<code>jmap</code></a></li>
+<li><a href="#eclipse-mat">Eclipse MAT</a></li>
+<li><a href="#具体分析">具体分析</a></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      
+
+<p>[TOC]</p>
+
+<h1 id="场景">场景</h1>
+
+<p>因为在集群中，<code>GC</code>频繁：</p>
+
+<p><img src="http://img.honlyc.com/20200331112900.png" alt="" /></p>
+
+<h1 id="初步排查">初步排查</h1>
+
+<p>该集群的<code>Heap</code>是分配了 32G，从图中可以看到，每次都达到了 28G。</p>
+
+<h2 id="查看集群数据总量">查看集群数据总量</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">GET /_cat/allocation?v&amp;h=shards,disk.indices,disk.used,disk.avail</pre></td></tr></table>
+</div>
+</div>
+<h2 id="查看各节点的-segement-memory-和-cache-占用量">查看各节点的<code>segement memory</code>和<code>cache</code>占用量</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">GET /_cat/nodes?v&amp;h=id,port,v,m,fdp,mc,mcs,sc,sm,qcm,fm,im,siwm,svmm</pre></td></tr></table>
+</div>
+</div>
+<h1 id="heap-dump-分析">Heap Dump 分析</h1>
+
+<p>因为通常集群的<code>Dump</code>文件都非常大，本地开发机器无法进行分析。具体如何分析超大的<code>Dump</code>文件，可以参考我之前的文章<a href="http://honlyc.com/post/linux-hrpof/">Linux 中分析超大 JVM dump 文件</a>，这里我就不赘述了。</p>
+
+<p>这里主要说另一个问题：<code>Docker</code>部署的集群，如何导出堆栈信息。</p>
+
+<p><strong>注意：我这里使用的是<code>7.4.0</code>自带<code>jdk</code>的集群版本。</strong></p>
+
+<h2 id="docker-内进行-jmap"><code>Docker</code>内进行<code>jmap</code></h2>
+
+<p>当我们使用<code>docker exec -it es01 /bin/bash</code>进入到<code>es</code>的镜像内后，直接使用<code>jmap</code>是找不到的命令的。</p>
+
+<p><img src="http://img.honlyc.com/20200331114216.png" alt="" /></p>
+
+<p>不过，我们可以在这个图中发现，因为使用的是自带的<code>jdk</code>，所以我们需要使用<code>jdk/bin/jmap</code>这样来使用。</p>
+
+<p>我们先尝试使用<code>jps</code>查看：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">jdk/bin/jps -lv</code></pre></td></tr></table>
+</div>
+</div>
+<p>可以看到，当前<code>es</code> 的进程<code>PID</code>了（在<code>Docker</code>内，通常都是<code>1</code>）。</p>
+
+<p>再使用<code>jstack</code>，尝试查看当前堆栈：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">jdk/bin/jstack <span class="m">1</span></code></pre></td></tr></table>
+</div>
+</div>
+<p>却得到一个错误：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># jdk/bin/jstack 1</span>
+<span class="m">1</span>: Unable to open socket file /proc/1/root/tmp/.java_pid1: target process <span class="m">1</span> doesn<span class="err">&#39;</span>t respond within 10500ms or HotSpot VM not loaded</code></pre></td></tr></table>
+</div>
+</div>
+<p>通过搜索响应的解决方案，这是因为镜像内执行用户不同导致的。在<a href="https://github.com/elastic/elasticsearch/issues/50727">这里</a>详细说明了如何解决，可以在<code>exec</code>时，指定用户和用户组，进入后，就可以正常执行了。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">docker <span class="nb">exec</span> -u <span class="m">1000</span>:0 -it es01 /bin/bash</code></pre></td></tr></table>
+</div>
+</div>
+<h2 id="eclipse-mat">Eclipse MAT</h2>
+
+<p>从这里下载<a href="https://www.eclipse.org/mat/downloads.php">MAT Download</a>，因为集群的<code>Dump</code>文件通常有几十G了，所以在解析时，需要找一台内存大机器以及配置<code>MAT</code>的最大内存设置：</p>
+
+<ul>
+<li>解压缩<code>MAT</code>后，修改<code>MemoryAnalyzer.ini</code>文件，将内存设置为<code>20GB</code>左右：</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-ini" data-lang="ini"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-ini" data-lang="ini"><span class="na">-startup</span>
+<span class="na">plugins/org.eclipse.equinox.launcher_1.5.0.v20180512-1130.jar</span>
+<span class="na">--launcher.library</span>
+<span class="na">plugins/org.eclipse.equinox.launcher.gtk.linux.x86_64_1.1.700.v20180518-1200</span>
+<span class="na">-vmargs</span>
+<span class="na">-Xmx20240m</span></code></pre></td></tr></table>
+</div>
+</div>
+<ul>
+<li>将<code>dump</code>文件拷贝过来，并执行分析：</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">nohup ./ParseHeapDump.sh ./es_heap.bin org.eclipse.mat.api:suspects org.eclipse.mat.api:overview org.eclipse.mat.api:top_components <span class="p">&amp;</span>
+<span class="nb">echo</span> <span class="nv">$!</span> &gt; pid</code></pre></td></tr></table>
+</div>
+</div>
+<blockquote>
+<p>这里，我使用了<code>nohup</code>，主要是因为大文件的分析比较耗时，无法保证服务端的<code>shell</code>活动时间。</p>
+</blockquote>
+
+<p>等待执行完毕&hellip;&hellip;</p>
+
+<h2 id="具体分析">具体分析</h2>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">Honlyc</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        2020-03-31
+        
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content">转载请注明出处。<a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a></span>
+  </p>
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">Reward</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/wxpay.png">
+        <span>wechat</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/alipay.png">
+        <span>alipay</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/heap-analysis/">heap analysis</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/ambari-manage-multi-cluster/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Ambari Suport Manage Multi Cluster</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/elasticsearch-7.4.0-full-stack/">
+            <span class="next-text nav-default">Elasticsearch 7.4 Full Stack</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-stack-overflow" title="stack-overflow"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="http://localhost:1313" class="iconfont icon-zhihu" title="zhihu"></a>
+      <a href="http://localhost:1313" class="iconfont icon-douban" title="douban"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="http://www.honlyc.com/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+  </div>
+
+  <span class="copyright-year">
+<a href="www.beian.miit.gov.cn">湘ICP备16020053号-1</a>
+    &copy; 
+    2017 - 
+    2020
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">Honlyc</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+<script type="text/javascript" src="/dist/even.26188efa.min.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

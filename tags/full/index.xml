@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>full on Honlyc - Your are free</title>
+    <link>http://www.honlyc.com/tags/full/</link>
+    <description>Recent content in full on Honlyc - Your are free</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 24 Mar 2020 09:51:18 +0800</lastBuildDate>
+    
+	<atom:link href="http://www.honlyc.com/tags/full/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Elasticsearch 7.4 Full Stack</title>
+      <link>http://www.honlyc.com/post/elasticsearch-7.4.0-full-stack/</link>
+      <pubDate>Tue, 24 Mar 2020 09:51:18 +0800</pubDate>
+      
+      <guid>http://www.honlyc.com/post/elasticsearch-7.4.0-full-stack/</guid>
+      <description>[TOC] Overview Stack monitoring 普通版本的集群，无法做到多集群集合监控。 Metricbeat</description>
+    </item>
+    
+  </channel>
+</rss>

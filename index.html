@@ -45,7 +45,7 @@
 <meta property="og:type" content="website" />
 <meta property="og:url" content="http://www.honlyc.com/" />
 
-<meta property="og:updated_time" content="2020-03-16T20:48:13&#43;08:00"/>
+<meta property="og:updated_time" content="2020-04-14T16:34:08&#43;08:00"/>
 
 <meta itemprop="name" content="Honlyc - Your are free">
 <meta itemprop="description" content="Hugo theme even example site.">
@@ -115,6 +115,76 @@
           <section id="posts" class="posts">
     <article class="post">
   <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/ambari-manage-multi-cluster/">Ambari Suport Manage Multi Cluster</a></h1>
+    <div class="post-meta">
+      <span class="post-time"> 2020-04-14 </span>
+      <div class="post-category">
+          <a href="/categories/ambari/"> ambari </a>
+          </div>
+        <span class="more-meta"> 2190 words </span>
+        <span class="more-meta"> 5 mins read </span>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      **注意： 本文使用的版本是Ambari 2.7.4 ** 场景 在使用Ambari的时候，它本身默认是只能管理一个集群的。这在实际使用的时候，会比较不方便，尤
+    </div>
+    <div class="read-more">
+      <a href="/post/ambari-manage-multi-cluster/" class="read-more-link">Read more..</a>
+    </div>
+  </div>
+</article>
+
+    <article class="post">
+  <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/elasticsearch-docker-jvm/">在 Elasticsearch Docker 容器中，导出堆栈信息</a></h1>
+    <div class="post-meta">
+      <span class="post-time"> 2020-03-31 </span>
+      <div class="post-category">
+          <a href="/categories/elasticsearch/"> elasticsearch </a>
+          <a href="/categories/jvm/"> jvm </a>
+          </div>
+        <span class="more-meta"> 771 words </span>
+        <span class="more-meta"> 2 mins read </span>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      [TOC] 场景 因为在集群中，GC频繁： 初步排查 该集群的Heap是分配了 32G，从图中可以看到，每次都达到了 28G。 查看集群数据总量 1 GET /_cat/allocation?v&amp;h=shards,disk.indices,disk.used,disk.avail 查看各节点的
+    </div>
+    <div class="read-more">
+      <a href="/post/elasticsearch-docker-jvm/" class="read-more-link">Read more..</a>
+    </div>
+  </div>
+</article>
+
+    <article class="post">
+  <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/elasticsearch-7.4.0-full-stack/">Elasticsearch 7.4 Full Stack</a></h1>
+    <div class="post-meta">
+      <span class="post-time"> 2020-03-24 </span>
+      <div class="post-category">
+          <a href="/categories/elasticsearch/"> elasticsearch </a>
+          </div>
+        <span class="more-meta"> 25 words </span>
+        <span class="more-meta"> 1 min read </span>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      [TOC] Overview Stack monitoring 普通版本的集群，无法做到多集群集合监控。 Metricbeat
+    </div>
+    <div class="read-more">
+      <a href="/post/elasticsearch-7.4.0-full-stack/" class="read-more-link">Read more..</a>
+    </div>
+  </div>
+</article>
+
+    <article class="post">
+  <header class="post-header">
     <h1 class="post-title"><a class="post-link" href="/post/elasticsearch-7.4.0-auth/">Docker 部署 Elasticsearch 7.4.0 集群并添加安全认证</a></h1>
     <div class="post-meta">
       <span class="post-time"> 2020-03-16 </span>
@@ -155,73 +225,6 @@
     </div>
     <div class="read-more">
       <a href="/post/ambari-custom-alert-notification/" class="read-more-link">Read more..</a>
-    </div>
-  </div>
-</article>
-
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/centos-init/">Centos Init</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 2020-02-20 </span>
-      
-        <span class="more-meta"> 57 words </span>
-        <span class="more-meta"> 1 min read </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-       Docker Step1: Update 1  sudo yum check-update   Step2: Install the Dependencies 1  sudo yum install -y yum-utils device-mapper-persistent-data lvm2   Step3: Add the Docker Repository to CentOS 1  sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo   Step4: Install Docker 1  sudo yum install docker   Step5: Install Docker-compose 1 2 3  sudo curl -L &#34;https://github.com/docker/compose/releases/download/1.25.3/docker-compose-$(uname -s)-$(uname -m)&#34; -o /usr/local/bin/docker-compose sudo chmod +x /usr/local/bin/docker-compose  
-    </div>
-    <div class="read-more">
-      <a href="/post/centos-init/" class="read-more-link">Read more..</a>
-    </div>
-  </div>
-</article>
-
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/ambari-in-action-1/">Ambari 的安装</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 2020-02-20 </span>
-      <div class="post-category">
-          <a href="/categories/ambari/"> ambari </a>
-          </div>
-        <span class="more-meta"> 1115 words </span>
-        <span class="more-meta"> 3 mins read </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      [TOC] 因为各种原因，如果直接用Ambari的官方包进行安装时，速度会极慢，而官方本身也是支持离线安装的。所以，本文使用离线安装的方式。 一、下载离
-    </div>
-    <div class="read-more">
-      <a href="/post/ambari-in-action-1/" class="read-more-link">Read more..</a>
-    </div>
-  </div>
-</article>
-
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/picgo-private-gitlab/">私有 GitLab 仓库 &#43; picGo 快速实现图床</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 2019-11-19 </span>
-      <div class="post-category">
-          <a href="/categories/git/"> git </a>
-          </div>
-        <span class="more-meta"> 272 words </span>
-        <span class="more-meta"> 1 min read </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      文章写完了，才发现Gitlab是可以直接粘贴图片的&hellip;（逃&hellip;.. 公司有自己的私有Gitlab库，但是没有自己的图床
-    </div>
-    <div class="read-more">
-      <a href="/post/picgo-private-gitlab/" class="read-more-link">Read more..</a>
     </div>
   </div>
 </article>

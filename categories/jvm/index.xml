@@ -6,10 +6,19 @@
     <description>Recent content in jvm on Honlyc - Your are free</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 13 Jun 2019 17:24:05 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 31 Mar 2020 11:23:47 +0800</lastBuildDate>
     
 	<atom:link href="http://www.honlyc.com/categories/jvm/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>在 Elasticsearch Docker 容器中，导出堆栈信息</title>
+      <link>http://www.honlyc.com/post/elasticsearch-docker-jvm/</link>
+      <pubDate>Tue, 31 Mar 2020 11:23:47 +0800</pubDate>
+      
+      <guid>http://www.honlyc.com/post/elasticsearch-docker-jvm/</guid>
+      <description>[TOC] 场景 因为在集群中，GC频繁： 初步排查 该集群的Heap是分配了 32G，从图中可以看到，每次都达到了 28G。 查看集群数据总量 1 GET /_cat/allocation?v&amp;amp;h=shards,disk.indices,disk.used,disk.avail 查看各节点的</description>
+    </item>
     
     <item>
       <title>Linux 中分析超大 JVM dump 文件</title>

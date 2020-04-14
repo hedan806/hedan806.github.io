@@ -45,7 +45,7 @@
 <meta property="og:type" content="website" />
 <meta property="og:url" content="http://www.honlyc.com/" />
 
-<meta property="og:updated_time" content="2019-10-09T14:18:00&#43;08:00"/>
+<meta property="og:updated_time" content="2020-02-20T14:58:46&#43;08:00"/>
 
 <meta itemprop="name" content="Honlyc - Your are free">
 <meta itemprop="description" content="Hugo theme even example site.">
@@ -115,6 +115,73 @@
           <section id="posts" class="posts">
     <article class="post">
   <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/centos-init/">Centos Init</a></h1>
+    <div class="post-meta">
+      <span class="post-time"> 2020-02-20 </span>
+      
+        <span class="more-meta"> 57 words </span>
+        <span class="more-meta"> 1 min read </span>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+       Docker Step1: Update 1  sudo yum check-update   Step2: Install the Dependencies 1  sudo yum install -y yum-utils device-mapper-persistent-data lvm2   Step3: Add the Docker Repository to CentOS 1  sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo   Step4: Install Docker 1  sudo yum install docker   Step5: Install Docker-compose 1 2 3  sudo curl -L &#34;https://github.com/docker/compose/releases/download/1.25.3/docker-compose-$(uname -s)-$(uname -m)&#34; -o /usr/local/bin/docker-compose sudo chmod +x /usr/local/bin/docker-compose  
+    </div>
+    <div class="read-more">
+      <a href="/post/centos-init/" class="read-more-link">Read more..</a>
+    </div>
+  </div>
+</article>
+
+    <article class="post">
+  <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/ambari-in-action-1/">Ambari 的安装</a></h1>
+    <div class="post-meta">
+      <span class="post-time"> 2020-02-20 </span>
+      <div class="post-category">
+          <a href="/categories/ambari/"> ambari </a>
+          </div>
+        <span class="more-meta"> 1115 words </span>
+        <span class="more-meta"> 3 mins read </span>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      [TOC] 因为各种原因，如果直接用Ambari的官方包进行安装时，速度会极慢，而官方本身也是支持离线安装的。所以，本文使用离线安装的方式。 一、下载离
+    </div>
+    <div class="read-more">
+      <a href="/post/ambari-in-action-1/" class="read-more-link">Read more..</a>
+    </div>
+  </div>
+</article>
+
+    <article class="post">
+  <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/picgo-private-gitlab/">私有 GitLab 仓库 &#43; picGo 快速实现图床</a></h1>
+    <div class="post-meta">
+      <span class="post-time"> 2019-11-19 </span>
+      <div class="post-category">
+          <a href="/categories/git/"> git </a>
+          </div>
+        <span class="more-meta"> 272 words </span>
+        <span class="more-meta"> 1 min read </span>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      文章写完了，才发现Gitlab是可以直接粘贴图片的&hellip;（逃&hellip;.. 公司有自己的私有Gitlab库，但是没有自己的图床
+    </div>
+    <div class="read-more">
+      <a href="/post/picgo-private-gitlab/" class="read-more-link">Read more..</a>
+    </div>
+  </div>
+</article>
+
+    <article class="post">
+  <header class="post-header">
     <h1 class="post-title"><a class="post-link" href="/post/elasticsearch-6.1.4-upgrade-to-7.4.0-problem/">Elasticsearch 6.1.4 upgrade to 7.4.0</a></h1>
     <div class="post-meta">
       <span class="post-time"> 2019-10-09 </span>
@@ -151,71 +218,6 @@
     </div>
     <div class="read-more">
       <a href="/post/golang-x509-certificate-unknown-authority/" class="read-more-link">Read more..</a>
-    </div>
-  </div>
-</article>
-
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/elasticsearch-unassigned-process/">Elasticsearch Unassigned Process</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 2019-08-02 </span>
-      
-        <span class="more-meta"> 443 words </span>
-        <span class="more-meta"> 1 min read </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      问题 在使用ES时，有时候在服务器突然挂掉后重启时，会导致有Shard的状态变成 了UNASSIGEND,此时，本身集群的数据是不准确的，因为这
-    </div>
-    <div class="read-more">
-      <a href="/post/elasticsearch-unassigned-process/" class="read-more-link">Read more..</a>
-    </div>
-  </div>
-</article>
-
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/ubuntu-init/">Ubuntu Init</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 2019-07-23 </span>
-      
-        <span class="more-meta"> 69 words </span>
-        <span class="more-meta"> 1 min read </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      [TOC] sudo 不需要输入密码 1 sudo vi /etc/sudoers 找到%sudo ALL=(ALL:ALL) ALL这一行，修改为：%sudo ALL=(ALL:ALL) NOPASSWD:ALL; 这样，所有sudo组内的用户使用sudo就不需要输入密码啦。
-    </div>
-    <div class="read-more">
-      <a href="/post/ubuntu-init/" class="read-more-link">Read more..</a>
-    </div>
-  </div>
-</article>
-
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/linux-hrpof/">Linux 中分析超大 JVM dump 文件</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 2019-06-13 </span>
-      <div class="post-category">
-          <a href="/categories/jvm/"> jvm </a>
-          </div>
-        <span class="more-meta"> 521 words </span>
-        <span class="more-meta"> 2 mins read </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      1. 场景 在使用Elasticsearch时，碰到内存溢出的情况，因为配置了-XX:+HeapDumpOnOutOfMemoryError索引会
-    </div>
-    <div class="read-more">
-      <a href="/post/linux-hrpof/" class="read-more-link">Read more..</a>
     </div>
   </div>
 </article>

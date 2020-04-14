@@ -6,7 +6,7 @@
     <description>Recent content in Tags on Honlyc - Your are free</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Mon, 16 Mar 2020 20:48:13 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 24 Mar 2020 09:51:18 +0800</lastBuildDate>
     
 	<atom:link href="http://www.honlyc.com/tags/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,7 +14,7 @@
     <item>
       <title>7.4.0</title>
       <link>http://www.honlyc.com/tags/7.4.0/</link>
-      <pubDate>Mon, 16 Mar 2020 20:48:13 +0800</pubDate>
+      <pubDate>Tue, 24 Mar 2020 09:51:18 +0800</pubDate>
       
       <guid>http://www.honlyc.com/tags/7.4.0/</guid>
       <description></description>
@@ -39,11 +39,29 @@
     </item>
     
     <item>
+      <title>cluster</title>
+      <link>http://www.honlyc.com/tags/cluster/</link>
+      <pubDate>Tue, 14 Apr 2020 16:34:08 +0800</pubDate>
+      
+      <guid>http://www.honlyc.com/tags/cluster/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>custom</title>
       <link>http://www.honlyc.com/tags/custom/</link>
-      <pubDate>Fri, 13 Mar 2020 19:52:02 +0800</pubDate>
+      <pubDate>Tue, 14 Apr 2020 16:34:08 +0800</pubDate>
       
       <guid>http://www.honlyc.com/tags/custom/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>full</title>
+      <link>http://www.honlyc.com/tags/full/</link>
+      <pubDate>Tue, 24 Mar 2020 09:51:18 +0800</pubDate>
+      
+      <guid>http://www.honlyc.com/tags/full/</guid>
       <description></description>
     </item>
     
@@ -62,6 +80,15 @@
       <pubDate>Sat, 06 Apr 2019 22:08:54 +0800</pubDate>
       
       <guid>http://www.honlyc.com/tags/golang/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>heap analysis</title>
+      <link>http://www.honlyc.com/tags/heap-analysis/</link>
+      <pubDate>Tue, 31 Mar 2020 11:23:47 +0800</pubDate>
+      
+      <guid>http://www.honlyc.com/tags/heap-analysis/</guid>
       <description></description>
     </item>
     

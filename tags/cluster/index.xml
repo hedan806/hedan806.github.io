@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>cluster on Honlyc - Your are free</title>
+    <link>http://www.honlyc.com/tags/cluster/</link>
+    <description>Recent content in cluster on Honlyc - Your are free</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 14 Apr 2020 16:34:08 +0800</lastBuildDate>
+    
+	<atom:link href="http://www.honlyc.com/tags/cluster/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Ambari Suport Manage Multi Cluster</title>
+      <link>http://www.honlyc.com/post/ambari-manage-multi-cluster/</link>
+      <pubDate>Tue, 14 Apr 2020 16:34:08 +0800</pubDate>
+      
+      <guid>http://www.honlyc.com/post/ambari-manage-multi-cluster/</guid>
+      <description>**注意： 本文使用的版本是Ambari 2.7.4 ** 场景 在使用Ambari的时候，它本身默认是只能管理一个集群的。这在实际使用的时候，会比较不方便，尤</description>
+    </item>
+    
+  </channel>
+</rss>
