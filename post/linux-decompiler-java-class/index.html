@@ -51,7 +51,7 @@
 
 <meta itemprop="datePublished" content="2020-08-19T10:01:49&#43;08:00" />
 <meta itemprop="dateModified" content="2020-08-19T10:01:49&#43;08:00" />
-<meta itemprop="wordCount" content="204">
+<meta itemprop="wordCount" content="253">
 
 
 
@@ -128,7 +128,7 @@
         <div class="post-category">
             <a href="/categories/java/"> java </a>
             </div>
-          <span class="more-meta"> 204 words </span>
+          <span class="more-meta"> 253 words </span>
           <span class="more-meta"> 1 min read </span>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
       </div>
@@ -141,7 +141,11 @@
 <ul>
 <li><a href="#场景">场景</a></li>
 <li><a href="#下载">下载</a></li>
-<li><a href="#使用">使用</a></li>
+<li><a href="#使用">使用</a>
+<ul>
+<li><a href="#反编译单个文件">反编译单个文件</a></li>
+<li><a href="#反编译整个-jar-包">反编译整个 Jar 包</a></li>
+</ul></li>
 </ul>
 </nav>
   </div>
@@ -158,8 +162,17 @@
 <p><a href="http://www.benf.org/other/cfr/">http://www.benf.org/other/cfr/</a></p>
 
 <p>直接下载最新版本，我这里是<code>https://www.benf.org/other/cfr/cfr-0.150.jar</code>。</p>
-
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">wget https://www.benf.org/other/cfr/cfr-0.150.jar</code></pre></td></tr></table>
+</div>
+</div>
 <h1 id="使用">使用</h1>
+
+<h2 id="反编译单个文件">反编译单个文件</h2>
 
 <p>首先，我们需要把<code>jar</code>包进行解压：</p>
 <div class="highlight"><div class="chroma">
@@ -176,11 +189,29 @@
 <pre class="chroma"><code class="language-bash" data-lang="bash"><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-bash" data-lang="bash">java -jar cfr-0.150.jar ./*.class</code></pre></td></tr></table>
+<pre class="chroma"><code class="language-bash" data-lang="bash">java -jar cfr-0.150.jar ./example.class</code></pre></td></tr></table>
 </div>
 </div>
 <p>就可以直接看到反编译的结果啦。</p>
 
+<p>如果想反编译到一个文件，可以直接用：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">java -jar cfr-0.150.jar ./example.class &gt; example.java</code></pre></td></tr></table>
+</div>
+</div>
+<h2 id="反编译整个-jar-包">反编译整个 Jar 包</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">java -jar cfr-0.150.jar example.jar --outputdir ./example</code></pre></td></tr></table>
+</div>
+</div>
     </div>
 
     <div class="post-copyright">
