@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>Honlyc - Your are free</title>
+  <title>Linux Decompiler Java Class - Honlyc - Your are free</title>
   <meta name="renderer" content="webkit" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -16,7 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="Honlyc" /><meta name="description" content="Hugo theme even example site." /><meta name="keywords" content="Honlyc, golanh, java, 分享" />
+<meta name="author" content="Honlyc" /><meta name="description" content="场景 有时候，我们需要在服务器上看对应类是否有修改，或者代码是否正确，就需要在服务器上进行反编译了。这里，介绍一个常用的class反编译工具：" /><meta name="keywords" content="Honlyc, golanh, java, 分享" />
 
 
 
@@ -26,9 +26,7 @@
 <meta name="generator" content="Hugo 0.54.0 with even 4.0.0" />
 
 
-<link rel="canonical" href="http://www.honlyc.com/" />
-  <link href="http://www.honlyc.com/index.xml" rel="alternate" type="application/rss+xml" title="Honlyc - Your are free" />
-  <link href="http://www.honlyc.com/index.xml" rel="feed" type="application/rss+xml" title="Honlyc - Your are free" />
+<link rel="canonical" href="http://www.honlyc.com/post/linux-decompiler-java-class/" />
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -40,19 +38,27 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
-<meta property="og:title" content="Honlyc - Your are free" />
-<meta property="og:description" content="Hugo theme even example site." />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="http://www.honlyc.com/" />
+<meta property="og:title" content="Linux Decompiler Java Class" />
+<meta property="og:description" content="场景 有时候，我们需要在服务器上看对应类是否有修改，或者代码是否正确，就需要在服务器上进行反编译了。这里，介绍一个常用的class反编译工具：" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://www.honlyc.com/post/linux-decompiler-java-class/" />
+<meta property="article:published_time" content="2020-08-19T10:01:49&#43;08:00"/>
+<meta property="article:modified_time" content="2020-08-19T10:01:49&#43;08:00"/>
 
-<meta property="og:updated_time" content="2019-07-23T09:53:35&#43;08:00"/>
+<meta itemprop="name" content="Linux Decompiler Java Class">
+<meta itemprop="description" content="场景 有时候，我们需要在服务器上看对应类是否有修改，或者代码是否正确，就需要在服务器上进行反编译了。这里，介绍一个常用的class反编译工具：">
 
-<meta itemprop="name" content="Honlyc - Your are free">
-<meta itemprop="description" content="Hugo theme even example site.">
 
+<meta itemprop="datePublished" content="2020-08-19T10:01:49&#43;08:00" />
+<meta itemprop="dateModified" content="2020-08-19T10:01:49&#43;08:00" />
+<meta itemprop="wordCount" content="204">
+
+
+
+<meta itemprop="keywords" content="linux," />
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Honlyc - Your are free"/>
-<meta name="twitter:description" content="Hugo theme even example site."/>
+<meta name="twitter:title" content="Linux Decompiler Java Class"/>
+<meta name="twitter:description" content="场景 有时候，我们需要在服务器上看对应类是否有修改，或者代码是否正确，就需要在服务器上进行反编译了。这里，介绍一个常用的class反编译工具："/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -112,132 +118,117 @@
     <main id="main" class="main">
       <div class="content-wrapper">
         <div id="content" class="content">
-          <section id="posts" class="posts">
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/ubuntu-init/">Ubuntu Init</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 2019-07-23 </span>
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Linux Decompiler Java Class</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2020-08-19 </span>
+        <div class="post-category">
+            <a href="/categories/java/"> java </a>
+            </div>
+          <span class="more-meta"> 204 words </span>
+          <span class="more-meta"> 1 min read </span>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+<ul>
+<li><a href="#场景">场景</a></li>
+<li><a href="#下载">下载</a></li>
+<li><a href="#使用">使用</a></li>
+</ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
       
-        <span class="more-meta"> 69 words </span>
-        <span class="more-meta"> 1 min read </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      [TOC] sudo 不需要输入密码 1 sudo vi /etc/sudoers 找到%sudo ALL=(ALL:ALL) ALL这一行，修改为：%sudo ALL=(ALL:ALL) NOPASSWD:ALL; 这样，所有sudo组内的用户使用sudo就不需要输入密码啦。
-    </div>
-    <div class="read-more">
-      <a href="/post/ubuntu-init/" class="read-more-link">Read more..</a>
-    </div>
-  </div>
-</article>
 
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/linux-hrpof/">Linux 中分析超大 JVM dump 文件</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 2019-06-13 </span>
-      <div class="post-category">
-          <a href="/categories/jvm/"> jvm </a>
+<h1 id="场景">场景</h1>
+
+<p>有时候，我们需要在服务器上看对应类是否有修改，或者代码是否正确，就需要在服务器上进行反编译了。这里，介绍一个常用的<code>class</code>反编译工具：<code>CRF</code>.</p>
+
+<h1 id="下载">下载</h1>
+
+<p><a href="http://www.benf.org/other/cfr/">http://www.benf.org/other/cfr/</a></p>
+
+<p>直接下载最新版本，我这里是<code>https://www.benf.org/other/cfr/cfr-0.150.jar</code>。</p>
+
+<h1 id="使用">使用</h1>
+
+<p>首先，我们需要把<code>jar</code>包进行解压：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">jar -xf *.jar</code></pre></td></tr></table>
+</div>
+</div>
+<p>然后进入到需要反编译的<code>class</code>目录下，执行反编译：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">java -jar cfr-0.150.jar ./*.class</code></pre></td></tr></table>
+</div>
+</div>
+<p>就可以直接看到反编译的结果啦。</p>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">Honlyc</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        2020-08-19
+        
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content">转载请注明出处。<a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a></span>
+  </p>
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">Reward</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/wxpay.png">
+        <span>wechat</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/alipay.png">
+        <span>alipay</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/linux/">linux</a>
           </div>
-        <span class="more-meta"> 521 words </span>
-        <span class="more-meta"> 2 mins read </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      1. 场景 在使用Elasticsearch时，碰到内存溢出的情况，因为配置了-XX:+HeapDumpOnOutOfMemoryError索引会
-    </div>
-    <div class="read-more">
-      <a href="/post/linux-hrpof/" class="read-more-link">Read more..</a>
-    </div>
-  </div>
-</article>
-
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/go-web-vue-static-embed/">Gin 和 Vue 项目打包静态文件</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 2019-04-16 </span>
-      <div class="post-category">
-          <a href="/categories/golang/"> golang </a>
-          </div>
-        <span class="more-meta"> 679 words </span>
-        <span class="more-meta"> 2 mins read </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      在使用 Go 语言带来的便利时，我们往往也热衷于打包成单一的可执行文件，这样不仅方便传输，也便于维护。 如果是普通的Go程序，倒是直接可以编译成可执
-    </div>
-    <div class="read-more">
-      <a href="/post/go-web-vue-static-embed/" class="read-more-link">Read more..</a>
-    </div>
-  </div>
-</article>
-
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/go-web-config/">Go Web 读取配置文件</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 2019-04-06 </span>
-      <div class="post-category">
-          <a href="/categories/golang/"> golang </a>
-          </div>
-        <span class="more-meta"> 1610 words </span>
-        <span class="more-meta"> 4 mins read </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      Viper 简介 viper是spf13大神开发的开源配置解决方案，另外docker kubernetes等项目都在用的命令行解决方案cobra也是出自他
-    </div>
-    <div class="read-more">
-      <a href="/post/go-web-config/" class="read-more-link">Read more..</a>
-    </div>
-  </div>
-</article>
-
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/hugo-custom-favicon/">Hugo 常用修改</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 2019-04-04 </span>
-      <div class="post-category">
-          <a href="/categories/hugo/"> hugo </a>
-          </div>
-        <span class="more-meta"> 285 words </span>
-        <span class="more-meta"> 1 min read </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      favicon 使用Hugo搭建博客后，一般在使用了Theme后，会自带一个favicon，不过使用自己的会更(zhuang)好(13)。 其实使用这个很简
-    </div>
-    <div class="read-more">
-      <a href="/post/hugo-custom-favicon/" class="read-more-link">Read more..</a>
-    </div>
-  </div>
-</article>
-
-    </section>
-  
-  <nav class="pagination">
-    <a class="prev" href="/page/3/">
-        <i class="iconfont icon-left"></i>
-        <span class="prev-text">Prev</span>
-      </a>
-    <a class="next" href="/page/5/">
-        <span class="next-text">Next</span>
-        <i class="iconfont icon-right"></i>
-      </a>
-  </nav>
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/lucene-ram-format/">
+            <span class="next-text nav-default">Lucene Ram Format</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
         </div>
         
 

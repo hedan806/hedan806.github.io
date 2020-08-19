@@ -51,7 +51,7 @@
 
 <meta itemprop="datePublished" content="2020-03-13T19:52:02&#43;08:00" />
 <meta itemprop="dateModified" content="2020-03-13T19:52:02&#43;08:00" />
-<meta itemprop="wordCount" content="356">
+<meta itemprop="wordCount" content="481">
 
 
 
@@ -128,7 +128,7 @@
         <div class="post-category">
             <a href="/categories/ambari/"> ambari </a>
             </div>
-          <span class="more-meta"> 356 words </span>
+          <span class="more-meta"> 481 words </span>
           <span class="more-meta"> 1 min read </span>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
       </div>
@@ -140,6 +140,7 @@
     <nav id="TableOfContents">
 <ul>
 <li><a href="#ambari-自定义告警通知">Ambari 自定义告警通知</a></li>
+<li><a href="#问题排查">问题排查</a></li>
 </ul>
 </nav>
   </div>
@@ -194,7 +195,7 @@
 <pre class="chroma"><code class="language-properties" data-lang="properties"><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-properties" data-lang="properties">notification.dispatch.alert.script=/contrib/ambari-alerts/scripts/scaler-notification.py</code></pre></td></tr></table>
+<pre class="chroma"><code class="language-properties" data-lang="properties">notification.dispatch.alert.script=/var/lib/ambari-alerts/scripts/scaler-notification.py</code></pre></td></tr></table>
 </div>
 </div>
 <ol>
@@ -252,7 +253,7 @@
 <pre class="chroma"><code class="language-bash" data-lang="bash"><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-bash" data-lang="bash">chmod +x /contrib/ambari-alerts/scripts/scaler-notification.py</code></pre></td></tr></table>
+<pre class="chroma"><code class="language-bash" data-lang="bash">chmod +x /var/lib/ambari-alerts/scripts/scaler-notification.py</code></pre></td></tr></table>
 </div>
 </div>
 <ol>
@@ -280,6 +281,16 @@
 </div>
 </div>
 <p>可以看到实际的告警日志了。</p>
+
+<h1 id="问题排查">问题排查</h1>
+
+<ol>
+<li>如果在配置后，没有生成告警的日志文件，则需要查看<code>/var/log/ambari-server/ambari-server.log</code>，应该有类似错误日志：</li>
+</ol>
+
+<p><img src="http://img.honlyc.com/20200716145504.png" alt="" /></p>
+
+<p>此时，只需要按照路径，把对应文件拷贝过去，然后修改一下权限<code>chmod +x filename</code>即可。</p>
 
     </div>
 

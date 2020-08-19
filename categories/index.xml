@@ -22,7 +22,7 @@
     <item>
       <title>elasticsearch</title>
       <link>http://www.honlyc.com/categories/elasticsearch/</link>
-      <pubDate>Tue, 31 Mar 2020 11:23:47 +0800</pubDate>
+      <pubDate>Tue, 02 Jun 2020 14:00:47 +0800</pubDate>
       
       <guid>http://www.honlyc.com/categories/elasticsearch/</guid>
       <description></description>
@@ -56,11 +56,29 @@
     </item>
     
     <item>
+      <title>java</title>
+      <link>http://www.honlyc.com/categories/java/</link>
+      <pubDate>Wed, 19 Aug 2020 10:01:49 +0800</pubDate>
+      
+      <guid>http://www.honlyc.com/categories/java/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>jvm</title>
       <link>http://www.honlyc.com/categories/jvm/</link>
       <pubDate>Tue, 31 Mar 2020 11:23:47 +0800</pubDate>
       
       <guid>http://www.honlyc.com/categories/jvm/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>loadtest</title>
+      <link>http://www.honlyc.com/categories/loadtest/</link>
+      <pubDate>Tue, 02 Jun 2020 14:00:47 +0800</pubDate>
+      
+      <guid>http://www.honlyc.com/categories/loadtest/</guid>
       <description></description>
     </item>
     

@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>linux on Honlyc - Your are free</title>
-    <link>http://www.honlyc.com/tags/linux/</link>
-    <description>Recent content in linux on Honlyc - Your are free</description>
+    <title>java on Honlyc - Your are free</title>
+    <link>http://www.honlyc.com/categories/java/</link>
+    <description>Recent content in java on Honlyc - Your are free</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <lastBuildDate>Wed, 19 Aug 2020 10:01:49 +0800</lastBuildDate>
     
-	<atom:link href="http://www.honlyc.com/tags/linux/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="http://www.honlyc.com/categories/java/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
@@ -18,15 +18,6 @@
       
       <guid>http://www.honlyc.com/post/linux-decompiler-java-class/</guid>
       <description>场景 有时候，我们需要在服务器上看对应类是否有修改，或者代码是否正确，就需要在服务器上进行反编译了。这里，介绍一个常用的class反编译工具：</description>
-    </item>
-    
-    <item>
-      <title>Linux 中分析超大 JVM dump 文件</title>
-      <link>http://www.honlyc.com/post/linux-hrpof/</link>
-      <pubDate>Thu, 13 Jun 2019 17:24:05 +0800</pubDate>
-      
-      <guid>http://www.honlyc.com/post/linux-hrpof/</guid>
-      <description>1. 场景 在使用Elasticsearch时，碰到内存溢出的情况，因为配置了-XX:+HeapDumpOnOutOfMemoryError索引会</description>
     </item>
     
   </channel>
