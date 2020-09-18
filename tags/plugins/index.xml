@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>plugins on Honlyc - Your are free</title>
+    <link>http://www.honlyc.com/tags/plugins/</link>
+    <description>Recent content in plugins on Honlyc - Your are free</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 05 Nov 2019 16:08:31 +0800</lastBuildDate>
+    
+	<atom:link href="http://www.honlyc.com/tags/plugins/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Custom Elasticsearch Shard Allocation Decider</title>
+      <link>http://www.honlyc.com/post/elasticsearch-decider-custom/</link>
+      <pubDate>Tue, 05 Nov 2019 16:08:31 +0800</pubDate>
+      
+      <guid>http://www.honlyc.com/post/elasticsearch-decider-custom/</guid>
+      <description>[TOC] 场景 对于一台机器部署了多个ES实例时，在分配Shard时，可能会存在热点的情况，如下图： 在同一台机器上的不同实例上，分配了两个Primar</description>
+    </item>
+    
+  </channel>
+</rss>

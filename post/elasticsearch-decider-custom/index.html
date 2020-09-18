@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title> - Honlyc - Your are free</title>
+  <title>Custom Elasticsearch Shard Allocation Decider - Honlyc - Your are free</title>
   <meta name="renderer" content="webkit" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -16,22 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="Honlyc" /><meta name="description" content=" title: &amp;ldquo;Custom Elasticsearch Shard Allocation Decider&amp;rdquo; date: 2019-11-05T16:08:31&#43;08:00 draft: true tags: [&amp;ldquo;plugins&amp;rdquo;,&amp;ldquo;shard&amp;rdquo;] categories: [&amp;ldquo;elk&amp;rdquo;]
-[TOC]
-场景 对于一台机器部署了多个ES实例时，在分配Shard时，可能会存在热点的情况，如下图：
-在同一台机器上的不同实例上，分配了两个Primary Shard，这样会导致这一台机器的负载要比其他的高，会影响整个集群的查询响应。
-当前ES的配置中，并没有具体的参数可以避免这一情况，类似的参数有：
-cluster.routing.allocation.same_shard.host：默认值是false，如果设置为true，那么就不允许将一个primary shard和replica shard分配到同一个物理机上，也许这个物理机上启动了多个es实例。
-通过这个参数，我们同样可以自定义一个参数，来控制是否根据同一个机器，来进行Shard的分配。
-分析源码 1. SameShardAllocationDecider分析 由cluster.routing.allocation.same_shard.host这个参数，我们可以分析源码，来借鉴其中的写法。
-通过查看，我们找到org.elasticsearch.cluster.routing.allocation.decider.SameShardAllocationDecider这个类，其中继承了抽象类AllocationDecider，主要实现了两个方法：
- public Decision canAllocate(ShardRouting shardRouting, RoutingNode node, RoutingAllocation allocation)
-public Decision canForceAllocatePrimary(ShardRouting shardRouting, RoutingNode node, RoutingAllocation allocation)
- 具体是代码实现相对简单：
-大概逻辑是，判断checkNode和Node的HostAddress是否相同，如果相同，则返回不可分配的决定；如果不同，则返回可以分配的决定。
-2. 决策器插件的加载 在org.elasticsearch.cluster.ClusterModule类中，可以看到createAllocationDeciders(Settings settings, ClusterSettings clusterSettings, List&amp;lt;ClusterPlugin&amp;gt; clusterPlugins)方法是用来初始化所有决策器的。
-我们可以通过编写ClusterPlugin来进行自定义决策器的加载及使用。
-插件编写 " /><meta name="keywords" content="Honlyc, golanh, java, 分享" />
+<meta name="author" content="Honlyc" /><meta name="description" content="[TOC] 场景 对于一台机器部署了多个ES实例时，在分配Shard时，可能会存在热点的情况，如下图： 在同一台机器上的不同实例上，分配了两个Primar" /><meta name="keywords" content="Honlyc, golanh, java, 分享" />
 
 
 
@@ -53,70 +38,27 @@ public Decision canForceAllocatePrimary(ShardRouting shardRouting, RoutingNode n
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
-<meta property="og:title" content="" />
-<meta property="og:description" content=" title: &ldquo;Custom Elasticsearch Shard Allocation Decider&rdquo; date: 2019-11-05T16:08:31&#43;08:00 draft: true tags: [&ldquo;plugins&rdquo;,&ldquo;shard&rdquo;] categories: [&ldquo;elk&rdquo;]
-[TOC]
-场景 对于一台机器部署了多个ES实例时，在分配Shard时，可能会存在热点的情况，如下图：
-在同一台机器上的不同实例上，分配了两个Primary Shard，这样会导致这一台机器的负载要比其他的高，会影响整个集群的查询响应。
-当前ES的配置中，并没有具体的参数可以避免这一情况，类似的参数有：
-cluster.routing.allocation.same_shard.host：默认值是false，如果设置为true，那么就不允许将一个primary shard和replica shard分配到同一个物理机上，也许这个物理机上启动了多个es实例。
-通过这个参数，我们同样可以自定义一个参数，来控制是否根据同一个机器，来进行Shard的分配。
-分析源码 1. SameShardAllocationDecider分析 由cluster.routing.allocation.same_shard.host这个参数，我们可以分析源码，来借鉴其中的写法。
-通过查看，我们找到org.elasticsearch.cluster.routing.allocation.decider.SameShardAllocationDecider这个类，其中继承了抽象类AllocationDecider，主要实现了两个方法：
- public Decision canAllocate(ShardRouting shardRouting, RoutingNode node, RoutingAllocation allocation)
-public Decision canForceAllocatePrimary(ShardRouting shardRouting, RoutingNode node, RoutingAllocation allocation)
- 具体是代码实现相对简单：
-大概逻辑是，判断checkNode和Node的HostAddress是否相同，如果相同，则返回不可分配的决定；如果不同，则返回可以分配的决定。
-2. 决策器插件的加载 在org.elasticsearch.cluster.ClusterModule类中，可以看到createAllocationDeciders(Settings settings, ClusterSettings clusterSettings, List&lt;ClusterPlugin&gt; clusterPlugins)方法是用来初始化所有决策器的。
-我们可以通过编写ClusterPlugin来进行自定义决策器的加载及使用。
-插件编写 " />
+<meta property="og:title" content="Custom Elasticsearch Shard Allocation Decider" />
+<meta property="og:description" content="[TOC] 场景 对于一台机器部署了多个ES实例时，在分配Shard时，可能会存在热点的情况，如下图： 在同一台机器上的不同实例上，分配了两个Primar" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://www.honlyc.com/post/elasticsearch-decider-custom/" />
+<meta property="article:published_time" content="2019-11-05T16:08:31&#43;08:00"/>
+<meta property="article:modified_time" content="2019-11-05T16:08:31&#43;08:00"/>
+
+<meta itemprop="name" content="Custom Elasticsearch Shard Allocation Decider">
+<meta itemprop="description" content="[TOC] 场景 对于一台机器部署了多个ES实例时，在分配Shard时，可能会存在热点的情况，如下图： 在同一台机器上的不同实例上，分配了两个Primar">
 
 
-<meta itemprop="name" content="">
-<meta itemprop="description" content=" title: &ldquo;Custom Elasticsearch Shard Allocation Decider&rdquo; date: 2019-11-05T16:08:31&#43;08:00 draft: true tags: [&ldquo;plugins&rdquo;,&ldquo;shard&rdquo;] categories: [&ldquo;elk&rdquo;]
-[TOC]
-场景 对于一台机器部署了多个ES实例时，在分配Shard时，可能会存在热点的情况，如下图：
-在同一台机器上的不同实例上，分配了两个Primary Shard，这样会导致这一台机器的负载要比其他的高，会影响整个集群的查询响应。
-当前ES的配置中，并没有具体的参数可以避免这一情况，类似的参数有：
-cluster.routing.allocation.same_shard.host：默认值是false，如果设置为true，那么就不允许将一个primary shard和replica shard分配到同一个物理机上，也许这个物理机上启动了多个es实例。
-通过这个参数，我们同样可以自定义一个参数，来控制是否根据同一个机器，来进行Shard的分配。
-分析源码 1. SameShardAllocationDecider分析 由cluster.routing.allocation.same_shard.host这个参数，我们可以分析源码，来借鉴其中的写法。
-通过查看，我们找到org.elasticsearch.cluster.routing.allocation.decider.SameShardAllocationDecider这个类，其中继承了抽象类AllocationDecider，主要实现了两个方法：
- public Decision canAllocate(ShardRouting shardRouting, RoutingNode node, RoutingAllocation allocation)
-public Decision canForceAllocatePrimary(ShardRouting shardRouting, RoutingNode node, RoutingAllocation allocation)
- 具体是代码实现相对简单：
-大概逻辑是，判断checkNode和Node的HostAddress是否相同，如果相同，则返回不可分配的决定；如果不同，则返回可以分配的决定。
-2. 决策器插件的加载 在org.elasticsearch.cluster.ClusterModule类中，可以看到createAllocationDeciders(Settings settings, ClusterSettings clusterSettings, List&lt;ClusterPlugin&gt; clusterPlugins)方法是用来初始化所有决策器的。
-我们可以通过编写ClusterPlugin来进行自定义决策器的加载及使用。
-插件编写 ">
+<meta itemprop="datePublished" content="2019-11-05T16:08:31&#43;08:00" />
+<meta itemprop="dateModified" content="2019-11-05T16:08:31&#43;08:00" />
+<meta itemprop="wordCount" content="805">
 
 
 
-<meta itemprop="wordCount" content="57">
-
-
-
-<meta itemprop="keywords" content="" />
+<meta itemprop="keywords" content="plugins,shard," />
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content=""/>
-<meta name="twitter:description" content=" title: &ldquo;Custom Elasticsearch Shard Allocation Decider&rdquo; date: 2019-11-05T16:08:31&#43;08:00 draft: true tags: [&ldquo;plugins&rdquo;,&ldquo;shard&rdquo;] categories: [&ldquo;elk&rdquo;]
-[TOC]
-场景 对于一台机器部署了多个ES实例时，在分配Shard时，可能会存在热点的情况，如下图：
-在同一台机器上的不同实例上，分配了两个Primary Shard，这样会导致这一台机器的负载要比其他的高，会影响整个集群的查询响应。
-当前ES的配置中，并没有具体的参数可以避免这一情况，类似的参数有：
-cluster.routing.allocation.same_shard.host：默认值是false，如果设置为true，那么就不允许将一个primary shard和replica shard分配到同一个物理机上，也许这个物理机上启动了多个es实例。
-通过这个参数，我们同样可以自定义一个参数，来控制是否根据同一个机器，来进行Shard的分配。
-分析源码 1. SameShardAllocationDecider分析 由cluster.routing.allocation.same_shard.host这个参数，我们可以分析源码，来借鉴其中的写法。
-通过查看，我们找到org.elasticsearch.cluster.routing.allocation.decider.SameShardAllocationDecider这个类，其中继承了抽象类AllocationDecider，主要实现了两个方法：
- public Decision canAllocate(ShardRouting shardRouting, RoutingNode node, RoutingAllocation allocation)
-public Decision canForceAllocatePrimary(ShardRouting shardRouting, RoutingNode node, RoutingAllocation allocation)
- 具体是代码实现相对简单：
-大概逻辑是，判断checkNode和Node的HostAddress是否相同，如果相同，则返回不可分配的决定；如果不同，则返回可以分配的决定。
-2. 决策器插件的加载 在org.elasticsearch.cluster.ClusterModule类中，可以看到createAllocationDeciders(Settings settings, ClusterSettings clusterSettings, List&lt;ClusterPlugin&gt; clusterPlugins)方法是用来初始化所有决策器的。
-我们可以通过编写ClusterPlugin来进行自定义决策器的加载及使用。
-插件编写 "/>
+<meta name="twitter:title" content="Custom Elasticsearch Shard Allocation Decider"/>
+<meta name="twitter:description" content="[TOC] 场景 对于一台机器部署了多个ES实例时，在分配Shard时，可能会存在热点的情况，如下图： 在同一台机器上的不同实例上，分配了两个Primar"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -179,13 +121,15 @@ public Decision canForceAllocatePrimary(ShardRouting shardRouting, RoutingNode n
           <article class="post">
     
     <header class="post-header">
-      <h1 class="post-title"></h1>
+      <h1 class="post-title">Custom Elasticsearch Shard Allocation Decider</h1>
 
       <div class="post-meta">
-        <span class="post-time"> 0001-01-01 </span>
-        
-          <span class="more-meta"> 57 words </span>
-          <span class="more-meta"> 1 min read </span>
+        <span class="post-time"> 2019-11-05 </span>
+        <div class="post-category">
+            <a href="/categories/elk/"> elk </a>
+            </div>
+          <span class="more-meta"> 805 words </span>
+          <span class="more-meta"> 2 mins read </span>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
       </div>
     </header>
@@ -208,12 +152,6 @@ public Decision canForceAllocatePrimary(ShardRouting shardRouting, RoutingNode n
 </div>
     <div class="post-content">
       
-
-<p>title: &ldquo;Custom Elasticsearch Shard Allocation Decider&rdquo;
-date: 2019-11-05T16:08:31+08:00
-draft: true
-tags: [&ldquo;plugins&rdquo;,&ldquo;shard&rdquo;]
-categories: [&ldquo;elk&rdquo;]</p>
 
 <p>[TOC]</p>
 
@@ -271,7 +209,7 @@ categories: [&ldquo;elk&rdquo;]</p>
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        0001-01-01
+        2019-11-05
         
     </span>
   </p>
@@ -296,14 +234,21 @@ categories: [&ldquo;elk&rdquo;]</p>
       </label>
   </div>
 </div><footer class="post-footer">
-      
+      <div class="post-tags">
+          <a href="/tags/plugins/">plugins</a>
+          <a href="/tags/shard/">shard</a>
+          </div>
       <nav class="post-nav">
-        <a class="prev" href="/post/first/">
+        <a class="prev" href="/post/picgo-private-gitlab/">
             <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">Git 基本使用</span>
+            <span class="prev-text nav-default">私有 GitLab 仓库 &#43; picGo 快速实现图床</span>
             <span class="prev-text nav-mobile">Prev</span>
           </a>
-        
+        <a class="next" href="/post/elasticsearch-6.1.4-upgrade-to-7.4.0-problem/">
+            <span class="next-text nav-default">Elasticsearch 6.1.4 upgrade to 7.4.0</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
       </nav>
     </footer>
   </article>

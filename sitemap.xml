@@ -3,6 +3,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://www.honlyc.com/post/flink-in-action-1/</loc>
+    <lastmod>2020-09-18T15:01:21+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
     <loc>http://www.honlyc.com/post/linux-decompiler-java-class/</loc>
     <lastmod>2020-08-19T10:01:49+08:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -87,6 +94,13 @@
   </url>
   
   <url>
+    <loc>http://www.honlyc.com/post/elasticsearch-decider-custom/</loc>
+    <lastmod>2019-11-05T16:08:31+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
     <loc>http://www.honlyc.com/post/elasticsearch-6.1.4-upgrade-to-7.4.0-problem/</loc>
     <lastmod>2019-10-09T14:18:00+08:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -164,12 +178,6 @@
   </url>
   
   <url>
-    <loc>http://www.honlyc.com/post/elasticsearch-decider-custom/</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
     <loc>http://www.honlyc.com/tags/7.4.0/</loc>
     <lastmod>2020-03-24T09:51:18+08:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -184,14 +192,14 @@
   
   <url>
     <loc>http://www.honlyc.com/</loc>
-    <lastmod>2020-08-19T10:01:49+08:00</lastmod>
+    <lastmod>2020-09-18T15:01:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>http://www.honlyc.com/post/</loc>
-    <lastmod>2020-08-19T10:01:49+08:00</lastmod>
+    <lastmod>2020-09-18T15:01:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
@@ -246,8 +254,29 @@
   </url>
   
   <url>
+    <loc>http://www.honlyc.com/categories/elk/</loc>
+    <lastmod>2019-11-05T16:08:31+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>http://www.honlyc.com/tags/esrally/</loc>
     <lastmod>2020-06-02T14:00:47+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.honlyc.com/tags/flink/</loc>
+    <lastmod>2020-09-18T15:01:21+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.honlyc.com/categories/flink/</loc>
+    <lastmod>2020-09-18T15:01:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
@@ -283,6 +312,13 @@
   <url>
     <loc>http://www.honlyc.com/categories/golang/</loc>
     <lastmod>2019-04-16T17:14:49+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.honlyc.com/tags/gradle/</loc>
+    <lastmod>2020-09-18T15:01:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
@@ -332,6 +368,20 @@
   <url>
     <loc>http://www.honlyc.com/categories/loadtest/</loc>
     <lastmod>2020-06-02T14:00:47+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.honlyc.com/tags/plugins/</loc>
+    <lastmod>2019-11-05T16:08:31+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.honlyc.com/tags/shard/</loc>
+    <lastmod>2019-11-05T16:08:31+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>

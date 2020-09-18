@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>gradle on Honlyc - Your are free</title>
+    <link>http://www.honlyc.com/tags/gradle/</link>
+    <description>Recent content in gradle on Honlyc - Your are free</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Fri, 18 Sep 2020 15:01:21 +0800</lastBuildDate>
+    
+	<atom:link href="http://www.honlyc.com/tags/gradle/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Flink in Action (1)-使用 Gradle 开发 Flink 程序</title>
+      <link>http://www.honlyc.com/post/flink-in-action-1/</link>
+      <pubDate>Fri, 18 Sep 2020 15:01:21 +0800</pubDate>
+      
+      <guid>http://www.honlyc.com/post/flink-in-action-1/</guid>
+      <description>本文基于 Gradle-6.3 和 Flink-1.11.2-scala-2.11 [TOC] 环境要求 gradle 3.0 以上 java 8.* 以上 创建项目 创建目录 1 2 mkdir flink-quickstart cd flink-quickstart 初始化 gradle 文件 编辑 build.gradle 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27</description>
+    </item>
+    
+  </channel>
+</rss>
