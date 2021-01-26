@@ -23,7 +23,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.54.0 with even 4.0.0" />
+<meta name="generator" content="Hugo 0.80.0 with even 4.0.0" />
 
 
 <link rel="canonical" href="http://www.honlyc.com/post/elasticsearch-7.4.0-auth/" />
@@ -42,16 +42,13 @@
 <meta property="og:description" content="本文主要介绍基于Docker部署时，Elasticsearch如何添加认证。 主要步骤 1. 生成认证秘钥 使用一个镜像，专门生成一个秘钥，使用p12" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://www.honlyc.com/post/elasticsearch-7.4.0-auth/" />
-<meta property="article:published_time" content="2020-03-16T20:48:13&#43;08:00"/>
-<meta property="article:modified_time" content="2020-03-16T20:48:13&#43;08:00"/>
-
+<meta property="article:published_time" content="2020-03-16T20:48:13+08:00" />
+<meta property="article:modified_time" content="2020-03-16T20:48:13+08:00" />
 <meta itemprop="name" content="Docker 部署 Elasticsearch 7.4.0 集群并添加安全认证">
 <meta itemprop="description" content="本文主要介绍基于Docker部署时，Elasticsearch如何添加认证。 主要步骤 1. 生成认证秘钥 使用一个镜像，专门生成一个秘钥，使用p12">
-
-
-<meta itemprop="datePublished" content="2020-03-16T20:48:13&#43;08:00" />
-<meta itemprop="dateModified" content="2020-03-16T20:48:13&#43;08:00" />
-<meta itemprop="wordCount" content="785">
+<meta itemprop="datePublished" content="2020-03-16T20:48:13+08:00" />
+<meta itemprop="dateModified" content="2020-03-16T20:48:13+08:00" />
+<meta itemprop="wordCount" content="807">
 
 
 
@@ -128,7 +125,7 @@
         <div class="post-category">
             <a href="/categories/elasticsearch/"> elasticsearch </a>
             </div>
-          <span class="more-meta"> 785 words </span>
+          <span class="more-meta"> 807 words </span>
           <span class="more-meta"> 2 mins read </span>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
       </div>
@@ -138,38 +135,29 @@
   <h2 class="post-toc-title">Contents</h2>
   <div class="post-toc-content always-active">
     <nav id="TableOfContents">
-<ul>
-<li><a href="#主要步骤">主要步骤</a>
-<ul>
-<li><a href="#1-生成认证秘钥">1. 生成认证秘钥</a></li>
-<li><a href="#2-映射秘钥文件">2. 映射秘钥文件</a></li>
-<li><a href="#3-配置-elasticsearch-yml-文件">3. 配置<code>elasticsearch.yml</code>文件</a></li>
-<li><a href="#4-生成账号和密码">4. 生成账号和密码</a></li>
-<li><a href="#5-配置-kibana">5. 配置<code>Kibana</code></a></li>
-</ul></li>
-<li><a href="#自动化部署">自动化部署</a></li>
-<li><a href="#问题解决">问题解决</a>
-<ul>
-<li><a href="#1-certs-文件映射时的路径">1. <code>certs</code>文件映射时的路径</a></li>
-<li><a href="#2-java-io-ioexception-toderinputstream-rejects-tag-type-80-问题">2. <code>java.io.IOException: toDerInputStream rejects tag type 80</code>问题</a></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#1-生成认证秘钥">1. 生成认证秘钥</a></li>
+    <li><a href="#2-映射秘钥文件">2. 映射秘钥文件</a></li>
+    <li><a href="#3-配置elasticsearchyml文件">3. 配置<code>elasticsearch.yml</code>文件</a></li>
+    <li><a href="#4-生成账号和密码">4. 生成账号和密码</a></li>
+    <li><a href="#5-配置kibana">5. 配置<code>Kibana</code></a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#1-certs文件映射时的路径">1. <code>certs</code>文件映射时的路径</a></li>
+    <li><a href="#2-javaioioexception-toderinputstream-rejects-tag-type-80问题">2. <code>java.io.IOException: toDerInputStream rejects tag type 80</code>问题</a></li>
+  </ul>
 </nav>
   </div>
 </div>
     <div class="post-content">
-      
-
-<p>本文主要介绍基于<code>Docker</code>部署时，<code>Elasticsearch</code>如何添加认证。</p>
-
+      <p>本文主要介绍基于<code>Docker</code>部署时，<code>Elasticsearch</code>如何添加认证。</p>
 <h1 id="主要步骤">主要步骤</h1>
-
 <h2 id="1-生成认证秘钥">1. 生成认证秘钥</h2>
-
 <p>使用一个镜像，专门生成一个秘钥，使用<code>p12</code>模式的秘钥。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-yml" data-lang="yml"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -188,31 +176,30 @@
 </span><span class="lnt">17
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-yml" data-lang="yml">version<span class="p">:</span><span class="w"> </span><span class="s1">&#39;2&#39;</span><span class="w">
-</span><span class="w"></span>services<span class="p">:</span><span class="w">
-</span><span class="w">  </span>create_certs<span class="p">:</span><span class="w">
-</span><span class="w">    </span>container_name<span class="p">:</span><span class="w"> </span>create_certs<span class="w">
-</span><span class="w">    </span>image<span class="p">:</span><span class="w"> </span>docker.elastic.co/elasticsearch/elasticsearch<span class="p">:</span><span class="m">7.4</span>.<span class="m">0</span><span class="w">
-</span><span class="w">    </span>command<span class="p">:</span><span class="w"> </span><span class="sd">&gt;
-</span><span class="sd">      bash -c &#39;</span><span class="w">
-</span><span class="w">        </span>if<span class="w"> </span><span class="p">[[</span><span class="w"> </span>!<span class="w"> </span>-f<span class="w"> </span>/certs/elastic.p12<span class="w"> </span><span class="p">]]</span>;<span class="w"> </span>then<span class="w">
-</span><span class="w">          </span>bin/elasticsearch-certutil<span class="w"> </span>cert<span class="w"> </span>-out<span class="w"> </span>/certs/elastic.p12<span class="w"> </span>-pass<span class="w"> </span><span class="s2">&#34;&#34;</span>;<span class="w">
-</span><span class="w">        </span>fi;<span class="w">
-</span><span class="w">        </span>chown<span class="w"> </span>-R<span class="w"> </span><span class="m">1000</span><span class="p">:</span><span class="m">0</span><span class="w"> </span>/certs<span class="w">
-</span><span class="w">      </span><span class="s1">&#39;
-</span><span class="s1">    user: &#34;0&#34;
-</span><span class="s1">    working_dir: /usr/share/elasticsearch
-</span><span class="s1">    volumes: [&#39;</span>./certs<span class="p">:</span>/certs<span class="s1">&#39;, &#39;</span>.<span class="p">:</span>/usr/share/elasticsearch/config/certificates&#39;<span class="p">]</span><span class="w">
+<pre class="chroma"><code class="language-yml" data-lang="yml"><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;2&#39;</span><span class="w">
+</span><span class="w"></span><span class="nt">services</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span><span class="nt">create_certs</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="nt">container_name</span><span class="p">:</span><span class="w"> </span><span class="l">create_certs</span><span class="w">
+</span><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">docker.elastic.co/elasticsearch/elasticsearch:7.4.0</span><span class="w">
+</span><span class="w">    </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="p">&gt;</span><span class="sd">
+</span><span class="sd">      bash -c &#39;
+</span><span class="sd">        if [[ ! -f /certs/elastic.p12 ]]; then
+</span><span class="sd">          bin/elasticsearch-certutil cert -out /certs/elastic.p12 -pass &#34;&#34;;
+</span><span class="sd">        fi;
+</span><span class="sd">        chown -R 1000:0 /certs
+</span><span class="sd">      &#39;</span><span class="w">      
+</span><span class="w">    </span><span class="nt">user</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;0&#34;</span><span class="w">
+</span><span class="w">    </span><span class="nt">working_dir</span><span class="p">:</span><span class="w"> </span><span class="l">/usr/share/elasticsearch</span><span class="w">
+</span><span class="w">    </span><span class="nt">volumes</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s1">&#39;./certs:/certs&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;.:/usr/share/elasticsearch/config/certificates&#39;</span><span class="p">]</span><span class="w">
 </span><span class="w">
-</span><span class="w"></span>volumes<span class="p">:</span><span class="w"> </span>{<span class="s2">&#34;certs&#34;</span>}</code></pre></td></tr></table>
+</span><span class="w"></span><span class="nt">volumes</span><span class="p">:</span><span class="w"> </span>{<span class="s2">&#34;certs&#34;</span>}<span class="w">
+</span></code></pre></td></tr></table>
 </div>
-</div>
-<h2 id="2-映射秘钥文件">2. 映射秘钥文件</h2>
-
+</div><h2 id="2-映射秘钥文件">2. 映射秘钥文件</h2>
 <p>映射秘钥文件时要注意，要映射到<code>config</code>文件夹下去，否则会有权限问题。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-yml" data-lang="yml"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -233,31 +220,31 @@
 </span><span class="lnt">19
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-yml" data-lang="yml">version<span class="p">:</span><span class="w"> </span><span class="s1">&#39;2&#39;</span><span class="w">
-</span><span class="w"></span>services<span class="p">:</span><span class="w">
-</span><span class="w"> </span>{name}_1<span class="p">:</span><span class="w">
-</span><span class="w">    </span>image<span class="p">:</span><span class="w"> </span>docker.antfact.com/platform/elasticsearch<span class="p">:</span><span class="m">7.4</span>.<span class="m">0</span><span class="w">
-</span><span class="w">    </span>container_name<span class="p">:</span><span class="w"> </span>{name}_1<span class="w">
-</span><span class="w">    </span>network_mode<span class="p">:</span><span class="w"> </span><span class="s2">&#34;host&#34;</span><span class="w">
-</span><span class="w">    </span>ulimits<span class="p">:</span><span class="w">
-</span><span class="w">      </span>memlock<span class="p">:</span><span class="w">
-</span><span class="w">        </span>soft<span class="p">:</span><span class="w"> </span>-<span class="m">1</span><span class="w">
-</span><span class="w">        </span>hard<span class="p">:</span><span class="w"> </span>-<span class="m">1</span><span class="w">
-</span><span class="w">    </span>volumes<span class="p">:</span><span class="w">
-</span><span class="w">      </span>-<span class="w"> </span>./data<span class="p">:</span>/usr/share/elasticsearch/data<span class="w">
-</span><span class="w">      </span>-<span class="w"> </span>./config<span class="p">:</span>/usr/share/elasticsearch/config<span class="w">
-</span><span class="w">      </span>-<span class="w"> </span>./logs<span class="p">:</span>/usr/share/elasticsearch/logs<span class="w">
-</span><span class="w">      </span>-<span class="w"> </span>./certs<span class="p">:</span>/usr/share/elasticsearch/config/certs<span class="p">:</span>rw<span class="w">
+<pre class="chroma"><code class="language-yml" data-lang="yml"><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;2&#39;</span><span class="w">
+</span><span class="w"></span><span class="nt">services</span><span class="p">:</span><span class="w">
+</span><span class="w"> </span>{<span class="nt">name}_1</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">docker.antfact.com/platform/elasticsearch:7.4.0</span><span class="w">
+</span><span class="w">    </span><span class="nt">container_name</span><span class="p">:</span><span class="w"> </span>{<span class="l">name}_1</span><span class="w">
+</span><span class="w">    </span><span class="nt">network_mode</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;host&#34;</span><span class="w">
+</span><span class="w">    </span><span class="nt">ulimits</span><span class="p">:</span><span class="w">
+</span><span class="w">      </span><span class="nt">memlock</span><span class="p">:</span><span class="w">
+</span><span class="w">        </span><span class="nt">soft</span><span class="p">:</span><span class="w"> </span>-<span class="m">1</span><span class="w">
+</span><span class="w">        </span><span class="nt">hard</span><span class="p">:</span><span class="w"> </span>-<span class="m">1</span><span class="w">
+</span><span class="w">    </span><span class="nt">volumes</span><span class="p">:</span><span class="w">
+</span><span class="w">      </span>- <span class="l">./data:/usr/share/elasticsearch/data</span><span class="w">
+</span><span class="w">      </span>- <span class="l">./config:/usr/share/elasticsearch/config</span><span class="w">
+</span><span class="w">      </span>- <span class="l">./logs:/usr/share/elasticsearch/logs</span><span class="w">
+</span><span class="w">      </span>- <span class="l">./certs:/usr/share/elasticsearch/config/certs:rw</span><span class="w">
 </span><span class="w"></span><span class="c">#      - ./plugins:/usr/share/elasticsearch/plugins</span><span class="w">
-</span><span class="w">    </span>ports<span class="p">:</span><span class="w">
-</span><span class="w">      </span>-<span class="w"> </span><span class="m">9200</span><span class="p">:</span><span class="m">9200</span><span class="w">
-</span><span class="w">      </span>-<span class="w"> </span><span class="m">9201</span><span class="p">:</span><span class="m">9201</span></code></pre></td></tr></table>
+</span><span class="w">    </span><span class="nt">ports</span><span class="p">:</span><span class="w">
+</span><span class="w">      </span>- <span class="m">9200</span><span class="p">:</span><span class="m">9200</span><span class="w">
+</span><span class="w">      </span>- <span class="m">9201</span><span class="p">:</span><span class="m">9201</span><span class="w">
+</span></code></pre></td></tr></table>
 </div>
-</div>
-<h2 id="3-配置-elasticsearch-yml-文件">3. 配置<code>elasticsearch.yml</code>文件</h2>
+</div><h2 id="3-配置elasticsearchyml文件">3. 配置<code>elasticsearch.yml</code>文件</h2>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-yml" data-lang="yml"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -265,31 +252,30 @@
 </span><span class="lnt">6
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-yml" data-lang="yml"><span class="w">  </span>xpack.security.enabled<span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
-</span><span class="w">  </span>xpack.license.self_generated.type<span class="p">:</span><span class="w"> </span>basic<span class="w">
-</span><span class="w">  </span>xpack.security.transport.ssl.enabled<span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
-</span><span class="w">  </span>xpack.security.transport.ssl.verification_mode<span class="p">:</span><span class="w"> </span>certificate<span class="w">
-</span><span class="w">  </span>xpack.security.transport.ssl.keystore.path<span class="p">:</span><span class="w"> </span>/usr/share/elasticsearch/config/certs/elastic.p12<span class="w">
-</span><span class="w">  </span>xpack.security.transport.ssl.truststore.path<span class="p">:</span><span class="w"> </span>/usr/share/elasticsearch/config/certs/elastic.p12</code></pre></td></tr></table>
+<pre class="chroma"><code class="language-yml" data-lang="yml"><span class="w">  </span><span class="nt">xpack.security.enabled</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span><span class="w">  </span><span class="nt">xpack.license.self_generated.type</span><span class="p">:</span><span class="w"> </span><span class="l">basic</span><span class="w">
+</span><span class="w">  </span><span class="nt">xpack.security.transport.ssl.enabled</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span><span class="w">  </span><span class="nt">xpack.security.transport.ssl.verification_mode</span><span class="p">:</span><span class="w"> </span><span class="l">certificate</span><span class="w">
+</span><span class="w">  </span><span class="nt">xpack.security.transport.ssl.keystore.path</span><span class="p">:</span><span class="w"> </span><span class="l">/usr/share/elasticsearch/config/certs/elastic.p12</span><span class="w">
+</span><span class="w">  </span><span class="nt">xpack.security.transport.ssl.truststore.path</span><span class="p">:</span><span class="w"> </span><span class="l">/usr/share/elasticsearch/config/certs/elastic.p12</span><span class="w">
+</span></code></pre></td></tr></table>
 </div>
-</div>
-<h2 id="4-生成账号和密码">4. 生成账号和密码</h2>
-
+</div><h2 id="4-生成账号和密码">4. 生成账号和密码</h2>
 <p>主要是生成默认的账号和密码，这里选择的是随机生成密码，这个密码就需要保存好。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-yml" data-lang="yml"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-yml" data-lang="yml">docker<span class="w"> </span>exec<span class="w"> </span>{es_docker_name}<span class="w"> </span>/bin/bash<span class="w"> </span>-c<span class="w"> </span><span class="s2">&#34;bin/elasticsearch-setup-passwords \
-</span><span class="s2">auto --batch&#34;</span></code></pre></td></tr></table>
+<pre class="chroma"><code class="language-yml" data-lang="yml"><span class="l">docker exec {es_docker_name} /bin/bash -c &#34;bin/elasticsearch-setup-passwords \</span><span class="w">
+</span><span class="w"></span><span class="l">auto --batch&#34;</span><span class="w">
+</span></code></pre></td></tr></table>
 </div>
-</div>
-<p>执行后的结果是这样的：</p>
+</div><p>执行后的结果是这样的：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -324,15 +310,14 @@ Changed password <span class="k">for</span> user remote_monitoring_user
 PASSWORD <span class="nv">remote_monitoring_user</span> <span class="o">=</span> <span class="o">{</span>pwd<span class="o">}</span>
 
 Changed password <span class="k">for</span> user elastic
-PASSWORD <span class="nv">elastic</span> <span class="o">=</span> <span class="o">{</span>pwd<span class="o">}</span></code></pre></td></tr></table>
+PASSWORD <span class="nv">elastic</span> <span class="o">=</span> <span class="o">{</span>pwd<span class="o">}</span>
+</code></pre></td></tr></table>
 </div>
-</div>
-<h2 id="5-配置-kibana">5. 配置<code>Kibana</code></h2>
-
+</div><h2 id="5-配置kibana">5. 配置<code>Kibana</code></h2>
 <p><code>Kibana</code>配置比较简单的方法就是直接明文写上账号和密码：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-yml" data-lang="yml"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -348,54 +333,45 @@ PASSWORD <span class="nv">elastic</span> <span class="o">=</span> <span class="o
 </span><span class="lnt">14
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-yml" data-lang="yml">version<span class="p">:</span><span class="w"> </span><span class="s1">&#39;2&#39;</span><span class="w">
-</span><span class="w"></span>services<span class="p">:</span><span class="w">
-</span><span class="w">  </span>{name}_kibana<span class="p">:</span><span class="w">
-</span><span class="w">    </span>image<span class="p">:</span><span class="w"> </span>docker.antfact.com/platform/kibana<span class="p">:</span><span class="m">7.4</span>.<span class="m">0</span><span class="w">
-</span><span class="w">    </span>container_name<span class="p">:</span><span class="w"> </span>{name}_kibana<span class="w">
-</span><span class="w">    </span>network_mode<span class="p">:</span><span class="w"> </span><span class="s2">&#34;host&#34;</span><span class="w">
-</span><span class="w">    </span>ports<span class="p">:</span><span class="w">
-</span><span class="w">      </span>-<span class="w"> </span><span class="m">5601</span><span class="p">:</span><span class="m">5601</span><span class="w">
-</span><span class="w">    </span>environment<span class="p">:</span><span class="w">
-</span><span class="w">      </span>SERVER_NAME<span class="p">:</span><span class="w"> </span>{name}_kibana<span class="w">
-</span><span class="w">      </span>SERVER_HOST<span class="p">:</span><span class="w"> </span>{host}<span class="w">
-</span><span class="w">      </span>ELASTICSEARCH_HOSTS<span class="p">:</span><span class="w"> </span>http<span class="p">:</span>//{host}<span class="p">:</span><span class="m">9200</span><span class="w">
-</span><span class="w">      </span>ELASTICSEARCH_USERNAME<span class="p">:</span><span class="w"> </span><span class="s2">&#34;kibana&#34;</span><span class="w">
-</span><span class="w">      </span>ELASTICSEARCH_PASSWORD<span class="p">:</span><span class="w"> </span><span class="s2">&#34;{pwd}&#34;</span></code></pre></td></tr></table>
+<pre class="chroma"><code class="language-yml" data-lang="yml"><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;2&#39;</span><span class="w">
+</span><span class="w"></span><span class="nt">services</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span>{<span class="nt">name}_kibana</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">docker.antfact.com/platform/kibana:7.4.0</span><span class="w">
+</span><span class="w">    </span><span class="nt">container_name</span><span class="p">:</span><span class="w"> </span>{<span class="l">name}_kibana</span><span class="w">
+</span><span class="w">    </span><span class="nt">network_mode</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;host&#34;</span><span class="w">
+</span><span class="w">    </span><span class="nt">ports</span><span class="p">:</span><span class="w">
+</span><span class="w">      </span>- <span class="m">5601</span><span class="p">:</span><span class="m">5601</span><span class="w">
+</span><span class="w">    </span><span class="nt">environment</span><span class="p">:</span><span class="w">
+</span><span class="w">      </span><span class="nt">SERVER_NAME</span><span class="p">:</span><span class="w"> </span>{<span class="l">name}_kibana</span><span class="w">
+</span><span class="w">      </span><span class="nt">SERVER_HOST</span><span class="p">:</span><span class="w"> </span>{<span class="l">host}</span><span class="w">
+</span><span class="w">      </span><span class="nt">ELASTICSEARCH_HOSTS</span><span class="p">:</span><span class="w"> </span><span class="l">http://{host}:9200</span><span class="w">
+</span><span class="w">      </span><span class="nt">ELASTICSEARCH_USERNAME</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;kibana&#34;</span><span class="w">
+</span><span class="w">      </span><span class="nt">ELASTICSEARCH_PASSWORD</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;{pwd}&#34;</span><span class="w">
+</span></code></pre></td></tr></table>
 </div>
-</div>
-<h1 id="自动化部署">自动化部署</h1>
-
+</div><h1 id="自动化部署">自动化部署</h1>
 <p>基于这种认证集群时，如果是自动化部署，就需要提前生成好一个秘钥，然后把秘钥分发到所有机器上去。</p>
-
 <ol>
 <li>这里就有一个问题，如果是不同集群，是否可以用同一个秘钥？</li>
 <li>在运维界面，账号和密码该如何保存？</li>
 <li>不同集群间的账号如果快捷管理和维护？</li>
 </ol>
-
 <h1 id="问题解决">问题解决</h1>
-
-<h2 id="1-certs-文件映射时的路径">1. <code>certs</code>文件映射时的路径</h2>
-
+<h2 id="1-certs文件映射时的路径">1. <code>certs</code>文件映射时的路径</h2>
 <p>一开始，我映射的<code>certs</code>路径为<code>/usr/share/elasticsearch/certs</code>,启动就报了<code>elasticsearch ssl access denied (&quot;java.io.FilePermission）</code>的错误；</p>
-
 <p>以为是权限问题，就把权限改为了<code>0666</code>，还是不行。</p>
-
 <p>这其实是因为<code>ES</code>本身对文件目录做了权限的控制，在重新映射为<code>/usr/share/elasticsearch/config/certs</code>之后，就可以使用了。</p>
-
-<h2 id="2-java-io-ioexception-toderinputstream-rejects-tag-type-80-问题">2. <code>java.io.IOException: toDerInputStream rejects tag type 80</code>问题</h2>
-
+<h2 id="2-javaioioexception-toderinputstream-rejects-tag-type-80问题">2. <code>java.io.IOException: toDerInputStream rejects tag type 80</code>问题</h2>
 <p>这个问题是生成的方式不对，如果想直接用<code>p12</code>方式的话，直接</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-bash" data-lang="bash">bin/elasticsearch-certutil cert -out /certs/elastic.p12 -pass <span class="s2">&#34;&#34;</span></code></pre></td></tr></table>
+<pre class="chroma"><code class="language-bash" data-lang="bash">bin/elasticsearch-certutil cert -out /certs/elastic.p12 -pass <span class="s2">&#34;&#34;</span>
+</code></pre></td></tr></table>
 </div>
-</div>
-<p>即可，不需要加类似<code>--pem</code>的参数。</p>
+</div><p>即可，不需要加类似<code>--pem</code>的参数。</p>
 
     </div>
 
@@ -488,7 +464,7 @@ PASSWORD <span class="nv">elastic</span> <span class="o">=</span> <span class="o
 <a href="www.beian.miit.gov.cn">湘ICP备16020053号-1</a>
     &copy; 
     2017 - 
-    2020
+    2021
     <span class="heart">
       <i class="iconfont icon-heart"></i>
     </span>

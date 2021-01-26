@@ -23,7 +23,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.54.0 with even 4.0.0" />
+<meta name="generator" content="Hugo 0.80.0 with even 4.0.0" />
 
 
 <link rel="canonical" href="http://www.honlyc.com/post/golang-x509-certificate-unknown-authority/" />
@@ -42,15 +42,12 @@
 <meta property="og:description" content="在使用http请求https://**网站时，报了x509: certificate signed by unknown authority这个错误。经查阅，是由于目标网站的CA证书在本机没有，" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://www.honlyc.com/post/golang-x509-certificate-unknown-authority/" />
-<meta property="article:published_time" content="2019-08-23T14:17:17&#43;08:00"/>
-<meta property="article:modified_time" content="2019-08-23T14:17:17&#43;08:00"/>
-
+<meta property="article:published_time" content="2019-08-23T14:17:17+08:00" />
+<meta property="article:modified_time" content="2019-08-23T14:17:17+08:00" />
 <meta itemprop="name" content="解决 Golang https 请求时，x509: certificate signed by unknown authority 问题">
 <meta itemprop="description" content="在使用http请求https://**网站时，报了x509: certificate signed by unknown authority这个错误。经查阅，是由于目标网站的CA证书在本机没有，">
-
-
-<meta itemprop="datePublished" content="2019-08-23T14:17:17&#43;08:00" />
-<meta itemprop="dateModified" content="2019-08-23T14:17:17&#43;08:00" />
+<meta itemprop="datePublished" content="2019-08-23T14:17:17+08:00" />
+<meta itemprop="dateModified" content="2019-08-23T14:17:17+08:00" />
 <meta itemprop="wordCount" content="681">
 
 
@@ -136,29 +133,21 @@
   <h2 class="post-toc-title">Contents</h2>
   <div class="post-toc-content always-active">
     <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#1-使用-tls">1. 使用<code>TLS</code></a></li>
-<li><a href="#2-添加证书到本机上">2. 添加证书到本机上</a></li>
-<li><a href="#3-请求内嵌证书">3. 请求内嵌证书</a></li>
-</ul></li>
-<li><a href="#总结">总结</a></li>
-</ul>
+  <ul>
+    <li><a href="#1-使用tls">1. 使用<code>TLS</code></a></li>
+    <li><a href="#2-添加证书到本机上">2. 添加证书到本机上</a></li>
+    <li><a href="#3-请求内嵌证书">3. 请求内嵌证书</a></li>
+  </ul>
 </nav>
   </div>
 </div>
     <div class="post-content">
-      
-
-<p>在使用<code>http</code>请求<code>https://**</code>网站时，报了<code>x509: certificate signed by unknown authority</code>这个错误。经查阅，是由于目标网站的<code>CA</code>证书在本机没有，这类问题有几种解决方式：</p>
-
-<h2 id="1-使用-tls">1. 使用<code>TLS</code></h2>
-
+      <p>在使用<code>http</code>请求<code>https://**</code>网站时，报了<code>x509: certificate signed by unknown authority</code>这个错误。经查阅，是由于目标网站的<code>CA</code>证书在本机没有，这类问题有几种解决方式：</p>
+<h2 id="1-使用tls">1. 使用<code>TLS</code></h2>
 <p>网上通常的方式是通过设置<code>tls</code>来跳过证书检测，即：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-go" data-lang="go"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -173,34 +162,28 @@
     <span class="nx">Transport</span><span class="p">:</span> <span class="o">&amp;</span><span class="nx">http</span><span class="p">.</span><span class="nx">Transport</span><span class="p">{</span>
 		<span class="nx">TLSClientConfig</span><span class="p">:</span> <span class="o">&amp;</span><span class="nx">tls</span><span class="p">.</span><span class="nx">Config</span><span class="p">{</span><span class="nx">InsecureSkipVerify</span><span class="p">:</span> <span class="kc">true</span><span class="p">},</span>
 	<span class="p">}</span>
-<span class="p">}</span></code></pre></td></tr></table>
+<span class="p">}</span>
+</code></pre></td></tr></table>
 </div>
-</div>
-<p>这样，使用<code>client</code>就不会再报该错误了。但此方法是跳过了检测，在某些场景并不适用，就只能使用其他方式了。</p>
-
+</div><p>这样，使用<code>client</code>就不会再报该错误了。但此方法是跳过了检测，在某些场景并不适用，就只能使用其他方式了。</p>
 <h2 id="2-添加证书到本机上">2. 添加证书到本机上</h2>
-
 <p>在各个<code>OS</code>中，添加根证书的方式是不同的。对于<code>Linux</code>系统来说，使用</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-bash" data-lang="bash">sudo cp <span class="o">{</span>client<span class="o">}</span>/cacert.pem /etc/ssl/certs</code></pre></td></tr></table>
+<pre class="chroma"><code class="language-bash" data-lang="bash">sudo cp <span class="o">{</span>client<span class="o">}</span>/cacert.pem /etc/ssl/certs
+</code></pre></td></tr></table>
 </div>
-</div>
-<p>这就是手动把<code>CA</code>证书添加到本机的证书链，再进行请求，就可以成功访问了。</p>
-
+</div><p>这就是手动把<code>CA</code>证书添加到本机的证书链，再进行请求，就可以成功访问了。</p>
 <p>但这种方式存在一定弊端就是如果你客户端部署在多台机器，就得手动每台都添加；并且，还需要有<code>root</code>权限才能做，通常我们开发是没有服务器的<code>root</code>权限的。</p>
-
 <p>这样，我们还可以使用第三种方式来解决</p>
-
 <h2 id="3-请求内嵌证书">3. 请求内嵌证书</h2>
-
 <p>类似第一种方式，我们同样是配置<code>TLS</code>，但这次我们不进行跳过，而是直接将<code>*.pem</code>文件配置给<code>client</code>，这样既保证能够访问，又不是直接地跳过。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-go" data-lang="go"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -223,19 +206,14 @@
     <span class="nx">Transport</span><span class="p">:</span> <span class="o">&amp;</span><span class="nx">http</span><span class="p">.</span><span class="nx">Transport</span><span class="p">{</span>
 		<span class="nx">TLSClientConfig</span><span class="p">:</span> <span class="o">&amp;</span><span class="nx">tls</span><span class="p">.</span><span class="nx">Config</span><span class="p">{</span><span class="nx">RootCAs</span><span class="p">:</span> <span class="nx">roots</span><span class="p">},</span>
 	<span class="p">}</span>
-<span class="p">}</span></code></pre></td></tr></table>
+<span class="p">}</span>
+</code></pre></td></tr></table>
 </div>
-</div>
-<p>这样，就大功告成啦。</p>
-
+</div><p>这样，就大功告成啦。</p>
 <h1 id="总结">总结</h1>
-
 <p>当然，这三种方式都并不是互斥的，每一种都有不同的使用场景。</p>
-
 <p>如果你是写了一个爬虫，那你肯定只需也只能使用第一种跳过的方式，这样可以更为高效地爬取。</p>
-
 <p>如果你能够拿到证书，但是没有<code>root</code>权限，但是又要求使用证书，就得用第三种方式了。</p>
-
 <p>而一般如果有运维部门帮你给每台服务器都添加证书，当然他们只能使用第二种，这样，你的程序完全可以不用考虑这个问题了。</p>
 
     </div>
@@ -326,7 +304,7 @@
 <a href="www.beian.miit.gov.cn">湘ICP备16020053号-1</a>
     &copy; 
     2017 - 
-    2020
+    2021
     <span class="heart">
       <i class="iconfont icon-heart"></i>
     </span>

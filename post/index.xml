@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts on Honlyc - Your are free</title>
@@ -6,10 +6,24 @@
     <description>Recent content in Posts on Honlyc - Your are free</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Fri, 18 Sep 2020 15:01:21 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 26 Jan 2021 17:38:41 +0800</lastBuildDate><atom:link href="http://www.honlyc.com/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Elasticsearch 源码解析 Q&amp;A</title>
+      <link>http://www.honlyc.com/post/elasticsearch-src-qa/</link>
+      <pubDate>Tue, 26 Jan 2021 17:38:41 +0800</pubDate>
+      
+      <guid>http://www.honlyc.com/post/elasticsearch-src-qa/</guid>
+      <description>1. AccessControlException 在调试ES源码时，如果我们需要直接用到FSDirectory.open(Paths.get(indexPath));这种的话，通常会碰到</description>
+    </item>
     
-	<atom:link href="http://www.honlyc.com/post/index.xml" rel="self" type="application/rss+xml" />
-    
+    <item>
+      <title>Flink in Action (2)-Flink 使用 Hadoop 进行存储</title>
+      <link>http://www.honlyc.com/post/flink-in-action-2/</link>
+      <pubDate>Sat, 10 Oct 2020 11:25:18 +0800</pubDate>
+      
+      <guid>http://www.honlyc.com/post/flink-in-action-2/</guid>
+      <description>本文基于 Hadoop-2.8.3 和 Flink-1.11.2-scala-2.11 问题 Hadoop classpath/dependencies 这个问题主要是在 flink 中，没有hadoop 的 jar 包，需要手动下载并拷贝到${FLINK_HOME}/lib目录下。 可以在ht</description>
+    </item>
     
     <item>
       <title>Flink in Action (1)-使用 Gradle 开发 Flink 程序</title>
@@ -107,7 +121,7 @@
       <pubDate>Thu, 20 Feb 2020 14:58:46 +0800</pubDate>
       
       <guid>http://www.honlyc.com/post/centos-init/</guid>
-      <description> Docker Step1: Update 1  sudo yum check-update   Step2: Install the Dependencies 1  sudo yum install -y yum-utils device-mapper-persistent-data lvm2   Step3: Add the Docker Repository to CentOS 1  sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo   Step4: Install Docker 1  sudo yum install docker   Step5: Install Docker-compose 1 2 3  sudo curl -L &amp;#34;https://github.com/docker/compose/releases/download/1.25.3/docker-compose-$(uname -s)-$(uname -m)&amp;#34; -o /usr/local/bin/docker-compose sudo chmod +x /usr/local/bin/docker-compose  </description>
+      <description>Docker Step1: Update 1  sudo yum check-update   Step2: Install the Dependencies 1  sudo yum install -y yum-utils device-mapper-persistent-data lvm2   Step3: Add the Docker Repository to CentOS 1  sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo   Step4: Install Docker 1  sudo yum install docker   Step5: Install Docker-compose 1 2 3  sudo curl -L &amp;#34;https://github.com/docker/compose/releases/download/1.25.3/docker-compose-$(uname -s)-$(uname -m)&amp;#34; -o /usr/local/bin/docker-compose sudo chmod +x /usr/local/bin/docker-compose   </description>
     </item>
     
     <item>

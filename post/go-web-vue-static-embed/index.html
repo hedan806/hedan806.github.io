@@ -23,7 +23,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.54.0 with even 4.0.0" />
+<meta name="generator" content="Hugo 0.80.0 with even 4.0.0" />
 
 
 <link rel="canonical" href="http://www.honlyc.com/post/go-web-vue-static-embed/" />
@@ -42,15 +42,12 @@
 <meta property="og:description" content="在使用 Go 语言带来的便利时，我们往往也热衷于打包成单一的可执行文件，这样不仅方便传输，也便于维护。 如果是普通的Go程序，倒是直接可以编译成可执" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://www.honlyc.com/post/go-web-vue-static-embed/" />
-<meta property="article:published_time" content="2019-04-16T17:14:49&#43;08:00"/>
-<meta property="article:modified_time" content="2019-04-16T17:14:49&#43;08:00"/>
-
+<meta property="article:published_time" content="2019-04-16T17:14:49+08:00" />
+<meta property="article:modified_time" content="2019-04-16T17:14:49+08:00" />
 <meta itemprop="name" content="Gin 和 Vue 项目打包静态文件">
 <meta itemprop="description" content="在使用 Go 语言带来的便利时，我们往往也热衷于打包成单一的可执行文件，这样不仅方便传输，也便于维护。 如果是普通的Go程序，倒是直接可以编译成可执">
-
-
-<meta itemprop="datePublished" content="2019-04-16T17:14:49&#43;08:00" />
-<meta itemprop="dateModified" content="2019-04-16T17:14:49&#43;08:00" />
+<meta itemprop="datePublished" content="2019-04-16T17:14:49+08:00" />
+<meta itemprop="dateModified" content="2019-04-16T17:14:49+08:00" />
 <meta itemprop="wordCount" content="679">
 
 
@@ -138,38 +135,28 @@
   <h2 class="post-toc-title">Contents</h2>
   <div class="post-toc-content always-active">
     <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#go-bindata">go-bindata</a>
-<ul>
-<li><a href="#使用">使用</a></li>
-<li><a href="#在-gin-中使用">在<code>Gin</code>中使用</a></li>
-</ul></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#go-bindata">go-bindata</a>
+      <ul>
+        <li><a href="#使用">使用</a></li>
+        <li><a href="#在gin中使用">在<code>Gin</code>中使用</a></li>
+      </ul>
+    </li>
+  </ul>
 </nav>
   </div>
 </div>
     <div class="post-content">
-      
-
-<p>在使用 Go 语言带来的便利时，我们往往也热衷于打包成单一的可执行文件，这样不仅方便传输，也便于维护。</p>
-
+      <p>在使用 Go 语言带来的便利时，我们往往也热衷于打包成单一的可执行文件，这样不仅方便传输，也便于维护。</p>
 <p>如果是普通的<code>Go</code>程序，倒是直接可以编译成可执行文件，但是当使用<code>web</code>项目时，外部<code>html</code> <code>js</code> <code>css</code>等文件，就没法直接编译了，这就需要用到一些静态文件打包的方法。</p>
-
 <p>可以直接在<a href="https://github.com/avelino/awesome-go#resource-embedding">awesome-go-resource-embedding</a>看到有很多内嵌资源的方法，我这里只举例几个自己用过的，其他的你们可以自己去看看。</p>
-
 <h2 id="go-bindata">go-bindata</h2>
-
 <p>刚说好的在上面的<code>awesome</code>里面找，结果一上来就是一个没列入在内的<a href="https://github.com/jteeuwen/go-bindata">go-bindata</a>，这个项目并没有在<code>awesome</code>里面，可能是时间比较久，又没有再更新，不过我最终却是选用的这个，原因后面我会说到。</p>
-
 <h3 id="使用">使用</h3>
-
 <p>首先，看看我的目录结构：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -212,57 +199,51 @@
 ├── dist
 │   ├── favicon.ico
 │   ├── index.html
-│   └── static</code></pre></td></tr></table>
+│   └── static
+</code></pre></td></tr></table>
 </div>
-</div>
-<p>其中，需要内嵌的静态文件有：</p>
-
+</div><p>其中，需要内嵌的静态文件有：</p>
 <ul>
 <li><code>conf</code>：是放置配置文件的</li>
 <li><code>dist</code>：是<code>vue</code>项目打包后的输出目录</li>
 </ul>
-
 <p>安装<code>go-bindata</code>:</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-bash" data-lang="bash">go get -u github.com/jteeuwen/go-bindata/...</code></pre></td></tr></table>
+<pre class="chroma"><code class="language-bash" data-lang="bash">go get -u github.com/jteeuwen/go-bindata/...
+</code></pre></td></tr></table>
 </div>
-</div>
-<p>打包静态文件：</p>
+</div><p>打包静态文件：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-bas" data-lang="bas"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-bas" data-lang="bas"><span class="vg">go</span><span class="o">-</span><span class="vg">bindata</span><span class="w"> </span><span class="o">-</span><span class="vg">o</span><span class="o">=./</span><span class="vg">asset</span><span class="o">/</span><span class="vg">asset</span><span class="o">.</span><span class="vg">go</span><span class="w"> </span><span class="o">-</span><span class="vg">pkg</span><span class="o">=</span><span class="vg">asset</span><span class="w"> </span><span class="vg">conf</span><span class="o">/...</span><span class="w"> </span><span class="vg">dist</span><span class="o">/...</span></code></pre></td></tr></table>
+<pre class="chroma"><code class="language-bas" data-lang="bas"><span class="vg">go</span><span class="o">-</span><span class="vg">bindata</span><span class="w"> </span><span class="o">-</span><span class="vg">o</span><span class="o">=./</span><span class="vg">asset</span><span class="o">/</span><span class="vg">asset</span><span class="o">.</span><span class="vg">go</span><span class="w"> </span><span class="o">-</span><span class="vg">pkg</span><span class="o">=</span><span class="vg">asset</span><span class="w"> </span><span class="vg">conf</span><span class="o">/...</span><span class="w"> </span><span class="vg">dist</span><span class="o">/...</span>
+</code></pre></td></tr></table>
 </div>
-</div>
-<blockquote>
+</div><blockquote>
 <p><code>-o</code>: 表示输出的目录</p>
-
 <p><code>-pkg</code>： 表示输出的包名</p>
-
 <p><code>conf/... dist/...</code>: 后面跟需要打包的文件夹，不要忘了三个点</p>
 </blockquote>
-
 <p>同样，也可以通过<a href="https://github.com/elazarl/go-bindata-assetfs">go-bindata-assetfs</a>来进行打包，兼容<code>http.FiltSystem</code>，这样也更为方便：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-bash" data-lang="bash">go-bindata-assetfs -o ./asset/asset.go -pkg asset -prefix dist -modtime <span class="m">1480000000</span> ./dist/...</code></pre></td></tr></table>
+<pre class="chroma"><code class="language-bash" data-lang="bash">go-bindata-assetfs -o ./asset/asset.go -pkg asset -prefix dist -modtime <span class="m">1480000000</span> ./dist/...
+</code></pre></td></tr></table>
 </div>
-</div>
-<p><strong>注意</strong>：<code>-prefix dist</code>配置是用来忽略<code>dist</code>。详情请看<a href="https://github.com/jteeuwen/go-bindata#path-prefix-stripping">这里</a></p>
-
-<h3 id="在-gin-中使用">在<code>Gin</code>中使用</h3>
+</div><p><strong>注意</strong>：<code>-prefix dist</code>配置是用来忽略<code>dist</code>。详情请看<a href="https://github.com/jteeuwen/go-bindata#path-prefix-stripping">这里</a></p>
+<h3 id="在gin中使用">在<code>Gin</code>中使用</h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-go" data-lang="go"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -275,7 +256,8 @@
 		<span class="nx">AssetDir</span><span class="p">:</span>  <span class="nx">asset</span><span class="p">.</span><span class="nx">AssetDir</span><span class="p">,</span>
 		<span class="nx">AssetInfo</span><span class="p">:</span> <span class="nx">asset</span><span class="p">.</span><span class="nx">AssetInfo</span><span class="p">,</span>
 	<span class="p">}</span>
-<span class="nx">r</span><span class="p">.</span><span class="nf">StaticFS</span><span class="p">(</span><span class="s">&#34;/static&#34;</span><span class="p">,</span> <span class="o">&amp;</span><span class="nx">fs</span><span class="p">)</span></code></pre></td></tr></table>
+<span class="nx">r</span><span class="p">.</span><span class="nf">StaticFS</span><span class="p">(</span><span class="s">&#34;/static&#34;</span><span class="p">,</span> <span class="o">&amp;</span><span class="nx">fs</span><span class="p">)</span>
+</code></pre></td></tr></table>
 </div>
 </div>
     </div>
@@ -369,7 +351,7 @@
 <a href="www.beian.miit.gov.cn">湘ICP备16020053号-1</a>
     &copy; 
     2017 - 
-    2020
+    2021
     <span class="heart">
       <i class="iconfont icon-heart"></i>
     </span>

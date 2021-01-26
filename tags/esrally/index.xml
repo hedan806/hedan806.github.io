@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>esrally on Honlyc - Your are free</title>
@@ -6,11 +6,7 @@
     <description>Recent content in esrally on Honlyc - Your are free</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Tue, 02 Jun 2020 14:00:47 +0800</lastBuildDate>
-    
-	<atom:link href="http://www.honlyc.com/tags/esrally/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Tue, 02 Jun 2020 14:00:47 +0800</lastBuildDate><atom:link href="http://www.honlyc.com/tags/esrally/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Elasticsearch esrally 基准测试</title>
       <link>http://www.honlyc.com/post/elasticsearch-esrally-loadtest/</link>

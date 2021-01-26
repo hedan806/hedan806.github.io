@@ -23,7 +23,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.54.0 with even 4.0.0" />
+<meta name="generator" content="Hugo 0.80.0 with even 4.0.0" />
 
 
 <link rel="canonical" href="http://www.honlyc.com/post/linux-decompiler-java-class/" />
@@ -42,15 +42,12 @@
 <meta property="og:description" content="场景 有时候，我们需要在服务器上看对应类是否有修改，或者代码是否正确，就需要在服务器上进行反编译了。这里，介绍一个常用的class反编译工具：" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://www.honlyc.com/post/linux-decompiler-java-class/" />
-<meta property="article:published_time" content="2020-08-19T10:01:49&#43;08:00"/>
-<meta property="article:modified_time" content="2020-08-19T10:01:49&#43;08:00"/>
-
+<meta property="article:published_time" content="2020-08-19T10:01:49+08:00" />
+<meta property="article:modified_time" content="2020-08-19T10:01:49+08:00" />
 <meta itemprop="name" content="Linux Decompiler Java Class">
 <meta itemprop="description" content="场景 有时候，我们需要在服务器上看对应类是否有修改，或者代码是否正确，就需要在服务器上进行反编译了。这里，介绍一个常用的class反编译工具：">
-
-
-<meta itemprop="datePublished" content="2020-08-19T10:01:49&#43;08:00" />
-<meta itemprop="dateModified" content="2020-08-19T10:01:49&#43;08:00" />
+<meta itemprop="datePublished" content="2020-08-19T10:01:49+08:00" />
+<meta itemprop="dateModified" content="2020-08-19T10:01:49+08:00" />
 <meta itemprop="wordCount" content="253">
 
 
@@ -138,78 +135,65 @@
   <h2 class="post-toc-title">Contents</h2>
   <div class="post-toc-content always-active">
     <nav id="TableOfContents">
-<ul>
-<li><a href="#场景">场景</a></li>
-<li><a href="#下载">下载</a></li>
-<li><a href="#使用">使用</a>
-<ul>
-<li><a href="#反编译单个文件">反编译单个文件</a></li>
-<li><a href="#反编译整个-jar-包">反编译整个 Jar 包</a></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#反编译单个文件">反编译单个文件</a></li>
+    <li><a href="#反编译整个-jar-包">反编译整个 Jar 包</a></li>
+  </ul>
 </nav>
   </div>
 </div>
     <div class="post-content">
-      
-
-<h1 id="场景">场景</h1>
-
+      <h1 id="场景">场景</h1>
 <p>有时候，我们需要在服务器上看对应类是否有修改，或者代码是否正确，就需要在服务器上进行反编译了。这里，介绍一个常用的<code>class</code>反编译工具：<code>CRF</code>.</p>
-
 <h1 id="下载">下载</h1>
-
 <p><a href="http://www.benf.org/other/cfr/">http://www.benf.org/other/cfr/</a></p>
-
 <p>直接下载最新版本，我这里是<code>https://www.benf.org/other/cfr/cfr-0.150.jar</code>。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-bash" data-lang="bash">wget https://www.benf.org/other/cfr/cfr-0.150.jar</code></pre></td></tr></table>
+<pre class="chroma"><code class="language-bash" data-lang="bash">wget https://www.benf.org/other/cfr/cfr-0.150.jar
+</code></pre></td></tr></table>
 </div>
-</div>
-<h1 id="使用">使用</h1>
-
+</div><h1 id="使用">使用</h1>
 <h2 id="反编译单个文件">反编译单个文件</h2>
-
 <p>首先，我们需要把<code>jar</code>包进行解压：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-bash" data-lang="bash">jar -xf *.jar</code></pre></td></tr></table>
+<pre class="chroma"><code class="language-bash" data-lang="bash">jar -xf *.jar
+</code></pre></td></tr></table>
 </div>
-</div>
-<p>然后进入到需要反编译的<code>class</code>目录下，执行反编译：</p>
+</div><p>然后进入到需要反编译的<code>class</code>目录下，执行反编译：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-bash" data-lang="bash">java -jar cfr-0.150.jar ./example.class</code></pre></td></tr></table>
+<pre class="chroma"><code class="language-bash" data-lang="bash">java -jar cfr-0.150.jar ./example.class
+</code></pre></td></tr></table>
 </div>
-</div>
-<p>就可以直接看到反编译的结果啦。</p>
-
+</div><p>就可以直接看到反编译的结果啦。</p>
 <p>如果想反编译到一个文件，可以直接用：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-bash" data-lang="bash">java -jar cfr-0.150.jar ./example.class &gt; example.java</code></pre></td></tr></table>
+<pre class="chroma"><code class="language-bash" data-lang="bash">java -jar cfr-0.150.jar ./example.class &gt; example.java
+</code></pre></td></tr></table>
 </div>
-</div>
-<h2 id="反编译整个-jar-包">反编译整个 Jar 包</h2>
+</div><h2 id="反编译整个-jar-包">反编译整个 Jar 包</h2>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-bash" data-lang="bash">java -jar cfr-0.150.jar example.jar --outputdir ./example</code></pre></td></tr></table>
+<pre class="chroma"><code class="language-bash" data-lang="bash">java -jar cfr-0.150.jar example.jar --outputdir ./example
+</code></pre></td></tr></table>
 </div>
 </div>
     </div>
@@ -302,7 +286,7 @@
 <a href="www.beian.miit.gov.cn">湘ICP备16020053号-1</a>
     &copy; 
     2017 - 
-    2020
+    2021
     <span class="heart">
       <i class="iconfont icon-heart"></i>
     </span>

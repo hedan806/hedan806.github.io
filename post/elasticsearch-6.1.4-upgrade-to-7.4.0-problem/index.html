@@ -23,7 +23,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.54.0 with even 4.0.0" />
+<meta name="generator" content="Hugo 0.80.0 with even 4.0.0" />
 
 
 <link rel="canonical" href="http://www.honlyc.com/post/elasticsearch-6.1.4-upgrade-to-7.4.0-problem/" />
@@ -42,15 +42,12 @@
 <meta property="og:description" content="[TOC] 1. 集群改动 1. Zen Discovery 改动 不再有discovery.zen.minimum_master_nodes这个控制集群脑裂的配置，转而由集群自主控制，" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://www.honlyc.com/post/elasticsearch-6.1.4-upgrade-to-7.4.0-problem/" />
-<meta property="article:published_time" content="2019-10-09T14:18:00&#43;08:00"/>
-<meta property="article:modified_time" content="2019-10-09T14:18:00&#43;08:00"/>
-
+<meta property="article:published_time" content="2019-10-09T14:18:00+08:00" />
+<meta property="article:modified_time" content="2019-10-09T14:18:00+08:00" />
 <meta itemprop="name" content="Elasticsearch 6.1.4 upgrade to 7.4.0">
 <meta itemprop="description" content="[TOC] 1. 集群改动 1. Zen Discovery 改动 不再有discovery.zen.minimum_master_nodes这个控制集群脑裂的配置，转而由集群自主控制，">
-
-
-<meta itemprop="datePublished" content="2019-10-09T14:18:00&#43;08:00" />
-<meta itemprop="dateModified" content="2019-10-09T14:18:00&#43;08:00" />
+<meta itemprop="datePublished" content="2019-10-09T14:18:00+08:00" />
+<meta itemprop="dateModified" content="2019-10-09T14:18:00+08:00" />
 <meta itemprop="wordCount" content="1003">
 
 
@@ -136,82 +133,63 @@
   <h2 class="post-toc-title">Contents</h2>
   <div class="post-toc-content always-active">
     <nav id="TableOfContents">
-<ul>
-<li><a href="#1-集群改动">1. 集群改动</a>
-<ul>
-<li><a href="#1-zen-discovery-改动">1. Zen Discovery 改动</a></li>
-</ul></li>
-<li><a href="#2-插件改动">2. 插件改动</a>
-<ul>
-<li><a href="#1-indexstore-和-directoryservice-被移除">1. IndexStore 和 DirectoryService 被移除</a></li>
-<li><a href="#2-slf4j-log4j12-包依赖问题">2. <code>slf4j-log4j12</code>包依赖问题</a></li>
-</ul></li>
-<li><a href="#3-参数调整-优化">3. 参数调整（优化）</a>
-<ul>
-<li><a href="#1-慢查询超时设置">1. 慢查询超时设置</a></li>
-<li><a href="#2-mapping-动态字段设置">2. <code>Mapping</code>动态字段设置</a></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#1-zen-discovery-改动">1. Zen Discovery 改动</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#1-indexstore-和-directoryservice-被移除">1. IndexStore 和 DirectoryService 被移除</a></li>
+    <li><a href="#2-slf4j-log4j12包依赖问题">2. <code>slf4j-log4j12</code>包依赖问题</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#1-慢查询超时设置">1. 慢查询超时设置</a></li>
+    <li><a href="#2-mapping动态字段设置">2. <code>Mapping</code>动态字段设置</a></li>
+  </ul>
 </nav>
   </div>
 </div>
     <div class="post-content">
-      
-
-<p>[TOC]</p>
-
+      <p>[TOC]</p>
 <h1 id="1-集群改动">1. 集群改动</h1>
-
 <h2 id="1-zen-discovery-改动">1. Zen Discovery 改动</h2>
-
-<p><img src="http://img.honlyc.com/20191009155635.png" alt="" /></p>
-
+<p><img src="http://img.honlyc.com/20191009155635.png" alt=""></p>
 <p>不再有<code>discovery.zen.minimum_master_nodes</code>这个控制集群脑裂的配置，转而由集群自主控制，并且新版在启动一个新的集群的时候需要有<code>cluster.initial_master_nodes</code>初始化集群列表。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-yml" data-lang="yml"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-yml" data-lang="yml">discovery.seed_hosts<span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;10.20.5.39:9201&#34;</span><span class="p">,</span><span class="s2">&#34;10.20.5.39:9400&#34;</span><span class="p">]</span><span class="w">
-</span><span class="w"></span>cluster.initial_master_nodes<span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;10.20.5.39:9201&#34;</span><span class="p">]</span></code></pre></td></tr></table>
+<pre class="chroma"><code class="language-yml" data-lang="yml"><span class="nt">discovery.seed_hosts</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;10.20.5.39:9201&#34;</span><span class="p">,</span><span class="s2">&#34;10.20.5.39:9400&#34;</span><span class="p">]</span><span class="w">
+</span><span class="w"></span><span class="nt">cluster.initial_master_nodes</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;10.20.5.39:9201&#34;</span><span class="p">]</span><span class="w">
+</span></code></pre></td></tr></table>
 </div>
-</div>
-<p><code>discovery.seed_hosts</code>：7.x版本新增参数，写入候选主节点的设备地址，来开启服务时就可以被选为主节点，由<code>discovery.zen.ping.unicast.hosts</code>参数改变而来。</p>
-
+</div><p><code>discovery.seed_hosts</code>：7.x版本新增参数，写入候选主节点的设备地址，来开启服务时就可以被选为主节点，由<code>discovery.zen.ping.unicast.hosts</code>参数改变而来。</p>
 <p><code>cluster.initial_master_nodes</code>： 7.x版本新增参数，写入候选主节点的设备地址，来开启服务时就可以被选为主节点。</p>
-
 <h1 id="2-插件改动">2. 插件改动</h1>
-
 <h2 id="1-indexstore-和-directoryservice-被移除">1. IndexStore 和 DirectoryService 被移除</h2>
-
 <p>PR: <a href="https://github.com/elastic/elasticsearch/pull/42446">Remove IndexStore and DirectoryService</a></p>
-
 <p>主要修改：</p>
-
 <ol>
 <li>移除所有<code>IndexStore</code>类，将继承<code>FsDirectoryService</code>的类换成实现<code>IndexStorePlugin.DirectoryFactory</code>接口。</li>
 </ol>
-
-<h2 id="2-slf4j-log4j12-包依赖问题">2. <code>slf4j-log4j12</code>包依赖问题</h2>
-
+<h2 id="2-slf4j-log4j12包依赖问题">2. <code>slf4j-log4j12</code>包依赖问题</h2>
 <p>由于<code>Hdfs</code>模块内，依赖了<code>slf4j-log4j12</code>，但是内部包有冲突，需要排除后，手动依赖一个指定版本。</p>
-
 <p>此时，会报</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-bash" data-lang="bash">java.security.AccessControlException: access denied <span class="o">(</span><span class="s2">&#34;jaCustomva.lang.RuntimePermission&#34;</span> <span class="s2">&#34;createSecurityManager&#34;</span><span class="o">)</span></code></pre></td></tr></table>
+<pre class="chroma"><code class="language-bash" data-lang="bash">java.security.AccessControlException: access denied <span class="o">(</span><span class="s2">&#34;jaCustomva.lang.RuntimePermission&#34;</span> <span class="s2">&#34;createSecurityManager&#34;</span><span class="o">)</span>
+</code></pre></td></tr></table>
 </div>
-</div>
-<p>错误，具体原因并未找到。</p>
-
+</div><p>错误，具体原因并未找到。</p>
 <p>解决办法为：排除冲突包，依赖指定版本：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-xml" data-lang="xml"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -222,17 +200,15 @@
 			<span class="nt">&lt;artifactId&gt;</span>slf4j-log4j12<span class="nt">&lt;/artifactId&gt;</span>
 			<span class="nt">&lt;groupId&gt;</span>org.slf4j<span class="nt">&lt;/groupId&gt;</span>
 			<span class="nt">&lt;version&gt;</span>1.7.10<span class="nt">&lt;/version&gt;</span>
-		<span class="nt">&lt;/dependency&gt;</span></code></pre></td></tr></table>
+		<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></td></tr></table>
 </div>
-</div>
-<h1 id="3-参数调整-优化">3. 参数调整（优化）</h1>
-
+</div><h1 id="3-参数调整优化">3. 参数调整（优化）</h1>
 <h2 id="1-慢查询超时设置">1. 慢查询超时设置</h2>
-
 <p>默认查询的超时是<code>-1</code>，即不超时。超时设置使用：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-json" data-lang="json"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -241,25 +217,19 @@
 <pre class="chroma"><code class="language-json" data-lang="json"><span class="err">PUT</span> <span class="err">_cluster/settings</span>
 <span class="p">{</span>
    <span class="nt">&#34;transient&#34;</span><span class="p">:</span> <span class="p">{</span><span class="nt">&#34;search.default_search_timeout&#34;</span><span class="p">:</span><span class="s2">&#34;250s&#34;</span><span class="p">}</span>
-<span class="p">}</span></code></pre></td></tr></table>
+<span class="p">}</span>
+</code></pre></td></tr></table>
 </div>
-</div>
-<h2 id="2-mapping-动态字段设置">2. <code>Mapping</code>动态字段设置</h2>
-
+</div><h2 id="2-mapping动态字段设置">2. <code>Mapping</code>动态字段设置</h2>
 <p>当前线上集群的磁盘占用大小：</p>
-
-<p><img src="http://img.honlyc.com/20191113143106.png" alt="" /></p>
-
+<p><img src="http://img.honlyc.com/20191113143106.png" alt=""></p>
 <p>而<code>V2</code>集群的磁盘占用大小为：</p>
-
-<p><img src="http://img.honlyc.com/20191113143202.png" alt="" /></p>
-
+<p><img src="http://img.honlyc.com/20191113143202.png" alt=""></p>
 <p>可以看到，同样的数据量，磁盘占用相差了 30G 左右，差距很大。</p>
-
 <p>经分析，查看两者的<code>Schema</code>，<code>V2</code>版本的<code>schema</code>多出了一些动态创建的字段，而这些字段本身是不需要的，导致磁盘占用变大，部分数据如下：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-json" data-lang="json"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -304,17 +274,15 @@
               <span class="nt">&#34;ignore_above&#34;</span> <span class="p">:</span> <span class="mi">256</span>
             <span class="p">}</span>
           <span class="p">}</span>
-        <span class="p">}</span><span class="err">,</span></code></pre></td></tr></table>
+        <span class="p">}</span><span class="err">,</span>
+</code></pre></td></tr></table>
 </div>
-</div>
-<p>因为默认的<code>dynamic</code>是<code>true</code>，所以在添加数据时，对于没有在<code>mapping</code>中定义的字段，<code>es</code>会自动添加该字段。</p>
-
+</div><p>因为默认的<code>dynamic</code>是<code>true</code>，所以在添加数据时，对于没有在<code>mapping</code>中定义的字段，<code>es</code>会自动添加该字段。</p>
 <p>解决方案：</p>
-
 <p>在<code>mapping</code>中，指定<code>dynamic</code>为<code>false</code>：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-json" data-lang="json"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -327,16 +295,13 @@
       <span class="nt">&#34;_source&#34;</span> <span class="p">:</span> <span class="p">{</span>
         <span class="nt">&#34;enabled&#34;</span> <span class="p">:</span> <span class="kc">false</span>
       <span class="p">},</span>
-      <span class="err">...</span><span class="p">}</span>	</code></pre></td></tr></table>
+      <span class="err">...</span><span class="p">}</span>	
+</code></pre></td></tr></table>
 </div>
-</div>
-<blockquote>
+</div><blockquote>
 <p>对于<code>dynamic</code>字段的取值有三种：</p>
-
 <p><code>true</code>：允许<code>ES</code>动态创建<code>mapping</code>；</p>
-
 <p><code>false</code>：不允许<code>ES</code>动态创建<code>mapping</code>，但是数据可以写入；</p>
-
 <p><code>strict</code>：当写入数据中有<code>mapping</code>定义之外的数据，直接报错，不能进行写入；</p>
 </blockquote>
 
@@ -428,7 +393,7 @@
 <a href="www.beian.miit.gov.cn">湘ICP备16020053号-1</a>
     &copy; 
     2017 - 
-    2020
+    2021
     <span class="heart">
       <i class="iconfont icon-heart"></i>
     </span>

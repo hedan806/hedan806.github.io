@@ -23,7 +23,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.54.0 with even 4.0.0" />
+<meta name="generator" content="Hugo 0.80.0 with even 4.0.0" />
 
 
 <link rel="canonical" href="http://www.honlyc.com/post/elasticsearch-esrally-loadtest/" />
@@ -42,16 +42,13 @@
 <meta property="og:description" content="前言 esrally是Elasticsearch官方出的集群基准测试框架，使用Python编写的。它的工作原理是：先下载需要测试的数据集，然后" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://www.honlyc.com/post/elasticsearch-esrally-loadtest/" />
-<meta property="article:published_time" content="2020-06-02T14:00:47&#43;08:00"/>
-<meta property="article:modified_time" content="2020-06-02T14:00:47&#43;08:00"/>
-
+<meta property="article:published_time" content="2020-06-02T14:00:47+08:00" />
+<meta property="article:modified_time" content="2020-06-02T14:00:47+08:00" />
 <meta itemprop="name" content="Elasticsearch esrally 基准测试">
 <meta itemprop="description" content="前言 esrally是Elasticsearch官方出的集群基准测试框架，使用Python编写的。它的工作原理是：先下载需要测试的数据集，然后">
-
-
-<meta itemprop="datePublished" content="2020-06-02T14:00:47&#43;08:00" />
-<meta itemprop="dateModified" content="2020-06-02T14:00:47&#43;08:00" />
-<meta itemprop="wordCount" content="1932">
+<meta itemprop="datePublished" content="2020-06-02T14:00:47+08:00" />
+<meta itemprop="dateModified" content="2020-06-02T14:00:47+08:00" />
+<meta itemprop="wordCount" content="1934">
 
 
 
@@ -129,7 +126,7 @@
             <a href="/categories/elasticsearch/"> elasticsearch </a>
             <a href="/categories/loadtest/"> loadtest </a>
             </div>
-          <span class="more-meta"> 1932 words </span>
+          <span class="more-meta"> 1934 words </span>
           <span class="more-meta"> 4 mins read </span>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
       </div>
@@ -139,70 +136,48 @@
   <h2 class="post-toc-title">Contents</h2>
   <div class="post-toc-content always-active">
     <nav id="TableOfContents">
-<ul>
-<li><a href="#前言">前言</a></li>
-<li><a href="#准备工作">准备工作</a>
-<ul>
-<li><a href="#1-手动下载数据集">1. 手动下载数据集</a></li>
-<li><a href="#2-拉取-docker-镜像">2. 拉取<code>Docker</code>镜像</a></li>
-<li><a href="#3-调整-entrypoint-sh-文件">3. 调整<code>entrypoint.sh</code>文件</a></li>
-<li><a href="#4-拉取-rally-tracks-项目">4. 拉取<code>rally-tracks</code>项目</a></li>
-<li><a href="#5-编写-docker-compose-yml-文件">5. 编写<code>docker-compose.yml</code>文件</a></li>
-</ul></li>
-<li><a href="#使用">使用</a>
-<ul>
-<li><a href="#小技巧">小技巧</a></li>
-</ul></li>
-<li><a href="#总结">总结</a></li>
-<li><a href="#参考">参考</a></li>
-</ul>
+  <ul>
+    <li><a href="#1-手动下载数据集">1. 手动下载数据集</a></li>
+    <li><a href="#2-拉取docker镜像">2. 拉取<code>Docker</code>镜像</a></li>
+    <li><a href="#3-调整entrypointsh文件">3. 调整<code>entrypoint.sh</code>文件</a></li>
+    <li><a href="#4-拉取rally-tracks项目">4. 拉取<code>rally-tracks</code>项目</a></li>
+    <li><a href="#5-编写docker-composeyml文件">5. 编写<code>docker-compose.yml</code>文件</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#小技巧">小技巧</a></li>
+  </ul>
 </nav>
   </div>
 </div>
     <div class="post-content">
-      
-
-<h1 id="前言">前言</h1>
-
+      <h1 id="前言">前言</h1>
 <p><code>esrally</code>是<code>Elasticsearch</code>官方出的集群基准测试框架，使用<code>Python</code>编写的。它的工作原理是：先下载需要测试的数据集，然后在本地执行测试。但因为网络原因，国内下载异常的慢，这里主要介绍如何离线使用<code>esrally</code>进行测试。</p>
-
 <p>同时，因为它本身是支持<code>Docker</code>使用的，为了方便使用，我这里就主要使用<code>docker-compose</code>来进行演示。</p>
-
 <h1 id="准备工作">准备工作</h1>
-
 <p>为了方便离线使用，我们需要做一些前期的准备：</p>
-
 <h2 id="1-手动下载数据集">1. 手动下载数据集</h2>
-
 <p>框架的默认数据集是使用的<code>geonames</code>，我们可以通过<code>http://benchmarks.elasticsearch.org.s3.amazonaws.com/corpora/geonames/documents-2.json.b2</code>这个链接先手动下载，可以使用下载工具进行下载，速度回更快，我是使用的<code>aria2 + uget</code>，几分钟就下完了。</p>
-
 <p>如果在框架内下载会很慢。</p>
-
 <p>其他的数据集都可以通过该方法进行下载，具体的文件名可以通过<a href="https://github.com/elastic/rally-tracks">这个项目</a>中每个目录下的<code>files.txt</code>进行查看。</p>
-
 <p>其中，带有<code>*-1k.*</code>的文件是<code>--test-mode</code>模式下使用的，只有少量数据，可以用来进行简单的测试检查。</p>
-
-<h2 id="2-拉取-docker-镜像">2. 拉取<code>Docker</code>镜像</h2>
-
+<h2 id="2-拉取docker镜像">2. 拉取<code>Docker</code>镜像</h2>
 <p>官方的镜像名为：<code>elastic/rally</code>，我这里的最新版本是<code>2.0.0</code>，所以使用</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-bash" data-lang="bash">docker pull elastic/rally:2.0.0</code></pre></td></tr></table>
+<pre class="chroma"><code class="language-bash" data-lang="bash">docker pull elastic/rally:2.0.0
+</code></pre></td></tr></table>
 </div>
-</div>
-<p>进行拉取镜像。</p>
-
-<h2 id="3-调整-entrypoint-sh-文件">3. 调整<code>entrypoint.sh</code>文件</h2>
-
+</div><p>进行拉取镜像。</p>
+<h2 id="3-调整entrypointsh文件">3. 调整<code>entrypoint.sh</code>文件</h2>
 <p>在官方的<code>Dockerfile</code>中，使用的默认执行用户为<code>1000</code>，这里可能存在一些权限问题。同时，官方建议是把<code>/rally/.rally</code>文件夹在本地进行映射，因为一些配置，以及数据集都是在该文件夹下的，如果不进行本地映射的话，不便于结果的保存及数据集的使用。</p>
-
 <p>而在映射了<code>/rally/.rally</code>文件夹后，又需要手动进行<code>esrally configure</code>，所以，我就直接调整了<code>entrypoint.sh</code>文件：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -215,26 +190,24 @@
 
 esrally configure
 
-<span class="nb">exec</span> <span class="s2">&#34;</span><span class="nv">$@</span><span class="s2">&#34;</span></code></pre></td></tr></table>
+<span class="nb">exec</span> <span class="s2">&#34;</span><span class="nv">$@</span><span class="s2">&#34;</span>
+</code></pre></td></tr></table>
 </div>
-</div>
-<h2 id="4-拉取-rally-tracks-项目">4. 拉取<code>rally-tracks</code>项目</h2>
-
+</div><h2 id="4-拉取rally-tracks项目">4. 拉取<code>rally-tracks</code>项目</h2>
 <p>因为在读取数据集时，需要额外一些配置，所以我们需要将这个项目拉取到本地。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-bash" data-lang="bash">git clone https://github.com/elastic/rally-tracks.git</code></pre></td></tr></table>
+<pre class="chroma"><code class="language-bash" data-lang="bash">git clone https://github.com/elastic/rally-tracks.git
+</code></pre></td></tr></table>
 </div>
-</div>
-<h2 id="5-编写-docker-compose-yml-文件">5. 编写<code>docker-compose.yml</code>文件</h2>
-
+</div><h2 id="5-编写docker-composeyml文件">5. 编写<code>docker-compose.yml</code>文件</h2>
 <p>直接使用<code>docker run</code>的话，也是可以的。但为了直观和便于使用和修改，使用<code>docker-compose</code>更为友好：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -245,48 +218,45 @@ esrally configure
 </span><span class="lnt">9
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-yaml" data-lang="yaml">version<span class="p">:</span><span class="w"> </span><span class="s2">&#34;2&#34;</span><span class="w">
-</span><span class="w"></span>services<span class="p">:</span><span class="w">
-</span><span class="w">  </span>esrally<span class="p">:</span><span class="w">
-</span><span class="w">    </span>container_name<span class="p">:</span><span class="w"> </span>esrally<span class="w">
-</span><span class="w">    </span>image<span class="p">:</span><span class="w"> </span>elastic/rally<span class="p">:</span><span class="m">2.0</span>.<span class="m">0</span><span class="w">
-</span><span class="w">    </span>volumes<span class="p">:</span><span class="w">
-</span><span class="w">      </span>-<span class="w"> </span>./myrally<span class="p">:</span>/rally/.rally<span class="w">
-</span><span class="w">      </span>-<span class="w"> </span>./entrypoint.sh<span class="p">:</span>/entrypoint.sh<span class="w">
-</span><span class="w">    </span>command<span class="p">:</span><span class="w"> </span><span class="s2">&#34;esrally race --track=geonames --challenge=append-no-conflicts --offline --pipeline=benchmark-only --target-hosts={{es.host}}:9200&#34;</span></code></pre></td></tr></table>
+<pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;2&#34;</span><span class="w">
+</span><span class="w"></span><span class="nt">services</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span><span class="nt">esrally</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="nt">container_name</span><span class="p">:</span><span class="w"> </span><span class="l">esrally</span><span class="w">
+</span><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">elastic/rally:2.0.0</span><span class="w">
+</span><span class="w">    </span><span class="nt">volumes</span><span class="p">:</span><span class="w">
+</span><span class="w">      </span>- <span class="l">./myrally:/rally/.rally</span><span class="w">
+</span><span class="w">      </span>- <span class="l">./entrypoint.sh:/entrypoint.sh</span><span class="w">
+</span><span class="w">    </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;esrally race --track=geonames --challenge=append-no-conflicts --offline --pipeline=benchmark-only --target-hosts={{es.host}}:9200&#34;</span><span class="w">
+</span></code></pre></td></tr></table>
 </div>
-</div>
-<p>简单说明一下这个文件：</p>
-
+</div><p>简单说明一下这个文件：</p>
 <ol>
-<li><p><code>- ./myrally:/rally/.rally</code>主要是把配置映射到本地；</p></li>
-
-<li><p><code>- ./entrypoint.sh:/entrypoint.sh</code>主要是替换原有的<code>entrypoint.sh</code>文件；</p></li>
-
-<li></li>
-</ol>
+<li>
+<p><code>- ./myrally:/rally/.rally</code>主要是把配置映射到本地；</p>
+</li>
+<li>
+<p><code>- ./entrypoint.sh:/entrypoint.sh</code>主要是替换原有的<code>entrypoint.sh</code>文件；</p>
+</li>
+<li>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-bash" data-lang="bash">   esrally race --track<span class="o">=</span>geonames --challenge<span class="o">=</span>append-no-conflicts --offline --pipeline<span class="o">=</span>benchmark-only --target-hosts<span class="o">={{</span>es.host<span class="o">}}</span>:9200</code></pre></td></tr></table>
+<pre class="chroma"><code class="language-bash" data-lang="bash">esrally race --track<span class="o">=</span>geonames --challenge<span class="o">=</span>append-no-conflicts --offline --pipeline<span class="o">=</span>benchmark-only --target-hosts<span class="o">={{</span>es.host<span class="o">}}</span>:9200
+</code></pre></td></tr></table>
 </div>
-</div>
-<p><code>--track=geonames</code>，表示使用<code>geonames</code>数据集进行测试；</p>
-
+</div><p><code>--track=geonames</code>，表示使用<code>geonames</code>数据集进行测试；</p>
 <p><code>--offline</code>，表示离线使用，不去下载数据集；</p>
-
 <p><code>--target-hosts={{es.host}}:9200</code>，表示需要测试的<code>ES</code>集群地址，端口为<code>Http</code>端口。如果不设置，<code>esrally</code>默认会自己启动一个<code>ES</code>来进行测试；</p>
-
+</li>
+</ol>
 <h1 id="使用">使用</h1>
-
 <p>首先，我们手动创建一个文件夹<code>myrally</code>，对应上面<code>docker-compose.yml</code>文件中的映射名称。</p>
-
 <p>启动一下镜像，使之初始化：<code>docker-compose up</code>，报错不用管。这时，我们的目录结构：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -335,101 +305,88 @@ esrally configure
     ├── percolator
     ├── pmc
     ├── README.md
-    └── so</code></pre></td></tr></table>
+    └── so
+</code></pre></td></tr></table>
 </div>
-</div>
-<p>可以看到在<code>myrally</code>文件夹下，已经初始化了一些配置和文件。接下来，我们就可以开始正式使用了（虽然还是各种需要调整）：</p>
-
+</div><p>可以看到在<code>myrally</code>文件夹下，已经初始化了一些配置和文件。接下来，我们就可以开始正式使用了（虽然还是各种需要调整）：</p>
 <ol>
-<li><code>Expected a git repository at [/root/.rally/benchmarks/tracks/default] but the directory does not exist</code></li>
-</ol>
-
+<li>
+<p><code>Expected a git repository at [/root/.rally/benchmarks/tracks/default] but the directory does not exist</code></p>
 <p>这个错误很明显，我们只需要手动创建对应的文件夹就好了。</p>
-
-<ol>
-<li><code>[/rally/.rally/benchmarks/tracks/default] must be a git repository.\n\nPlease run:\ngit -C /rally/.rally/benchmarks/tracks/default init</code></li>
-</ol>
-
+</li>
+<li>
+<p><code>[/rally/.rally/benchmarks/tracks/default] must be a git repository.\n\nPlease run:\ngit -C /rally/.rally/benchmarks/tracks/default init</code></p>
 <p>这个错误是因为需要是<code>Git</code>目录，也已经给出了解决方案，不同的是，我们是在<code>myrally</code>文件夹下进行操作：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span><span class="lnt">5
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-bash" data-lang="bash">   <span class="nb">cd</span> myrally/benchmarks/tracks/default
-   git init
-   touch .gitignore
-   git add .
-   git commit -m <span class="s2">&#34;init default&#34;</span></code></pre></td></tr></table>
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nb">cd</span> myrally/benchmarks/tracks/default
+git init
+touch .gitignore
+git add .
+git commit -m <span class="s2">&#34;init default&#34;</span>
+</code></pre></td></tr></table>
 </div>
-</div>
-<ol>
-<li><code>Could not load '/rally/.rally/benchmarks/tracks/default/geonames/track.json'. The complete track has been written to '/tmp/tmpyadq1aqi.json' for diagnos
-is.&quot;, '(&quot;Could not load track from \'track.json\'</code></li>
-</ol>
-
+</div></li>
+<li>
+<p><code>Could not load '/rally/.rally/benchmarks/tracks/default/geonames/track.json'. The complete track has been written to '/tmp/tmpyadq1aqi.json' for diagnos is.&quot;, '(&quot;Could not load track from \'track.json\'</code></p>
 <p>这个错误就需要用到我们拉取下来的<code>rally-tracks</code>项目了：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-bash" data-lang="bash">   cp rally-tracks/geonames/ myrally/benchmarks/tracks/default/ -r</code></pre></td></tr></table>
+<pre class="chroma"><code class="language-bash" data-lang="bash">cp rally-tracks/geonames/ myrally/benchmarks/tracks/default/ -r
+</code></pre></td></tr></table>
 </div>
-</div>
-<ol>
-<li><code>Cannot find /rally/.rally/benchmarks/data/geonames/documents-2.json.bz2. Please disable offline mode and retry again.</code></li>
-</ol>
-
+</div></li>
+<li>
+<p><code>Cannot find /rally/.rally/benchmarks/data/geonames/documents-2.json.bz2. Please disable offline mode and retry again.</code></p>
 <p>这个错误也比较明显，这时，我们就可以直接使用手动下载的数据集啦：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-bash" data-lang="bash">   mkdir myrally/benchmarks/data/geonames/ -P
-   cp geonames/documents-2.json.bz2 myrally/benchmarks/data/geonames/</code></pre></td></tr></table>
+<pre class="chroma"><code class="language-bash" data-lang="bash">mkdir myrally/benchmarks/data/geonames/ -P
+cp geonames/documents-2.json.bz2 myrally/benchmarks/data/geonames/
+</code></pre></td></tr></table>
 </div>
-</div>
+</div></li>
+</ol>
 <p>到这里，我们终于可以愉快地进行测试了。</p>
-
 <p>直接运行：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-bash" data-lang="bash">docker-compose up</code></pre></td></tr></table>
+<pre class="chroma"><code class="language-bash" data-lang="bash">docker-compose up
+</code></pre></td></tr></table>
 </div>
-</div>
-<p>等待执行完毕就可以啦。</p>
-
+</div><p>等待执行完毕就可以啦。</p>
 <h2 id="小技巧">小技巧</h2>
-
 <p>查看日志：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-bash" data-lang="bash">less myrally/logs/rally.log</code></pre></td></tr></table>
+<pre class="chroma"><code class="language-bash" data-lang="bash">less myrally/logs/rally.log
+</code></pre></td></tr></table>
 </div>
-</div>
-<h1 id="总结">总结</h1>
-
+</div><h1 id="总结">总结</h1>
 <p><code>esrally</code>的使用还是非常方便的，只是因为网络原因，我们需要先手动下载数据集，并且修改一些配置。</p>
-
 <p>从一开始的查询<code>docker</code>镜像，到自己优化镜像、再到直接使用官方提供的镜像、并调整一些参数。还是花了我半天的时间，但收获还是满满的。</p>
-
 <p>有了这个基准测试，在优化集群参数，调整集群大小方面，就更有底气，也更有说服力了。</p>
-
 <h1 id="参考">参考</h1>
-
 <ol>
 <li><a href="https://github.com/elastic/rally">rally</a></li>
 <li><a href="https://github.com/elastic/rally-tracks">rally-trakcs</a></li>
@@ -526,7 +483,7 @@ is.&quot;, '(&quot;Could not load track from \'track.json\'</code></li>
 <a href="www.beian.miit.gov.cn">湘ICP备16020053号-1</a>
     &copy; 
     2017 - 
-    2020
+    2021
     <span class="heart">
       <i class="iconfont icon-heart"></i>
     </span>
