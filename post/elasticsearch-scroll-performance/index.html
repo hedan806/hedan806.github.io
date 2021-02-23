@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Elasticsearch Scroll Performance - Honlyc - Your are free</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="Honlyc" /><meta name="description" content="前言 因为业务关系，我们需要从 ES 中查询出超大量的数据。其中又分为天索引及历史索引，天索引使用堆外内存进行优化，查询和索引都先走内存索引，提高效" /><meta name="keywords" content="Honlyc, golanh, java, 分享, elasticsearch, jvm" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.80.0 with theme even" />
+
+
+<link rel="canonical" href="http://www.honlyc.com/post/elasticsearch-scroll-performance/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.b5a744db6de49a86cadafb3b70f555ab443f83c307a483402259e94726b045ff.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Elasticsearch Scroll Performance" />
+<meta property="og:description" content="前言 因为业务关系，我们需要从 ES 中查询出超大量的数据。其中又分为天索引及历史索引，天索引使用堆外内存进行优化，查询和索引都先走内存索引，提高效" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://www.honlyc.com/post/elasticsearch-scroll-performance/" />
+<meta property="article:published_time" content="2021-02-09T13:12:46+08:00" />
+<meta property="article:modified_time" content="2021-02-09T13:12:46+08:00" />
+<meta itemprop="name" content="Elasticsearch Scroll Performance">
+<meta itemprop="description" content="前言 因为业务关系，我们需要从 ES 中查询出超大量的数据。其中又分为天索引及历史索引，天索引使用堆外内存进行优化，查询和索引都先走内存索引，提高效">
+<meta itemprop="datePublished" content="2021-02-09T13:12:46+08:00" />
+<meta itemprop="dateModified" content="2021-02-09T13:12:46+08:00" />
+<meta itemprop="wordCount" content="1538">
+
+
+
+<meta itemprop="keywords" content="scroll,7.4.0," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Elasticsearch Scroll Performance"/>
+<meta name="twitter:description" content="前言 因为业务关系，我们需要从 ES 中查询出超大量的数据。其中又分为天索引及历史索引，天索引使用堆外内存进行优化，查询和索引都先走内存索引，提高效"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Honlyc</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Honlyc</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Elasticsearch Scroll Performance</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2021-02-09 </span>
+        <div class="post-category">
+            <a href="/categories/elasticsearch/"> elasticsearch </a>
+            </div>
+          <span class="more-meta"> 1538 words </span>
+          <span class="more-meta"> 4 mins read </span>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents"></nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h1 id="前言">前言</h1>
+<p>因为业务关系，我们需要从 ES 中查询出超大量的数据。其中又分为天索引及历史索引，天索引使用堆外内存进行优化，查询和索引都先走内存索引，提高效率。但是在进行<code>scroll</code>全部数据时，速度上还是很慢。</p>
+<h1 id="详细分析">详细分析</h1>
+<p>因为不能直接对生产数据进行测试及调整，所以我们临时搭建一个对等的集群，并接入实时数据的索引，来进行详细的测试及分析。</p>
+<p>集群信息如下：</p>
+<p>elasticsearch version: 7.4.0；机器：4台；数据量：2000万；存储大小：120GB；索引个数：按天构建，一共存了两天的数据，就是两个。</p>
+<p>在这里，我们的需求是要拿到对应查询的所有数据，就需要使用<code>scroll</code>来进行获取。<code>scroll</code>其实就是游标查询，在第一次查询时，返回一个<code>scrollId</code>，后面直接通过<code>scrollId</code>进行查询。</p>
+<p>一开始，我们是按天进行分别查询，代码差不多就是这样，<a href="https://www.elastic.co/guide/en/elasticsearch/client/java-rest/current/java-rest-high-search-scroll.html">参考官方示例</a>：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">final</span> <span class="n">Scroll</span> <span class="n">scroll</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Scroll</span><span class="o">(</span><span class="n">TimeValue</span><span class="o">.</span><span class="na">timeValueMinutes</span><span class="o">(</span><span class="n">1L</span><span class="o">));</span>
+<span class="n">SearchRequest</span> <span class="n">searchRequest</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SearchRequest</span><span class="o">(</span><span class="s">&#34;posts&#34;</span><span class="o">);</span>
+<span class="n">searchRequest</span><span class="o">.</span><span class="na">scroll</span><span class="o">(</span><span class="n">scroll</span><span class="o">);</span>
+<span class="n">SearchSourceBuilder</span> <span class="n">searchSourceBuilder</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SearchSourceBuilder</span><span class="o">();</span>
+<span class="n">searchSourceBuilder</span><span class="o">.</span><span class="na">query</span><span class="o">(</span><span class="n">matchQuery</span><span class="o">(</span><span class="s">&#34;title&#34;</span><span class="o">,</span> <span class="s">&#34;Elasticsearch&#34;</span><span class="o">));</span>
+<span class="n">searchRequest</span><span class="o">.</span><span class="na">source</span><span class="o">(</span><span class="n">searchSourceBuilder</span><span class="o">);</span>
+
+<span class="n">SearchResponse</span> <span class="n">searchResponse</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="na">search</span><span class="o">(</span><span class="n">searchRequest</span><span class="o">,</span> <span class="n">RequestOptions</span><span class="o">.</span><span class="na">DEFAULT</span><span class="o">);</span> 
+<span class="n">String</span> <span class="n">scrollId</span> <span class="o">=</span> <span class="n">searchResponse</span><span class="o">.</span><span class="na">getScrollId</span><span class="o">();</span>
+<span class="n">SearchHit</span><span class="o">[]</span> <span class="n">searchHits</span> <span class="o">=</span> <span class="n">searchResponse</span><span class="o">.</span><span class="na">getHits</span><span class="o">().</span><span class="na">getHits</span><span class="o">();</span>
+
+<span class="k">while</span> <span class="o">(</span><span class="n">searchHits</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">searchHits</span><span class="o">.</span><span class="na">length</span> <span class="o">&gt;</span> <span class="n">0</span><span class="o">)</span> <span class="o">{</span> 
+    
+    <span class="n">SearchScrollRequest</span> <span class="n">scrollRequest</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SearchScrollRequest</span><span class="o">(</span><span class="n">scrollId</span><span class="o">);</span> 
+    <span class="n">scrollRequest</span><span class="o">.</span><span class="na">scroll</span><span class="o">(</span><span class="n">scroll</span><span class="o">);</span>
+    <span class="n">searchResponse</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="na">scroll</span><span class="o">(</span><span class="n">scrollRequest</span><span class="o">,</span> <span class="n">RequestOptions</span><span class="o">.</span><span class="na">DEFAULT</span><span class="o">);</span>
+    <span class="n">scrollId</span> <span class="o">=</span> <span class="n">searchResponse</span><span class="o">.</span><span class="na">getScrollId</span><span class="o">();</span>
+    <span class="n">searchHits</span> <span class="o">=</span> <span class="n">searchResponse</span><span class="o">.</span><span class="na">getHits</span><span class="o">().</span><span class="na">getHits</span><span class="o">();</span>
+<span class="o">}</span>
+
+<span class="n">ClearScrollRequest</span> <span class="n">clearScrollRequest</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ClearScrollRequest</span><span class="o">();</span> 
+<span class="n">clearScrollRequest</span><span class="o">.</span><span class="na">addScrollId</span><span class="o">(</span><span class="n">scrollId</span><span class="o">);</span>
+<span class="n">ClearScrollResponse</span> <span class="n">clearScrollResponse</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="na">clearScroll</span><span class="o">(</span><span class="n">clearScrollRequest</span><span class="o">,</span> <span class="n">RequestOptions</span><span class="o">.</span><span class="na">DEFAULT</span><span class="o">);</span>
+<span class="kt">boolean</span> <span class="n">succeeded</span> <span class="o">=</span> <span class="n">clearScrollResponse</span><span class="o">.</span><span class="na">isSucceeded</span><span class="o">();</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>但是，当我们查询的数据量达百万以上时，这个整体的查询就很慢了。我们设置的每次的<code>size</code>为 5000，加入一共有 100万 数据，就相当于要遍历 200次，而每次的查询时间大概在 100ms，也就是整个 100万数据，得花 20s 才能拿到结果，这个速度完全不能接受。</p>
+<p>于是我们就看一下查询时，热线程到底是哪些，通过<code>GET _nodes/hot_threads</code>我们可以看到：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="o">:::</span> <span class="o">{</span><span class="n">node_p005063_2</span><span class="o">}{</span><span class="n">EEQPzbEvSKO3n4ip8w_u6A</span><span class="o">}{</span><span class="n">wU_AI_a5QQCecvn</span><span class="o">-</span><span class="n">K8Pb4Q</span><span class="o">}{</span><span class="n">10</span><span class="o">.</span><span class="na">20</span><span class="o">.</span><span class="na">5</span><span class="o">.</span><span class="na">63</span><span class="o">}{</span><span class="n">10</span><span class="o">.</span><span class="na">20</span><span class="o">.</span><span class="na">5</span><span class="o">.</span><span class="na">63</span><span class="o">:</span><span class="n">9501</span><span class="o">}{</span><span class="n">dl</span><span class="o">}{</span><span class="n">rack_id</span><span class="o">=</span><span class="n">rack_id_p005063</span><span class="o">,</span> <span class="n">ml</span><span class="o">.</span><span class="na">machine_memory</span><span class="o">=</span><span class="n">270187814912</span><span class="o">,</span> <span class="n">rack</span><span class="o">=</span><span class="n">rack_p005063</span><span class="o">,</span> <span class="n">ml</span><span class="o">.</span><span class="na">max_open_jobs</span><span class="o">=</span><span class="n">20</span><span class="o">,</span> <span class="n">xpack</span><span class="o">.</span><span class="na">installed</span><span class="o">=</span><span class="kc">true</span><span class="o">}</span>
+   <span class="n">Hot</span> <span class="n">threads</span> <span class="n">at</span> <span class="n">2021</span><span class="o">-</span><span class="n">02</span><span class="o">-</span><span class="n">09T05</span><span class="o">:</span><span class="n">38</span><span class="o">:</span><span class="n">24</span><span class="o">.</span><span class="na">207Z</span><span class="o">,</span> <span class="n">interval</span><span class="o">=</span><span class="n">500ms</span><span class="o">,</span> <span class="n">busiestThreads</span><span class="o">=</span><span class="n">3</span><span class="o">,</span> <span class="n">ignoreIdleThreads</span><span class="o">=</span><span class="kc">true</span><span class="o">:</span>
+   
+   <span class="n">38</span><span class="o">.</span><span class="na">7</span><span class="o">%</span> <span class="o">(</span><span class="n">193</span><span class="o">.</span><span class="na">6ms</span> <span class="n">out</span> <span class="n">of</span> <span class="n">500ms</span><span class="o">)</span> <span class="n">cpu</span> <span class="n">usage</span> <span class="n">by</span> <span class="n">thread</span> <span class="err">&#39;</span><span class="n">elasticsearch</span><span class="o">[</span><span class="n">node_p005063_2</span><span class="o">][</span><span class="n">search</span><span class="o">][</span><span class="n">T</span><span class="err">#</span><span class="n">188</span><span class="o">]</span><span class="err">&#39;</span>
+     <span class="n">3</span><span class="o">/</span><span class="n">10</span> <span class="n">snapshots</span> <span class="n">sharing</span> <span class="n">following</span> <span class="n">23</span> <span class="n">elements</span>
+       <span class="n">app</span><span class="c1">//org.apache.lucene.codecs.compressing.LZ4.decompress(LZ4.java:108)
+</span><span class="c1"></span>       <span class="n">app</span><span class="c1">//org.apache.lucene.codecs.compressing.CompressionMode$4.decompress(CompressionMode.java:138)
+</span><span class="c1"></span>       <span class="n">app</span><span class="c1">//org.apache.lucene.codecs.compressing.CompressingStoredFieldsReader$BlockState.document(CompressingStoredFieldsReader.java:555)
+</span><span class="c1"></span>       <span class="n">app</span><span class="c1">//org.apache.lucene.codecs.compressing.CompressingStoredFieldsReader.document(CompressingStoredFieldsReader.java:571)
+</span><span class="c1"></span>       <span class="n">app</span><span class="c1">//org.apache.lucene.codecs.compressing.CompressingStoredFieldsReader.visitDocument(CompressingStoredFieldsReader.java:578)
+</span><span class="c1"></span>       <span class="n">app</span><span class="c1">//org.apache.lucene.index.CodecReader.document(CodecReader.java:84)
+</span><span class="c1"></span>       <span class="n">app</span><span class="c1">//org.apache.lucene.index.FilterLeafReader.document(FilterLeafReader.java:355)
+</span><span class="c1"></span>       <span class="n">app</span><span class="c1">//org.elasticsearch.search.fetch.FetchPhase.loadStoredFields(FetchPhase.java:425)
+</span><span class="c1"></span>       <span class="n">app</span><span class="c1">//org.elasticsearch.search.fetch.FetchPhase.getSearchFields(FetchPhase.java:232)
+</span><span class="c1"></span>       <span class="n">app</span><span class="c1">//org.elasticsearch.search.fetch.FetchPhase.createSearchHit(FetchPhase.java:214)
+</span><span class="c1"></span>       <span class="n">app</span><span class="c1">//org.elasticsearch.search.fetch.FetchPhase.execute(FetchPhase.java:162)
+</span><span class="c1"></span>       <span class="n">app</span><span class="c1">//org.elasticsearch.search.SearchService.lambda$executeFetchPhase$6(SearchService.java:502)
+</span><span class="c1"></span>       <span class="n">app</span><span class="c1">//org.elasticsearch.search.SearchService$$Lambda$4350/0x0000000801904440.get(Unknown Source)
+</span><span class="c1"></span>       <span class="n">app</span><span class="c1">//org.elasticsearch.search.SearchService.lambda$runAsync$2(SearchService.java:344)
+</span><span class="c1"></span>       <span class="n">app</span><span class="c1">//org.elasticsearch.search.SearchService$$Lambda$4352/0x0000000801904c40.accept(Unknown Source)
+</span><span class="c1"></span>       <span class="n">app</span><span class="c1">//org.elasticsearch.action.ActionRunnable$1.doRun(ActionRunnable.java:45)
+</span><span class="c1"></span>       <span class="n">app</span><span class="c1">//org.elasticsearch.common.util.concurrent.AbstractRunnable.run(AbstractRunnable.java:37)
+</span><span class="c1"></span>       <span class="n">app</span><span class="c1">//org.elasticsearch.common.util.concurrent.TimedRunnable.doRun(TimedRunnable.java:44)
+</span><span class="c1"></span>       <span class="n">app</span><span class="c1">//org.elasticsearch.common.util.concurrent.ThreadContext$ContextPreservingAbstractRunnable.doRun(ThreadContext.java:773)
+</span><span class="c1"></span>       <span class="n">app</span><span class="c1">//org.elasticsearch.common.util.concurrent.AbstractRunnable.run(AbstractRunnable.java:37)
+</span><span class="c1"></span>       <span class="n">java</span><span class="o">.</span><span class="na">base</span><span class="nd">@13</span><span class="o">/</span><span class="n">java</span><span class="o">.</span><span class="na">util</span><span class="o">.</span><span class="na">concurrent</span><span class="o">.</span><span class="na">ThreadPoolExecutor</span><span class="o">.</span><span class="na">runWorker</span><span class="o">(</span><span class="n">ThreadPoolExecutor</span><span class="o">.</span><span class="na">java</span><span class="o">:</span><span class="n">1128</span><span class="o">)</span>
+       <span class="n">java</span><span class="o">.</span><span class="na">base</span><span class="nd">@13</span><span class="o">/</span><span class="n">java</span><span class="o">.</span><span class="na">util</span><span class="o">.</span><span class="na">concurrent</span><span class="o">.</span><span class="na">ThreadPoolExecutor$Worker</span><span class="o">.</span><span class="na">run</span><span class="o">(</span><span class="n">ThreadPoolExecutor</span><span class="o">.</span><span class="na">java</span><span class="o">:</span><span class="n">628</span><span class="o">)</span>
+       <span class="n">java</span><span class="o">.</span><span class="na">base</span><span class="nd">@13</span><span class="o">/</span><span class="n">java</span><span class="o">.</span><span class="na">lang</span><span class="o">.</span><span class="na">Thread</span><span class="o">.</span><span class="na">run</span><span class="o">(</span><span class="n">Thread</span><span class="o">.</span><span class="na">java</span><span class="o">:</span><span class="n">830</span><span class="o">)</span>
+       <span class="o">...</span>
+       <span class="c1">//日志太长，我就只放一部分了
+</span></code></pre></td></tr></table>
+</div>
+</div><p>我们能够通过这个结果，获取很多信息，我们一一来解析：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">::: {node_p005063_2}{EEQPzbEvSKO3n4ip8w_u6A}{wU_AI_a5QQCecvn-K8Pb4Q}{10.20.5.63}{10.20.5.63:9501}{dl}{rack_id=rack_id_p005063, ml.machine_memory=270187814912, rack=rack_p005063, ml.max_open_jobs=20, xpack.installed=true}
+</code></pre></td></tr></table>
+</div>
+</div><p>结果第一行，包括了节点的身份，因为集群中有很多个节点，这里说明了该线程属于哪个节点、哪个索引以及一些属性。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">38.7% (193.6ms out of 500ms) cpu usage by thread &#39;elasticsearch[node_p005063_2][search][T#188]&#39;
+</code></pre></td></tr></table>
+</div>
+</div><p>而这里可以看到 38.7% 的 CPU 处理花费在 <code>search</code>（搜索）线程上，这里很关键，因为可以调优导致 CPU 高峰的搜索查询，而且，这里最好是不要总是出现搜索。还有其他如：merge、index等类型。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">     3/10 snapshots sharing following 23 elements
+</code></pre></td></tr></table>
+</div>
+</div><p>在堆栈轨迹（stackTrace)之前的一行说明，Elasticsearch 在几毫秒中进行了 10次快照，然后发现拥有如下同样堆栈轨迹的线程在这 3 次中都出现了。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">       app//org.apache.lucene.codecs.compressing.LZ4.decompress(LZ4.java:108)
+       app//org.apache.lucene.codecs.compressing.CompressionMode$4.decompress(CompressionMode.java:138)
+       app//org.apache.lucene.codecs.compressing.CompressingStoredFieldsReader$BlockState.document(CompressingStoredFieldsReader.java:555)
+       app//org.apache.lucene.codecs.compressing.CompressingStoredFieldsReader.document(CompressingStoredFieldsReader.java:571)
+       app//org.apache.lucene.codecs.compressing.CompressingStoredFieldsReader.visitDocument(CompressingStoredFieldsReader.java:578)
+       app//org.apache.lucene.index.CodecReader.document(CodecReader.java:84)
+       app//org.apache.lucene.index.FilterLeafReader.document(FilterLeafReader.java:355)
+       app//org.elasticsearch.search.fetch.FetchPhase.loadStoredFields(FetchPhase.java:425)
+       app//org.elasticsearch.search.fetch.FetchPhase.getSearchFields(FetchPhase.java:232)
+       app//org.elasticsearch.search.fetch.FetchPhase.createSearchHit(FetchPhase.java:214)
+       app//org.elasticsearch.search.fetch.FetchPhase.execute(FetchPhase.java:162)
+</code></pre></td></tr></table>
+</div>
+</div><p>通过堆栈轨迹，我们可以看到，大部分都是在执行<code>LZ4.decompress()</code>这个方法，而这个主要从<code>FetchPhase</code>来的，<code>Fetch</code>是查询的第二个阶段，对应<code>ES</code>的<code>QUERY_THEN_FETCH</code>，这里我们后面可以再展开讲。</p>
+<p>这里正好可以对应到我们的查询中去，因为我们使用<code>scroll</code>，第一阶段的<code>Query</code>是很快的，但在第二阶段时，因为我们需要拿到 100万 的数据，所以就一直在做<code>Fetch</code>操作，而<code>Fetch</code>就是通过<code>lucene</code>的<code>docId</code>（注意：这个<code>docId</code>是<code>int</code>类型的那个<code>lucene内部id</code>）去获取实际我们存的<code>_id</code>，这也是我们最终拿到的数据（我们的<code>_source:false</code>，查询只返回所有的<code>_id</code>)。</p>
+<h1 id="优化方案">优化方案</h1>
+<p>既然问题已经确认了，就得想解决方案，找了一圈，定了几个备用方案：</p>
+<ol>
+<li>使用<code>QUERY_AND_FETCH</code>，这是<code>ES</code>的另一种<code>searchType</code>，是一把查出来，不存在两阶段查询，可惜，在新版本已经被废弃掉了，连代码都删了。</li>
+<li>修改不用<code>LZ4</code>压缩，是不是可以降低在解压缩时的耗时，提升<code>Fetch</code>阶段的效率？</li>
+<li>现在查询 100万 完全是串行的，下一个查询得等待上一个查询的结果，有没有办法做到并发查，比如：100万 数据分 10个线程一起查。</li>
+</ol>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">Honlyc</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        2021-02-09
+        
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content">转载请注明出处。<a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a></span>
+  </p>
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">Reward</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/wxpay.png">
+        <span>wechat</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/alipay.png">
+        <span>alipay</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/scroll/">scroll</a>
+          <a href="/tags/7.4.0/">7.4.0</a>
+          </div>
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/gradle-in-action-1/">
+            <span class="next-text nav-default">Gradle in Action 1</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="hedan806@gmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-stack-overflow" title="stack-overflow"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="http://localhost:1313" class="iconfont icon-zhihu" title="zhihu"></a>
+      <a href="http://localhost:1313" class="iconfont icon-douban" title="douban"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="http://www.honlyc.com/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2017 - 
+    2021<span class="heart"><i class="iconfont icon-heart"></i></span><span>Honlyc</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

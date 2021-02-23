@@ -6,7 +6,16 @@
     <description>Recent content in elasticsearch on Honlyc - Your are free</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Tue, 26 Jan 2021 17:38:41 +0800</lastBuildDate><atom:link href="http://www.honlyc.com/categories/elasticsearch/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 09 Feb 2021 13:12:46 +0800</lastBuildDate><atom:link href="http://www.honlyc.com/categories/elasticsearch/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Elasticsearch Scroll Performance</title>
+      <link>http://www.honlyc.com/post/elasticsearch-scroll-performance/</link>
+      <pubDate>Tue, 09 Feb 2021 13:12:46 +0800</pubDate>
+      
+      <guid>http://www.honlyc.com/post/elasticsearch-scroll-performance/</guid>
+      <description>前言 因为业务关系，我们需要从 ES 中查询出超大量的数据。其中又分为天索引及历史索引，天索引使用堆外内存进行优化，查询和索引都先走内存索引，提高效</description>
+    </item>
+    
     <item>
       <title>Elasticsearch 源码解析 Q&amp;A</title>
       <link>http://www.honlyc.com/post/elasticsearch-src-qa/</link>
