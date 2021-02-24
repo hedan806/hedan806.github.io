@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Lucene Pure Negative Booleanquery - Honlyc - Your are free</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="Honlyc" /><meta name="description" content="问题 在开发中遇到一个情况，在直接使用Lucene查询时，使用查询语句： 1 hk (-cs) 无法查出内容： 1 security in hk 但是使用hk -(cs)又是可以的。 同时，还" /><meta name="keywords" content="Honlyc, golanh, java, 分享, elasticsearch, jvm" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.80.0 with theme even" />
+
+
+<link rel="canonical" href="http://www.honlyc.com/post/lucene-negative-booleanquery/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.b5a744db6de49a86cadafb3b70f555ab443f83c307a483402259e94726b045ff.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Lucene Pure Negative Booleanquery" />
+<meta property="og:description" content="问题 在开发中遇到一个情况，在直接使用Lucene查询时，使用查询语句： 1 hk (-cs) 无法查出内容： 1 security in hk 但是使用hk -(cs)又是可以的。 同时，还" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://www.honlyc.com/post/lucene-negative-booleanquery/" />
+<meta property="article:published_time" content="2021-02-24T16:00:05+08:00" />
+<meta property="article:modified_time" content="2021-02-24T16:00:05+08:00" />
+<meta itemprop="name" content="Lucene Pure Negative Booleanquery">
+<meta itemprop="description" content="问题 在开发中遇到一个情况，在直接使用Lucene查询时，使用查询语句： 1 hk (-cs) 无法查出内容： 1 security in hk 但是使用hk -(cs)又是可以的。 同时，还">
+<meta itemprop="datePublished" content="2021-02-24T16:00:05+08:00" />
+<meta itemprop="dateModified" content="2021-02-24T16:00:05+08:00" />
+<meta itemprop="wordCount" content="1337">
+
+
+
+<meta itemprop="keywords" content="query," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Lucene Pure Negative Booleanquery"/>
+<meta name="twitter:description" content="问题 在开发中遇到一个情况，在直接使用Lucene查询时，使用查询语句： 1 hk (-cs) 无法查出内容： 1 security in hk 但是使用hk -(cs)又是可以的。 同时，还"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Honlyc</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Honlyc</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Lucene Pure Negative Booleanquery</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2021-02-24 </span>
+        <div class="post-category">
+            <a href="/categories/lucene/"> lucene </a>
+            </div>
+          <span class="more-meta"> 1337 words </span>
+          <span class="more-meta"> 3 mins read </span>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#分析-lucene-的方式">分析 Lucene 的方式</a></li>
+    <li><a href="#分析-es-的方式">分析 ES 的方式</a></li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h1 id="问题">问题</h1>
+<p>在开发中遇到一个情况，在直接使用<code>Lucene</code>查询时，使用查询语句：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">hk (-cs)
+</code></pre></td></tr></table>
+</div>
+</div><p>无法查出内容：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">security in hk
+</code></pre></td></tr></table>
+</div>
+</div><p>但是使用<code>hk -(cs)</code>又是可以的。</p>
+<p>同时，还存在一个情况，如果使用<code>ES</code>集群查询，又是可以的。</p>
+<h1 id="思路">思路</h1>
+<p>一开始这个查询很复杂，排除掉了分词问题等其他问题后，简化成上述的这种情况。看起来，就是在<code>queryParse</code>时，解析出来的查询有问题。于是开始<code>Debug</code>之路：</p>
+<ol>
+<li>首先，我们来看下转成的最终 query 是啥：<code>+content:hk +(-content:cs)</code>，看起来有点别扭，后面这个<code>+(-*</code>应该有问题；</li>
+<li>那我们就再看一下<code>hk -(cs)</code>会转成什么样：<code>+content:hk -content:cs</code>，很明显，少了<code>+(</code>那一截，问题应该就在这了；</li>
+</ol>
+<h2 id="分析-lucene-的方式">分析 Lucene 的方式</h2>
+<p>初步确定问题，我们再调试一下：</p>
+<p>这一步是构建查询时的<code>Weight</code>，会调用一次<code>rewrite</code></p>
+<p><img src="http://img.honlyc.com/image-20210224171330339.png" alt="image-20210224171330339"></p>
+<p>调用后，可以看到，后面这个<code>+(-*</code>的语法，变成了一个<code>MatchNoDocsQuery(&quot;pure negative BooleanQuery&quot;)</code>，这不就是说，这个查询不匹配任何数据嘛，然后又是<code>MUST</code>，所以最后压根就查询不到数据。</p>
+<p><img src="http://img.honlyc.com/image-20210224171432672.png" alt="image-20210224171432672"></p>
+<p>问题确定到这里，那怎么解决？这时，我想到再<code>ES</code>里面的查询是没问题的，那它又是怎么做的呢？源码翻一翻：</p>
+<h2 id="分析-es-的方式">分析 ES 的方式</h2>
+<p>拿到<code>ES</code>源码，直奔<code>QueryStringQueryBuilder</code>这个类，找到<code>doToQuery()</code>方法，可以看到：</p>
+<p><img src="http://img.honlyc.com/image-20210224171959657.png" alt="image-20210224171959657"></p>
+<p>这里，再做完<code>queryParase</code>后，多了两行转换，看方法名<code>query = Queries.fixNegativeQueryIfNeeded(query);</code>就知道，就是专门处理<code>pure negative BooleanQuery</code>的，进去再看：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">static</span> <span class="n">Query</span> <span class="nf">fixNegativeQueryIfNeeded</span><span class="o">(</span><span class="n">Query</span> <span class="n">q</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">isNegativeQuery</span><span class="o">(</span><span class="n">q</span><span class="o">))</span> <span class="o">{</span>
+            <span class="n">BooleanQuery</span> <span class="n">bq</span> <span class="o">=</span> <span class="o">(</span><span class="n">BooleanQuery</span><span class="o">)</span> <span class="n">q</span><span class="o">;</span>
+            <span class="n">BooleanQuery</span><span class="o">.</span><span class="na">Builder</span> <span class="n">builder</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BooleanQuery</span><span class="o">.</span><span class="na">Builder</span><span class="o">();</span>
+            <span class="k">for</span> <span class="o">(</span><span class="n">BooleanClause</span> <span class="n">clause</span> <span class="o">:</span> <span class="n">bq</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">builder</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">clause</span><span class="o">);</span>
+            <span class="o">}</span>
+            <span class="n">builder</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">newMatchAllQuery</span><span class="o">(),</span> <span class="n">BooleanClause</span><span class="o">.</span><span class="na">Occur</span><span class="o">.</span><span class="na">FILTER</span><span class="o">);</span>
+            <span class="k">return</span> <span class="n">builder</span><span class="o">.</span><span class="na">build</span><span class="o">();</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">q</span><span class="o">;</span>
+    <span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>可以看到，当遇到<code>NegativeQuery</code>时，会增加一个<code>MatchAllQuery</code>，具体长啥样，请看：</p>
+<p><img src="http://img.honlyc.com/image-20210224172405480.png" alt="image-20210224172405480"></p>
+<p>在原有的<code>+(-*</code>语法后，直接加了一个<code>#*:*</code>，有没有一点粗暴的感觉？它认为，你这个<code>纯否定语法</code>有问题，直接给你加个<code>filter all</code>，结果当然可以查出来数据了。</p>
+<p>咦~，细心的你可能已经发现了，在这一步的时候，压根还没经过后面这个</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="n">query</span> <span class="o">=</span> <span class="n">Queries</span><span class="o">.</span><span class="na">fixNegativeQueryIfNeeded</span><span class="o">(</span><span class="n">query</span><span class="o">);</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>方法，就已经转换好了，那是哪里做的呢？</p>
+<p>这时，我们就得看这个<code>queryParser</code>具体类<code>QueryStringQueryParser</code>的内部代码了，因为这个类继承了<code>QueryParser</code>，那我们可以先看一下它覆写了哪些方法吧：</p>
+<p><img src="http://img.honlyc.com/image-20210224173128093.png" alt="image-20210224173128093"></p>
+<p>可以看到这里有很多<code>getXXX()</code>的方法，那我们就看一下<code>getBooleanQuery()</code>：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="nd">@Override</span>
+<span class="kd">protected</span> <span class="n">Query</span> <span class="nf">getBooleanQuery</span><span class="o">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">BooleanClause</span><span class="o">&gt;</span> <span class="n">clauses</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">ParseException</span> <span class="o">{</span>
+    <span class="n">Query</span> <span class="n">q</span> <span class="o">=</span> <span class="kd">super</span><span class="o">.</span><span class="na">getBooleanQuery</span><span class="o">(</span><span class="n">clauses</span><span class="o">);</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">q</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="k">return</span> <span class="n">fixNegativeQueryIfNeeded</span><span class="o">(</span><span class="n">q</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>有没有一目了然？在这里也调用了刚刚那个方法，也就是在这里就会被转换了。</p>
+<p>到这里，我们解决方案也就有了，直接<code>Copy</code>嘛。</p>
+<h1 id="总结">总结</h1>
+<p>在实际使用中，<code>ES</code>其实做了很多的处理，如果直接使用<code>Lucene</code>，就会碰到很多意外情况。当然，因为业务需要，我们在某些模块是直接使用的<code>Lucene</code>，而通过不断填坑，也能够让我的技术有所提升。</p>
+<p>相对于直接一头扎进源码，我可能更喜欢带着问题去看源码，理解得更为透彻，印象也更深。</p>
+<p>最重要的，还是要自己记录下来，如果有机会，给别人去详细地讲解一番就更能够加深理解了。</p>
+<p>以上。</p>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">Honlyc</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        2021-02-24
+        
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content">转载请注明出处。<a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a></span>
+  </p>
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">Reward</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/wxpay.png">
+        <span>wechat</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/alipay.png">
+        <span>alipay</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/query/">query</a>
+          </div>
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/elasticsearch-scroll-performance/">
+            <span class="next-text nav-default">Elasticsearch Scroll Performance</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="hedan806@gmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-stack-overflow" title="stack-overflow"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="http://localhost:1313" class="iconfont icon-zhihu" title="zhihu"></a>
+      <a href="http://localhost:1313" class="iconfont icon-douban" title="douban"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="http://www.honlyc.com/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2017 - 
+    2021<span class="heart"><i class="iconfont icon-heart"></i></span><span>Honlyc</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>lucene on Honlyc - Your are free</title>
+    <link>http://www.honlyc.com/categories/lucene/</link>
+    <description>Recent content in lucene on Honlyc - Your are free</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Wed, 24 Feb 2021 16:00:05 +0800</lastBuildDate><atom:link href="http://www.honlyc.com/categories/lucene/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Lucene Pure Negative Booleanquery</title>
+      <link>http://www.honlyc.com/post/lucene-negative-booleanquery/</link>
+      <pubDate>Wed, 24 Feb 2021 16:00:05 +0800</pubDate>
+      
+      <guid>http://www.honlyc.com/post/lucene-negative-booleanquery/</guid>
+      <description>问题 在开发中遇到一个情况，在直接使用Lucene查询时，使用查询语句： 1 hk (-cs) 无法查出内容： 1 security in hk 但是使用hk -(cs)又是可以的。 同时，还</description>
+    </item>
+    
+  </channel>
+</rss>
