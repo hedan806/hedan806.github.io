@@ -6,7 +6,16 @@
     <description>Recent content in spring on Honlyc - Your are free</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 04 Apr 2019 15:39:44 +0800</lastBuildDate><atom:link href="http://www.honlyc.com/categories/spring/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 01 Mar 2021 17:21:12 +0800</lastBuildDate><atom:link href="http://www.honlyc.com/categories/spring/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>MeterRegistry out to MetricRegistry</title>
+      <link>http://www.honlyc.com/post/metrics-meterregistry-to-metricregistry/</link>
+      <pubDate>Mon, 01 Mar 2021 17:21:12 +0800</pubDate>
+      
+      <guid>http://www.honlyc.com/post/metrics-meterregistry-to-metricregistry/</guid>
+      <description>前言 在使用SpringBoot时，没有用默认的Tomcat容器，而是用的Undertow容器。 在线上使用时，发现没有对容器的线程池做监控，无</description>
+    </item>
+    
     <item>
       <title>Spring Webflux 获取请求 IP 的方法</title>
       <link>http://www.honlyc.com/post/spring-webflux-remote-ip/</link>

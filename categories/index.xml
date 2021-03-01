@@ -6,7 +6,25 @@
     <description>Recent content in Categories on Honlyc - Your are free</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Wed, 24 Feb 2021 16:00:05 +0800</lastBuildDate><atom:link href="http://www.honlyc.com/categories/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 01 Mar 2021 17:21:12 +0800</lastBuildDate><atom:link href="http://www.honlyc.com/categories/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>java</title>
+      <link>http://www.honlyc.com/categories/java/</link>
+      <pubDate>Mon, 01 Mar 2021 17:21:12 +0800</pubDate>
+      
+      <guid>http://www.honlyc.com/categories/java/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>spring</title>
+      <link>http://www.honlyc.com/categories/spring/</link>
+      <pubDate>Mon, 01 Mar 2021 17:21:12 +0800</pubDate>
+      
+      <guid>http://www.honlyc.com/categories/spring/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>lucene</title>
       <link>http://www.honlyc.com/categories/lucene/</link>
@@ -31,15 +49,6 @@
       <pubDate>Sat, 10 Oct 2020 11:25:18 +0800</pubDate>
       
       <guid>http://www.honlyc.com/categories/flink/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>java</title>
-      <link>http://www.honlyc.com/categories/java/</link>
-      <pubDate>Wed, 19 Aug 2020 10:01:49 +0800</pubDate>
-      
-      <guid>http://www.honlyc.com/categories/java/</guid>
       <description></description>
     </item>
     
@@ -103,15 +112,6 @@
       <pubDate>Thu, 04 Apr 2019 17:50:09 +0800</pubDate>
       
       <guid>http://www.honlyc.com/categories/hugo/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>spring</title>
-      <link>http://www.honlyc.com/categories/spring/</link>
-      <pubDate>Thu, 04 Apr 2019 15:39:44 +0800</pubDate>
-      
-      <guid>http://www.honlyc.com/categories/spring/</guid>
       <description></description>
     </item>
     
