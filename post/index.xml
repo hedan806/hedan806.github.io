@@ -6,7 +6,16 @@
     <description>Recent content in Posts on Honlyc - Your are free</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Mon, 01 Mar 2021 17:21:12 +0800</lastBuildDate><atom:link href="http://www.honlyc.com/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 02 Mar 2021 10:22:00 +0800</lastBuildDate><atom:link href="http://www.honlyc.com/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>nGrinder 压测工具的使用</title>
+      <link>http://www.honlyc.com/post/ngrinder-in-action/</link>
+      <pubDate>Tue, 02 Mar 2021 10:22:00 +0800</pubDate>
+      
+      <guid>http://www.honlyc.com/post/ngrinder-in-action/</guid>
+      <description>前言 我们在程序上线前，应该做好完备的测试工作：单元测试、集成测试等，同样的，压力测试也是一个重要指标，每次上线时的压力测试，可以直观地反应出</description>
+    </item>
+    
     <item>
       <title>MeterRegistry out to MetricRegistry</title>
       <link>http://www.honlyc.com/post/metrics-meterregistry-to-metricregistry/</link>

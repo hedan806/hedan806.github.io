@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>nGrinder 压测工具的使用 - Honlyc - Your are free</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="Honlyc" /><meta name="description" content="前言 我们在程序上线前，应该做好完备的测试工作：单元测试、集成测试等，同样的，压力测试也是一个重要指标，每次上线时的压力测试，可以直观地反应出" /><meta name="keywords" content="Honlyc, golanh, java, 分享, elasticsearch, jvm" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.80.0 with theme even" />
+
+
+<link rel="canonical" href="http://www.honlyc.com/post/ngrinder-in-action/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.b5a744db6de49a86cadafb3b70f555ab443f83c307a483402259e94726b045ff.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="nGrinder 压测工具的使用" />
+<meta property="og:description" content="前言 我们在程序上线前，应该做好完备的测试工作：单元测试、集成测试等，同样的，压力测试也是一个重要指标，每次上线时的压力测试，可以直观地反应出" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://www.honlyc.com/post/ngrinder-in-action/" />
+<meta property="article:published_time" content="2021-03-02T10:22:00+08:00" />
+<meta property="article:modified_time" content="2021-03-02T10:22:00+08:00" />
+<meta itemprop="name" content="nGrinder 压测工具的使用">
+<meta itemprop="description" content="前言 我们在程序上线前，应该做好完备的测试工作：单元测试、集成测试等，同样的，压力测试也是一个重要指标，每次上线时的压力测试，可以直观地反应出">
+<meta itemprop="datePublished" content="2021-03-02T10:22:00+08:00" />
+<meta itemprop="dateModified" content="2021-03-02T10:22:00+08:00" />
+<meta itemprop="wordCount" content="1249">
+
+
+
+<meta itemprop="keywords" content="test," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="nGrinder 压测工具的使用"/>
+<meta name="twitter:description" content="前言 我们在程序上线前，应该做好完备的测试工作：单元测试、集成测试等，同样的，压力测试也是一个重要指标，每次上线时的压力测试，可以直观地反应出"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Honlyc</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Honlyc</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">nGrinder 压测工具的使用</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2021-03-02 </span>
+        <div class="post-category">
+            <a href="/categories/java/"> java </a>
+            <a href="/categories/ngrinder/"> ngrinder </a>
+            </div>
+          <span class="more-meta"> 1249 words </span>
+          <span class="more-meta"> 3 mins read </span>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#登录">登录</a></li>
+    <li><a href="#创建-script">创建 Script</a></li>
+    <li><a href="#运行测试">运行测试</a></li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h1 id="前言">前言</h1>
+<p>我们在程序上线前，应该做好完备的测试工作：单元测试、集成测试等，同样的，压力测试也是一个重要指标，每次上线时的压力测试，可以直观地反应出程序修改后的运行状态及是否能够承受线上环境的压力。</p>
+<p>常用的压力测试工具有很多，我这里是用的<code>nGrinder</code>，我会从搭建、使用、脚本等几个方面来一一介绍<code>nGrinder</code>是如何使用的。</p>
+<h1 id="搭建">搭建</h1>
+<p>我这里是基于<code>Docker</code>和<code>docker-compose</code>来搭建的，一是搭建简单，只需要一个<code>docker-compose.yml</code>文件即可，二是后面扩展<code>agent</code>时，能够快速管理及使用。</p>
+<p>直接上文件吧，<code>docker-compose.yml</code>文件：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;2&#34;</span><span class="w">
+</span><span class="w"></span><span class="nt">services</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span><span class="nt">ngrinder-controller</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">ngrinder/controller:3.5.3</span><span class="w">
+</span><span class="w">    </span><span class="nt">ports</span><span class="p">:</span><span class="w">
+</span><span class="w">      </span>- <span class="m">9002</span><span class="p">:</span><span class="m">80</span><span class="w">
+</span><span class="w">      </span>- <span class="m">16001</span><span class="p">:</span><span class="m">16001</span><span class="w">
+</span><span class="w">      </span>- <span class="m">12000-12009</span><span class="p">:</span><span class="m">12000-12009</span><span class="w">
+</span><span class="w">      </span>- <span class="m">9010-9019</span><span class="p">:</span><span class="m">9010-9019</span><span class="w">
+</span><span class="w">  </span><span class="nt">ngrinder-agent</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">ngrinder/agent:3.5.3</span><span class="w">
+</span><span class="w">    </span><span class="nt">links</span><span class="p">:</span><span class="w">
+</span><span class="w">      </span>- <span class="l">ngrinder-controller</span><span class="w">
+</span><span class="w">    </span><span class="nt">command</span><span class="p">:</span><span class="w">
+</span><span class="w">      </span>- <span class="l">ngrinder-controller:80</span><span class="w">
+</span></code></pre></td></tr></table>
+</div>
+</div><p>我用的版本是<code>3.5.5</code>，如果需求要用其他版本，直接修改即可。</p>
+<p>使用<code>docker-compose up -d</code>跑起来就行啦。</p>
+<h1 id="使用">使用</h1>
+<p>在程序运行起来后，可以直接访问<code>ip:9002</code>，这里注意，因为原本默认的<code>80</code>端口，在服务器上一般不会直接使用，所以我用了<code>9002:80</code>来进行映射，所以是访问<code>ip:9002</code>。</p>
+<h2 id="登录">登录</h2>
+<p><img src="http://img.honlyc.com/image-20210302103543243.png" alt="image-20210302103543243"></p>
+<p>看到这个界面，我们第一步就完成啦，直接使用默认账号：<code>admin</code>，密码：<code>admin</code>登录即可。密码最好是登录后自己修改一下，防止随意登录，因为是压测系统，如果随意使用的话，极有可能造成系统压力加大。</p>
+<p>登录后的界面：</p>
+<p><img src="http://img.honlyc.com/image-20210302103901507.png" alt="image-20210302103901507"></p>
+<p>主要是上面两个标签：</p>
+<p><code>Performance Test</code>：指我们所有的测试，点击可以看到我们运行过的所有测试，后面我会详细讲解；</p>
+<p><code>Script</code>：这里是我们测试需要用到的脚本，脚本现在是支持<code>Groovy</code>、<code>Jython</code>和<code>Groovy Gradle Project</code>三种，具体使用我会在后面详细讲解；</p>
+<h2 id="创建-script">创建 Script</h2>
+<p>要运行一个测试，我们需要先创建一个<code>Script</code>，用于测试时调用。点击上方的<code>Script</code>即可：</p>
+<p><img src="http://img.honlyc.com/image-20210302104624306.png" alt="image-20210302104624306"></p>
+<p>这里可以用来创建<code>Script</code>，也可以创建文件夹，来便于区分和管理。同时，我们可以看到右侧的<code>SVN</code>，<code>nGrinder</code>内置了一个<code>SVN</code>来管理我们的<code>Script</code>，可以有效地区分每个测试用例所使用的<code>Script</code>版本，不至于在改了<code>Script</code>后，不知道哪些测试用了哪些<code>Script</code>。</p>
+<p>同时，也可以用来做对比测试。</p>
+<p>点击<code>Create a script</code>，就可以创建了：</p>
+<p><img src="http://img.honlyc.com/image-20210302150413984.png" alt="image-20210302150413984"></p>
+<p>填写对应的参数即可。</p>
+<h2 id="运行测试">运行测试</h2>
+<p>在创建完<code>Script</code>后，我们就可以创建测试了，点<code>Performance Test</code> -&gt; <code>Create Test</code>：</p>
+<p><img src="http://img.honlyc.com/image-20210302150617351.png" alt="image-20210302150617351"></p>
+<p>依次填写对应的信息，</p>
+<p><code>Test Name</code>：测试名称，可以填写业务相关的信息，如：service-{api}-test；</p>
+<p><code>Agent</code>：使用多少个<code>agent</code>进行运行，当前我这里只有一个，所以最大只能填<code>1</code>，如果想要更大的并发，就需要部署多个<code>agent</code>来支撑了；</p>
+<p><code>Vuser per agent</code>：表示每个<code>agent</code>使用多少个虚拟用户，其实就相当于多少个请求，后面可以配置使用多少个线程及进程；</p>
+<p><code>Script</code>：选择我们刚刚创建好的脚本即可；</p>
+<p><code>Duration</code>：是表示测试持续多久；</p>
+<p>填写完之后，点右上的<code>Save and Start</code>就可以运行了。</p>
+<h1 id="运行结果">运行结果</h1>
+<p><img src="http://img.honlyc.com/image-20210302151457049.png" alt="image-20210302151457049"></p>
+<p>在结果展示里面，我们就可以看到整个的<code>TPS</code>、平均响应时间、执行的测试数量、错误数量等信息了。</p>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">Honlyc</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        2021-03-02
+        
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content">转载请注明出处。<a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a></span>
+  </p>
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">Reward</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/wxpay.png">
+        <span>wechat</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/alipay.png">
+        <span>alipay</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/test/">test</a>
+          </div>
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/metrics-meterregistry-to-metricregistry/">
+            <span class="next-text nav-default">MeterRegistry out to MetricRegistry</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="hedan806@gmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-stack-overflow" title="stack-overflow"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="http://localhost:1313" class="iconfont icon-zhihu" title="zhihu"></a>
+      <a href="http://localhost:1313" class="iconfont icon-douban" title="douban"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="http://www.honlyc.com/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2017 - 
+    2021<span class="heart"><i class="iconfont icon-heart"></i></span><span>Honlyc</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>
