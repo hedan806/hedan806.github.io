@@ -6,7 +6,34 @@
     <description>Recent content on Honlyc - Your are free</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Tue, 02 Mar 2021 10:22:00 +0800</lastBuildDate><atom:link href="http://www.honlyc.com/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 19 Apr 2021 13:26:31 +0800</lastBuildDate><atom:link href="http://www.honlyc.com/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Linux 下文本抽取统计及对比</title>
+      <link>http://www.honlyc.com/post/linux-awk/</link>
+      <pubDate>Mon, 19 Apr 2021 13:26:31 +0800</pubDate>
+      
+      <guid>http://www.honlyc.com/post/linux-awk/</guid>
+      <description>场景 现在有两个词典，一个 1600万，一个 200万，里面的格式分别为： 1 2 3 4 5 1600万的格式： 101团 nr 0 200万的格式： 179 FC经理 x 0 领</description>
+    </item>
+    
+    <item>
+      <title>使用 FST 做分词器</title>
+      <link>http://www.honlyc.com/post/fst-in-analyzer/</link>
+      <pubDate>Wed, 14 Apr 2021 14:09:03 +0800</pubDate>
+      
+      <guid>http://www.honlyc.com/post/fst-in-analyzer/</guid>
+      <description>场景 在分词器的使用中，主要就是字典如何构建，能够达到空间和时间的最优化，常用的字典数据结构： 数据结构 优缺点 排序列表Array/List 使用二</description>
+    </item>
+    
+    <item>
+      <title>Portainer in Action</title>
+      <link>http://www.honlyc.com/post/portainer-in-action/</link>
+      <pubDate>Wed, 03 Mar 2021 11:35:27 +0800</pubDate>
+      
+      <guid>http://www.honlyc.com/post/portainer-in-action/</guid>
+      <description>前言 在使用Docker时，尽管我们可以使用docker-compose来进行编排，但终归是命令行，一旦应用多起来，管理方面就成了很大问题。 但</description>
+    </item>
+    
     <item>
       <title>nGrinder 压测工具的使用</title>
       <link>http://www.honlyc.com/post/ngrinder-in-action/</link>

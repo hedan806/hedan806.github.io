@@ -2,15 +2,120 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://www.honlyc.com/tags/awk/</loc>
+    <lastmod>2021-04-19T13:26:31+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
     <loc>http://www.honlyc.com/categories/</loc>
-    <lastmod>2021-03-02T10:22:00+08:00</lastmod>
+    <lastmod>2021-04-19T13:26:31+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.honlyc.com/tags/diff/</loc>
+    <lastmod>2021-04-19T13:26:31+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
     <loc>http://www.honlyc.com/</loc>
-    <lastmod>2021-03-02T10:22:00+08:00</lastmod>
+    <lastmod>2021-04-19T13:26:31+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.honlyc.com/categories/linux/</loc>
+    <lastmod>2021-04-19T13:26:31+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.honlyc.com/post/linux-awk/</loc>
+    <lastmod>2021-04-19T13:26:31+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.honlyc.com/post/</loc>
+    <lastmod>2021-04-19T13:26:31+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.honlyc.com/tags/</loc>
+    <lastmod>2021-04-19T13:26:31+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.honlyc.com/tags/analyzer/</loc>
+    <lastmod>2021-04-14T14:09:03+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.honlyc.com/tags/fst/</loc>
+    <lastmod>2021-04-14T14:09:03+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.honlyc.com/categories/lucene/</loc>
+    <lastmod>2021-04-14T14:09:03+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.honlyc.com/post/fst-in-analyzer/</loc>
+    <lastmod>2021-04-14T14:09:03+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.honlyc.com/tags/docker/</loc>
+    <lastmod>2021-03-03T11:35:27+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.honlyc.com/categories/docker/</loc>
+    <lastmod>2021-03-03T11:35:27+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.honlyc.com/tags/portainer/</loc>
+    <lastmod>2021-03-03T11:35:27+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.honlyc.com/post/portainer-in-action/</loc>
+    <lastmod>2021-03-03T11:35:27+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.honlyc.com/categories/swarm/</loc>
+    <lastmod>2021-03-03T11:35:27+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -31,20 +136,6 @@
   
   <url>
     <loc>http://www.honlyc.com/post/ngrinder-in-action/</loc>
-    <lastmod>2021-03-02T10:22:00+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>http://www.honlyc.com/post/</loc>
-    <lastmod>2021-03-02T10:22:00+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>http://www.honlyc.com/tags/</loc>
     <lastmod>2021-03-02T10:22:00+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
@@ -88,13 +179,6 @@
   <url>
     <loc>http://www.honlyc.com/categories/spring/</loc>
     <lastmod>2021-03-01T17:21:12+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>http://www.honlyc.com/categories/lucene/</loc>
-    <lastmod>2021-02-24T16:00:05+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>

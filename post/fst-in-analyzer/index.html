@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>使用 FST 做分词器 - Honlyc - Your are free</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="Honlyc" /><meta name="description" content="场景 在分词器的使用中，主要就是字典如何构建，能够达到空间和时间的最优化，常用的字典数据结构： 数据结构 优缺点 排序列表Array/List 使用二" /><meta name="keywords" content="Honlyc, golanh, java, 分享, elasticsearch, jvm" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.80.0 with theme even" />
+
+
+<link rel="canonical" href="http://www.honlyc.com/post/fst-in-analyzer/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.b5a744db6de49a86cadafb3b70f555ab443f83c307a483402259e94726b045ff.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="使用 FST 做分词器" />
+<meta property="og:description" content="场景 在分词器的使用中，主要就是字典如何构建，能够达到空间和时间的最优化，常用的字典数据结构： 数据结构 优缺点 排序列表Array/List 使用二" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://www.honlyc.com/post/fst-in-analyzer/" />
+<meta property="article:published_time" content="2021-04-14T14:09:03+08:00" />
+<meta property="article:modified_time" content="2021-04-14T14:09:03+08:00" />
+<meta itemprop="name" content="使用 FST 做分词器">
+<meta itemprop="description" content="场景 在分词器的使用中，主要就是字典如何构建，能够达到空间和时间的最优化，常用的字典数据结构： 数据结构 优缺点 排序列表Array/List 使用二">
+<meta itemprop="datePublished" content="2021-04-14T14:09:03+08:00" />
+<meta itemprop="dateModified" content="2021-04-14T14:09:03+08:00" />
+<meta itemprop="wordCount" content="3471">
+
+
+
+<meta itemprop="keywords" content="analyzer,fst," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="使用 FST 做分词器"/>
+<meta name="twitter:description" content="场景 在分词器的使用中，主要就是字典如何构建，能够达到空间和时间的最优化，常用的字典数据结构： 数据结构 优缺点 排序列表Array/List 使用二"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Honlyc</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Honlyc</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">使用 FST 做分词器</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2021-04-14 </span>
+        <div class="post-category">
+            <a href="/categories/lucene/"> lucene </a>
+            </div>
+          <span class="more-meta"> 3471 words </span>
+          <span class="more-meta"> 7 mins read </span>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#分析-fst">分析 FST</a></li>
+    <li><a href="#实现-dag">实现 DAG</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#字符串截取优化">字符串截取优化</a></li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h1 id="场景">场景</h1>
+<p>在分词器的使用中，主要就是字典如何构建，能够达到空间和时间的最优化，常用的字典数据结构：</p>
+<table>
+<thead>
+<tr>
+<th>数据结构</th>
+<th>优缺点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>排序列表Array/List</td>
+<td>使用二分法查找，不平衡</td>
+</tr>
+<tr>
+<td>HashMap/TreeMap</td>
+<td>性能高，内存消耗大，几乎是原始数据的三倍</td>
+</tr>
+<tr>
+<td>Skip List</td>
+<td>跳跃表，可快速查找词语，在lucene、redis、Hbase等均有实现。相对于TreeMap等结构，特别适合高并发场景（<a href="http://kenby.iteye.com/blog/1187303">Skip List介绍</a>）</td>
+</tr>
+<tr>
+<td>Trie</td>
+<td>适合英文词典，如果系统中存在大量字符串且这些字符串基本没有公共前缀，则相应的trie树将非常消耗内存（<a href="http://dongxicheng.org/structure/trietree/">数据结构之trie树</a>）</td>
+</tr>
+<tr>
+<td>Double Array Trie</td>
+<td>适合做中文词典，内存占用小，很多分词工具均采用此种算法（<a href="http://blog.csdn.net/zhoubl668/article/details/6957830">深入双数组Trie</a>）</td>
+</tr>
+<tr>
+<td>Ternary Search Tree</td>
+<td>三叉树，每一个node有3个节点，兼具省空间和查询快的优点（<a href="http://www.drdobbs.com/database/ternary-search-trees/184410528">Ternary Search Tree</a>）</td>
+</tr>
+<tr>
+<td>Finite State Transducers (FST)</td>
+<td>一种有限状态转移机，Lucene 4有开源实现，并大量使用</td>
+</tr>
+</tbody>
+</table>
+<p>而我们在词典的实现上，也经历过了几个阶段：</p>
+<ol>
+<li>使用<code>Map</code>去实现，优点是可以动态增删，但是占用空间极大，随着后期我们词典数量的增加，更是达到了10GB 以上，基本无法再使用；</li>
+<li>使用<code>Double Array Trie</code>，优点是进行了压缩，空间占用提升巨大，同样的词典，比<code>Map</code>节省 8 倍左右；缺点也很明显，无法动态增删，只能提前构建，而且构建时间长，达到几分钟；</li>
+</ol>
+<p>后面有看到<code>Lucene</code>的倒排索引实现，使用的 FST，就想着，本身倒排就是找词，是不是可以用到分词上来。于是就开搞：</p>
+<h1 id="初步测试">初步测试</h1>
+<p>因为<code>Lucene</code>本身就开源了<code>FST</code>的实现，就只能可以拿来用了。</p>
+<p>首先就是先测试一下整个词典加载速度、空间占用，这里我一共是 1600万 的词典。因为<code>FST</code>只能接收字典序的词，所以在构建时，先用<code>TreeSet</code>排序，然后再进行<code>FST</code>的添加。</p>
+<p>整个构建过程，由于有<code>TreeSet</code>作为中间处理，占用还是 1GB 左右，构建完成后，把<code>TreeSet</code>GC后，就只有 150MB 左右了。同时，把<code>FST</code>保存为文件后，也只有 150MB 了。空间上又提升了 8倍 以上，Good~</p>
+<p>整个构建过程也是秒级，基本上40秒可以构建完，这里比<code>DAT</code>又是提升 N倍；</p>
+<p>在加载速度、空间占用上，<code>FST</code>完全满足需要了。就剩实际功能的测试了</p>
+<h1 id="完整测试">完整测试</h1>
+<p>在完整测试上，主要是测试通过<code>FST</code>是否可以构建一个字符串的<code>DAG(有向无环图)</code>，因为我们分词器分为了很多个子分词器（如：英语、西语、藏语），每个子分词器都是构建出当前串的<code>DAG</code>，然后进行合并，最后通过<code>DAG</code>和词频，计算最大成词，就是最终结果了。</p>
+<p>首先，我们通过构建一个简单<code>FST</code>进行测试：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java">    <span class="kd">private</span> <span class="n">FST</span><span class="o">&lt;</span><span class="n">Long</span><span class="o">&gt;</span> <span class="nf">buildFST</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">TreeSet</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">set</span> <span class="o">=</span> <span class="k">new</span> <span class="n">TreeSet</span><span class="o">&lt;&gt;();</span>
+        <span class="n">set</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="s">&#34;中国&#34;</span><span class="o">);</span>
+        <span class="n">set</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="s">&#34;中国人&#34;</span><span class="o">);</span>
+        <span class="n">set</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="s">&#34;中国人民&#34;</span><span class="o">);</span>
+        <span class="n">set</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="s">&#34;中国人民共和国&#34;</span><span class="o">);</span>
+        <span class="n">set</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="s">&#34;国人&#34;</span><span class="o">);</span>
+        <span class="n">set</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="s">&#34;国足&#34;</span><span class="o">);</span>
+        <span class="n">set</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="s">&#34;足球&#34;</span><span class="o">);</span>
+
+        <span class="n">PositiveIntOutputs</span> <span class="n">outputs</span> <span class="o">=</span> <span class="n">PositiveIntOutputs</span><span class="o">.</span><span class="na">getSingleton</span><span class="o">();</span>
+        <span class="n">Builder</span><span class="o">&lt;</span><span class="n">Long</span><span class="o">&gt;</span> <span class="n">builder</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Builder</span><span class="o">&lt;&gt;(</span><span class="n">FST</span><span class="o">.</span><span class="na">INPUT_TYPE</span><span class="o">.</span><span class="na">BYTE1</span><span class="o">,</span> <span class="n">outputs</span><span class="o">);</span>
+        <span class="n">IntsRefBuilder</span> <span class="n">intsRef</span> <span class="o">=</span> <span class="k">new</span> <span class="n">IntsRefBuilder</span><span class="o">();</span>
+        <span class="kt">long</span> <span class="n">count</span> <span class="o">=</span> <span class="n">1</span><span class="o">;</span>
+        <span class="k">for</span> <span class="o">(</span><span class="n">String</span> <span class="n">s</span> <span class="o">:</span> <span class="n">set</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">builder</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">Util</span><span class="o">.</span><span class="na">toIntsRef</span><span class="o">(</span><span class="k">new</span> <span class="n">BytesRef</span><span class="o">(</span><span class="n">s</span><span class="o">),</span> <span class="n">intsRef</span><span class="o">),</span> <span class="n">count</span><span class="o">++);</span>
+        <span class="o">}</span>
+        <span class="n">FST</span><span class="o">&lt;</span><span class="n">Long</span><span class="o">&gt;</span> <span class="n">fst</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="na">finish</span><span class="o">();</span>
+        <span class="k">return</span> <span class="n">fst</span><span class="o">;</span>
+    <span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>查找一个词是否存在于词典，有现成的方法可以用：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="n">Long</span> <span class="n">aLong</span> <span class="o">=</span> <span class="n">Util</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">fst</span><span class="o">,</span> <span class="k">new</span> <span class="n">BytesRef</span><span class="o">(</span><span class="s">&#34;中国&#34;</span><span class="o">));</span>
+<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">aLong</span><span class="o">);</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>但这个并不能够满足我们的需要，实际上我们的需求是：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">输入：中国的国足谈不上足球
+输出：{0=[2], 3=[2], 8=[2]}
+通过输出结果，可以看到实际的分词结果是：中国、国足、足球
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="分析-fst">分析 FST</h2>
+<p>首先，我们可以看一下<code>Util.get()</code>这个方法：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java">  <span class="cm">/** Looks up the output for this input, or null if the
+</span><span class="cm">   *  input is not accepted */</span>
+  <span class="kd">public</span> <span class="kd">static</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">T</span> <span class="nf">get</span><span class="o">(</span><span class="n">FST</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">fst</span><span class="o">,</span> <span class="n">BytesRef</span> <span class="n">input</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
+    <span class="k">assert</span> <span class="n">fst</span><span class="o">.</span><span class="na">inputType</span> <span class="o">==</span> <span class="n">FST</span><span class="o">.</span><span class="na">INPUT_TYPE</span><span class="o">.</span><span class="na">BYTE1</span><span class="o">;</span>
+
+    <span class="kd">final</span> <span class="n">BytesReader</span> <span class="n">fstReader</span> <span class="o">=</span> <span class="n">fst</span><span class="o">.</span><span class="na">getBytesReader</span><span class="o">();</span>
+
+    <span class="c1">// TODO: would be nice not to alloc this on every lookup
+</span><span class="c1"></span>    <span class="kd">final</span> <span class="n">FST</span><span class="o">.</span><span class="na">Arc</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">arc</span> <span class="o">=</span> <span class="n">fst</span><span class="o">.</span><span class="na">getFirstArc</span><span class="o">(</span><span class="k">new</span> <span class="n">FST</span><span class="o">.</span><span class="na">Arc</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;());</span>
+
+    <span class="c1">// Accumulate output as we go
+</span><span class="c1"></span>    <span class="n">T</span> <span class="n">output</span> <span class="o">=</span> <span class="n">fst</span><span class="o">.</span><span class="na">outputs</span><span class="o">.</span><span class="na">getNoOutput</span><span class="o">();</span>
+      <span class="c1">// 从开始位置往后依次遍历并查找
+</span><span class="c1"></span>    <span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="n">0</span><span class="o">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">input</span><span class="o">.</span><span class="na">length</span><span class="o">;</span><span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+        <span class="c1">// 寻找当前 input 是否存在一个边
+</span><span class="c1"></span>      <span class="k">if</span> <span class="o">(</span><span class="n">fst</span><span class="o">.</span><span class="na">findTargetArc</span><span class="o">(</span><span class="n">input</span><span class="o">.</span><span class="na">bytes</span><span class="o">[</span><span class="n">i</span><span class="o">+</span><span class="n">input</span><span class="o">.</span><span class="na">offset</span><span class="o">]</span> <span class="o">&amp;</span> <span class="n">0xFF</span><span class="o">,</span> <span class="n">arc</span><span class="o">,</span> <span class="n">arc</span><span class="o">,</span> <span class="n">fstReader</span><span class="o">)</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+          <span class="c1">// 不存在边，则返回 null
+</span><span class="c1"></span>        <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+      <span class="o">}</span>
+      <span class="n">output</span> <span class="o">=</span> <span class="n">fst</span><span class="o">.</span><span class="na">outputs</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">output</span><span class="o">,</span> <span class="n">arc</span><span class="o">.</span><span class="na">output</span><span class="o">);</span>
+    <span class="o">}</span>
+
+      <span class="c1">// 如果边是结束状态，则找到了对应的词，即可返回
+</span><span class="c1"></span>    <span class="k">if</span> <span class="o">(</span><span class="n">arc</span><span class="o">.</span><span class="na">isFinal</span><span class="o">())</span> <span class="o">{</span>
+      <span class="k">return</span> <span class="n">fst</span><span class="o">.</span><span class="na">outputs</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">output</span><span class="o">,</span> <span class="n">arc</span><span class="o">.</span><span class="na">nextFinalOutput</span><span class="o">);</span>
+    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+        <span class="c1">// 没有找到结束状态，返回 null
+</span><span class="c1"></span>      <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>可以看到，这个地方只能返回一个状态，比如我输入是”中国国足“，就会返回null，因为词典里面不存在这个词。但实际上，它是存在”中国“和”国足“的。拿有没有办法拿到呢？我们先试着改一下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java">    <span class="kd">public</span> <span class="kd">static</span> <span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">T</span> <span class="nf">getPre</span><span class="o">(</span><span class="n">FST</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">fst</span><span class="o">,</span> <span class="n">BytesRef</span> <span class="n">input</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
+        <span class="k">assert</span> <span class="n">fst</span><span class="o">.</span><span class="na">inputType</span> <span class="o">==</span> <span class="n">FST</span><span class="o">.</span><span class="na">INPUT_TYPE</span><span class="o">.</span><span class="na">BYTE1</span><span class="o">;</span>
+
+        <span class="kd">final</span> <span class="n">FST</span><span class="o">.</span><span class="na">BytesReader</span> <span class="n">fstReader</span> <span class="o">=</span> <span class="n">fst</span><span class="o">.</span><span class="na">getBytesReader</span><span class="o">();</span>
+
+        <span class="c1">// TODO: would be nice not to alloc this on every lookup
+</span><span class="c1"></span>        <span class="kd">final</span> <span class="n">FST</span><span class="o">.</span><span class="na">Arc</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">arc</span> <span class="o">=</span> <span class="n">fst</span><span class="o">.</span><span class="na">getFirstArc</span><span class="o">(</span><span class="k">new</span> <span class="n">FST</span><span class="o">.</span><span class="na">Arc</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;());</span>
+
+        <span class="c1">// 添加一个 list 存放结果
+</span><span class="c1"></span>        <span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">list</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
+
+        <span class="c1">// Accumulate output as we go
+</span><span class="c1"></span>        <span class="n">T</span> <span class="n">output</span> <span class="o">=</span> <span class="n">fst</span><span class="o">.</span><span class="na">outputs</span><span class="o">.</span><span class="na">getNoOutput</span><span class="o">();</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">input</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">fst</span><span class="o">.</span><span class="na">findTargetArc</span><span class="o">(</span><span class="n">input</span><span class="o">.</span><span class="na">bytes</span><span class="o">[</span><span class="n">i</span> <span class="o">+</span> <span class="n">input</span><span class="o">.</span><span class="na">offset</span><span class="o">]</span> <span class="o">&amp;</span> <span class="n">0xFF</span><span class="o">,</span> <span class="n">arc</span><span class="o">,</span> <span class="n">arc</span><span class="o">,</span> <span class="n">fstReader</span><span class="o">)</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                <span class="c1">// 因为需要最终输出，所以这里不能直接返回，用 break；
+</span><span class="c1"></span>                <span class="c1">//return null;
+</span><span class="c1"></span>                <span class="k">break</span><span class="o">;</span>
+            <span class="o">}</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="n">fst</span><span class="o">.</span><span class="na">outputs</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">output</span><span class="o">,</span> <span class="n">arc</span><span class="o">.</span><span class="na">output</span><span class="o">);</span>
+            <span class="c1">// 如果当前这个边，是一个结束状态，就添加到数组
+</span><span class="c1"></span>            <span class="k">if</span> <span class="o">(</span><span class="n">arc</span><span class="o">.</span><span class="na">isFinal</span><span class="o">())</span> <span class="o">{</span>
+                <span class="n">list</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+
+        <span class="c1">// 输入数组，调试
+</span><span class="c1"></span>        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">list</span><span class="o">);</span>
+
+        <span class="k">if</span> <span class="o">(</span><span class="n">arc</span><span class="o">.</span><span class="na">isFinal</span><span class="o">())</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="n">fst</span><span class="o">.</span><span class="na">outputs</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">output</span><span class="o">,</span> <span class="n">arc</span><span class="o">.</span><span class="na">nextFinalOutput</span><span class="o">);</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>我们尝试一下查找：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="n">Long</span> <span class="n">res</span> <span class="o">=</span> <span class="n">getPre</span><span class="o">(</span><span class="n">fst</span><span class="o">,</span> <span class="k">new</span> <span class="n">BytesRef</span><span class="o">(</span><span class="s">&#34;中国的国足&#34;</span><span class="o">));</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>这个<code>list</code> 的输出为：<code>[5]</code>，虽然有数据，但这个<code>5</code>就很疑惑。我们先看一下<code>ByteRef</code>这个类：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java">  <span class="cm">/**
+</span><span class="cm">   * Initialize the byte[] from the UTF8 bytes
+</span><span class="cm">   * for the provided String.  
+</span><span class="cm">   * 
+</span><span class="cm">   * @param text This must be well-formed
+</span><span class="cm">   * unicode text, with no unpaired surrogates.
+</span><span class="cm">   */</span>
+  <span class="kd">public</span> <span class="nf">BytesRef</span><span class="o">(</span><span class="n">CharSequence</span> <span class="n">text</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">this</span><span class="o">(</span><span class="k">new</span> <span class="kt">byte</span><span class="o">[</span><span class="n">UnicodeUtil</span><span class="o">.</span><span class="na">maxUTF8Length</span><span class="o">(</span><span class="n">text</span><span class="o">.</span><span class="na">length</span><span class="o">())]);</span>
+    <span class="n">length</span> <span class="o">=</span> <span class="n">UnicodeUtil</span><span class="o">.</span><span class="na">UTF16toUTF8</span><span class="o">(</span><span class="n">text</span><span class="o">,</span> <span class="n">0</span><span class="o">,</span> <span class="n">text</span><span class="o">.</span><span class="na">length</span><span class="o">(),</span> <span class="n">bytes</span><span class="o">);</span>
+  <span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>实际上，传入的字符串，会被转成<code>byte[]</code>，并且是<code>UTF8</code>的类型。那我们拿到的<code>index</code>即<code>5</code>，也是<code>byte[]</code>中的，需要进行转换：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java">        <span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">res</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
+        <span class="k">for</span> <span class="o">(</span><span class="n">Integer</span> <span class="n">integer</span> <span class="o">:</span> <span class="n">list</span><span class="o">)</span> <span class="o">{</span>
+            <span class="kd">final</span> <span class="kt">char</span><span class="o">[]</span> <span class="n">ref</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">char</span><span class="o">[</span><span class="n">input</span><span class="o">.</span><span class="na">length</span><span class="o">];</span>
+            <span class="kd">final</span> <span class="kt">int</span> <span class="n">len</span> <span class="o">=</span> <span class="n">UnicodeUtil</span><span class="o">.</span><span class="na">UTF8toUTF16</span><span class="o">(</span><span class="n">input</span><span class="o">.</span><span class="na">bytes</span><span class="o">,</span> <span class="n">0</span><span class="o">,</span> <span class="n">integer</span><span class="o">,</span> <span class="n">ref</span><span class="o">);</span>
+            <span class="n">res</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">len</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">res</span><span class="o">);</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>再跑一次，这回这个<code>res</code>就是<code>[2]</code>，即：中国，结果就是对的了。当然，这个时候怎么体现一个词，能够查出来多个组合呢？让我们添加一个词：中国的：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="n">set</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="s">&#34;中国的&#34;</span><span class="o">);</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>再来一次，<code>res</code>的结果为：<code>[2, 3]</code>，即：中国、中国的。</p>
+<p>这个时候，我们已经实现了<code>DAG</code>中一小步，从<code>0</code>开始的对应关系我们已经可以拿到了：<code>{0=[2,3]}</code>。但是后面的又该怎么弄呢？</p>
+<h2 id="实现-dag">实现 DAG</h2>
+<p>实际上，<code>DAG</code>就是以每个字为开头，依次进行一次匹配，就可以拿到类似：<code>{0=[],1=[],2=[],3=[]}</code>这样的结果，那我们可以再改造一下代码：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="n">String</span> <span class="n">data</span> <span class="o">=</span> <span class="s">&#34;中国的国足&#34;</span><span class="o">;</span>
+<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">data</span><span class="o">.</span><span class="na">length</span><span class="o">();</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+    <span class="n">Long</span> <span class="n">res</span> <span class="o">=</span> <span class="n">getPre</span><span class="o">(</span><span class="n">fst</span><span class="o">,</span> <span class="k">new</span> <span class="n">BytesRef</span><span class="o">(</span><span class="n">data</span><span class="o">.</span><span class="na">substring</span><span class="o">(</span><span class="n">i</span><span class="o">)));</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>可以看到这个时候的<code>res</code>结果会输出两次，分别为：<code>[2, 3]</code>和<code>[2]</code>，可以看到对应的就是：中国、中国的、国足，三个词。接下来，只需要把关系对应起来就好了：</p>
+<p>首先，把<code>FST</code>的结果进行返回：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java">    <span class="kd">public</span> <span class="kd">static</span> <span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">T</span> <span class="nf">getPre</span><span class="o">(</span><span class="n">FST</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">fst</span><span class="o">,</span> <span class="n">BytesRef</span> <span class="n">input</span><span class="o">,</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">res</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
+        <span class="k">assert</span> <span class="n">fst</span><span class="o">.</span><span class="na">inputType</span> <span class="o">==</span> <span class="n">FST</span><span class="o">.</span><span class="na">INPUT_TYPE</span><span class="o">.</span><span class="na">BYTE1</span><span class="o">;</span>
+
+        <span class="kd">final</span> <span class="n">FST</span><span class="o">.</span><span class="na">BytesReader</span> <span class="n">fstReader</span> <span class="o">=</span> <span class="n">fst</span><span class="o">.</span><span class="na">getBytesReader</span><span class="o">();</span>
+
+        <span class="c1">// TODO: would be nice not to alloc this on every lookup
+</span><span class="c1"></span>        <span class="kd">final</span> <span class="n">FST</span><span class="o">.</span><span class="na">Arc</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">arc</span> <span class="o">=</span> <span class="n">fst</span><span class="o">.</span><span class="na">getFirstArc</span><span class="o">(</span><span class="k">new</span> <span class="n">FST</span><span class="o">.</span><span class="na">Arc</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;());</span>
+
+        <span class="c1">// 添加一个 list 存放结果
+</span><span class="c1"></span>        <span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">list</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
+
+        <span class="c1">// Accumulate output as we go
+</span><span class="c1"></span>        <span class="n">T</span> <span class="n">output</span> <span class="o">=</span> <span class="n">fst</span><span class="o">.</span><span class="na">outputs</span><span class="o">.</span><span class="na">getNoOutput</span><span class="o">();</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">input</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">fst</span><span class="o">.</span><span class="na">findTargetArc</span><span class="o">(</span><span class="n">input</span><span class="o">.</span><span class="na">bytes</span><span class="o">[</span><span class="n">i</span> <span class="o">+</span> <span class="n">input</span><span class="o">.</span><span class="na">offset</span><span class="o">]</span> <span class="o">&amp;</span> <span class="n">0xFF</span><span class="o">,</span> <span class="n">arc</span><span class="o">,</span> <span class="n">arc</span><span class="o">,</span> <span class="n">fstReader</span><span class="o">)</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                <span class="c1">// 因为需要最终输出，所以这里不能直接返回，用 break；
+</span><span class="c1"></span>                <span class="c1">//return null;
+</span><span class="c1"></span>                <span class="k">break</span><span class="o">;</span>
+            <span class="o">}</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="n">fst</span><span class="o">.</span><span class="na">outputs</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">output</span><span class="o">,</span> <span class="n">arc</span><span class="o">.</span><span class="na">output</span><span class="o">);</span>
+            <span class="c1">// 如果当前这个边，是一个结束状态，就添加到数组
+</span><span class="c1"></span>            <span class="k">if</span> <span class="o">(</span><span class="n">arc</span><span class="o">.</span><span class="na">isFinal</span><span class="o">())</span> <span class="o">{</span>
+                <span class="n">list</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+
+        <span class="c1">// 输入数组，调试
+</span><span class="c1">//        System.out.println(list);
+</span><span class="c1"></span>
+        <span class="k">for</span> <span class="o">(</span><span class="n">Integer</span> <span class="n">integer</span> <span class="o">:</span> <span class="n">list</span><span class="o">)</span> <span class="o">{</span>
+            <span class="kd">final</span> <span class="kt">char</span><span class="o">[]</span> <span class="n">ref</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">char</span><span class="o">[</span><span class="n">input</span><span class="o">.</span><span class="na">length</span><span class="o">];</span>
+            <span class="kd">final</span> <span class="kt">int</span> <span class="n">len</span> <span class="o">=</span> <span class="n">UnicodeUtil</span><span class="o">.</span><span class="na">UTF8toUTF16</span><span class="o">(</span><span class="n">input</span><span class="o">.</span><span class="na">bytes</span><span class="o">,</span> <span class="n">0</span><span class="o">,</span> <span class="n">integer</span><span class="o">,</span> <span class="n">ref</span><span class="o">);</span>
+            <span class="n">res</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">len</span><span class="o">);</span>
+        <span class="o">}</span>
+
+        <span class="k">if</span> <span class="o">(</span><span class="n">arc</span><span class="o">.</span><span class="na">isFinal</span><span class="o">())</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="n">fst</span><span class="o">.</span><span class="na">outputs</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">output</span><span class="o">,</span> <span class="n">arc</span><span class="o">.</span><span class="na">nextFinalOutput</span><span class="o">);</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>然后，在外面把结果对应起来：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="n">FST</span><span class="o">&lt;</span><span class="n">Long</span><span class="o">&gt;</span> <span class="n">fst</span> <span class="o">=</span> <span class="n">buildFST</span><span class="o">();</span>
+<span class="n">String</span> <span class="n">data</span> <span class="o">=</span> <span class="s">&#34;中国的国足&#34;</span><span class="o">;</span>
+<span class="n">Map</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">,</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;&gt;</span> <span class="n">dag</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">&lt;&gt;();</span>
+<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">data</span><span class="o">.</span><span class="na">length</span><span class="o">();</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+    <span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">list</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
+    <span class="n">Long</span> <span class="n">res</span> <span class="o">=</span> <span class="n">getPre</span><span class="o">(</span><span class="n">fst</span><span class="o">,</span> <span class="k">new</span> <span class="n">BytesRef</span><span class="o">(</span><span class="n">data</span><span class="o">.</span><span class="na">substring</span><span class="o">(</span><span class="n">i</span><span class="o">)),</span> <span class="n">list</span><span class="o">);</span>
+    <span class="k">if</span> <span class="o">(!</span><span class="n">list</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">())</span> <span class="o">{</span>
+        <span class="n">dag</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">i</span><span class="o">,</span> <span class="n">list</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">dag</span><span class="o">);</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>输出结果为：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">{0=[2, 3], 3=[2]}
+</code></pre></td></tr></table>
+</div>
+</div><p>可以看到这个结果是正确的。再试一下一开始的用例：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">输入：中国的国足谈不上足球
+输出：{0=[2, 3], 3=[2], 8=[2]}
+可以看到，结果是一致，因为中途我们加了“中国的”这个词，所以0开头的图，就变成了[2,3],表示有两个结尾
+</code></pre></td></tr></table>
+</div>
+</div><h1 id="优化">优化</h1>
+<p>在功能测试完成后，基本上满足了我们的需求了，但还是有些地方可以做一下优化</p>
+<h2 id="字符串截取优化">字符串截取优化</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">data</span><span class="o">.</span><span class="na">length</span><span class="o">();</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+    <span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">list</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
+    <span class="c1">//这里的 data.substring(i),因为每次都会 new String(),在数据量大的场景中，会存在溢出风险
+</span><span class="c1"></span>    <span class="n">Long</span> <span class="n">res</span> <span class="o">=</span> <span class="n">getPre</span><span class="o">(</span><span class="n">fst</span><span class="o">,</span> <span class="k">new</span> <span class="n">BytesRef</span><span class="o">(</span><span class="n">data</span><span class="o">.</span><span class="na">substring</span><span class="o">(</span><span class="n">i</span><span class="o">)),</span> <span class="n">list</span><span class="o">);</span>
+    <span class="k">if</span> <span class="o">(!</span><span class="n">list</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">())</span> <span class="o">{</span>
+        <span class="n">dag</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">i</span><span class="o">,</span> <span class="n">list</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>我们前面也看到了<code>ByteRef</code>实际上是用的<code>byte[]</code>存储的，它也可以直接传入<code>byte[]</code>，我们这里考虑直接传入<code>byte[]</code>，并且在外面使用<code>char[]</code>进行遍历：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java">        <span class="n">String</span> <span class="n">data</span> <span class="o">=</span> <span class="s">&#34;中国的国足&#34;</span><span class="o">;</span>
+        <span class="kt">char</span><span class="o">[]</span> <span class="n">chars</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="na">toCharArray</span><span class="o">();</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">chars</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">list</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
+            <span class="kt">byte</span><span class="o">[]</span> <span class="n">req</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">byte</span><span class="o">[</span><span class="n">UnicodeUtil</span><span class="o">.</span><span class="na">maxUTF8Length</span><span class="o">(</span><span class="n">chars</span><span class="o">.</span><span class="na">length</span><span class="o">)];</span>
+            <span class="n">UnicodeUtil</span><span class="o">.</span><span class="na">UTF16toUTF8</span><span class="o">(</span><span class="n">chars</span><span class="o">,</span> <span class="n">i</span><span class="o">,</span> <span class="n">chars</span><span class="o">.</span><span class="na">length</span> <span class="o">-</span> <span class="n">i</span><span class="o">,</span> <span class="n">req</span><span class="o">);</span>
+            <span class="n">Long</span> <span class="n">res</span> <span class="o">=</span> <span class="n">getPre</span><span class="o">(</span><span class="n">fst</span><span class="o">,</span> <span class="k">new</span> <span class="n">BytesRef</span><span class="o">(</span><span class="n">req</span><span class="o">),</span> <span class="n">list</span><span class="o">);</span>
+            <span class="k">if</span> <span class="o">(!</span><span class="n">list</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">())</span> <span class="o">{</span>
+                <span class="n">dag</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">i</span><span class="o">,</span> <span class="n">list</span><span class="o">);</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>这里，我们就移除掉了<code>substring()</code>，直接使用<code>char[]</code>，提升效率及优化内存使用。</p>
+<h1 id="总结">总结</h1>
+<p>经过几天的学习，从一开始的想法，到分析代码，最终落实到具体的程序。与之前的<code>DAT</code>相比，<code>FST</code>在内存占用上基本少了8倍，构建速度提升N倍，查询效率上，小文本基本没差距；大文本比<code>DAT</code>慢一倍；权衡查询效率和空间占用，我们还是决定使用<code>FST</code>实现一版分词器，因为词典的不断增大，使用会面临内存占用和构建速度的问题。</p>
+<h1 id="参考">参考</h1>
+<p><a href="https://www.shenyanchao.cn/blog/2018/12/04/lucene-fst/">https://www.shenyanchao.cn/blog/2018/12/04/lucene-fst/</a></p>
+<p><a href="https://www.cnblogs.com/bonelee/p/6226185.html">https://www.cnblogs.com/bonelee/p/6226185.html</a></p>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">Honlyc</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        2021-04-14
+        
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content">转载请注明出处。<a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a></span>
+  </p>
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">Reward</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/wxpay.png">
+        <span>wechat</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/alipay.png">
+        <span>alipay</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/analyzer/">analyzer</a>
+          <a href="/tags/fst/">fst</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/linux-awk/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Linux 下文本抽取统计及对比</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/portainer-in-action/">
+            <span class="next-text nav-default">Portainer in Action</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="hedan806@gmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-stack-overflow" title="stack-overflow"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="http://localhost:1313" class="iconfont icon-zhihu" title="zhihu"></a>
+      <a href="http://localhost:1313" class="iconfont icon-douban" title="douban"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="http://www.honlyc.com/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2017 - 
+    2021<span class="heart"><i class="iconfont icon-heart"></i></span><span>Honlyc</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

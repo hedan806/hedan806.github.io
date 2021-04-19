@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>awk on Honlyc - Your are free</title>
+    <link>http://www.honlyc.com/tags/awk/</link>
+    <description>Recent content in awk on Honlyc - Your are free</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Mon, 19 Apr 2021 13:26:31 +0800</lastBuildDate><atom:link href="http://www.honlyc.com/tags/awk/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Linux 下文本抽取统计及对比</title>
+      <link>http://www.honlyc.com/post/linux-awk/</link>
+      <pubDate>Mon, 19 Apr 2021 13:26:31 +0800</pubDate>
+      
+      <guid>http://www.honlyc.com/post/linux-awk/</guid>
+      <description>场景 现在有两个词典，一个 1600万，一个 200万，里面的格式分别为： 1 2 3 4 5 1600万的格式： 101团 nr 0 200万的格式： 179 FC经理 x 0 领</description>
+    </item>
+    
+  </channel>
+</rss>

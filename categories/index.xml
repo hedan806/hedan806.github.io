@@ -6,7 +6,43 @@
     <description>Recent content in Categories on Honlyc - Your are free</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Tue, 02 Mar 2021 10:22:00 +0800</lastBuildDate><atom:link href="http://www.honlyc.com/categories/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 19 Apr 2021 13:26:31 +0800</lastBuildDate><atom:link href="http://www.honlyc.com/categories/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>linux</title>
+      <link>http://www.honlyc.com/categories/linux/</link>
+      <pubDate>Mon, 19 Apr 2021 13:26:31 +0800</pubDate>
+      
+      <guid>http://www.honlyc.com/categories/linux/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>lucene</title>
+      <link>http://www.honlyc.com/categories/lucene/</link>
+      <pubDate>Wed, 14 Apr 2021 14:09:03 +0800</pubDate>
+      
+      <guid>http://www.honlyc.com/categories/lucene/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>docker</title>
+      <link>http://www.honlyc.com/categories/docker/</link>
+      <pubDate>Wed, 03 Mar 2021 11:35:27 +0800</pubDate>
+      
+      <guid>http://www.honlyc.com/categories/docker/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>swarm</title>
+      <link>http://www.honlyc.com/categories/swarm/</link>
+      <pubDate>Wed, 03 Mar 2021 11:35:27 +0800</pubDate>
+      
+      <guid>http://www.honlyc.com/categories/swarm/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>java</title>
       <link>http://www.honlyc.com/categories/java/</link>
@@ -31,15 +67,6 @@
       <pubDate>Mon, 01 Mar 2021 17:21:12 +0800</pubDate>
       
       <guid>http://www.honlyc.com/categories/spring/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>lucene</title>
-      <link>http://www.honlyc.com/categories/lucene/</link>
-      <pubDate>Wed, 24 Feb 2021 16:00:05 +0800</pubDate>
-      
-      <guid>http://www.honlyc.com/categories/lucene/</guid>
       <description></description>
     </item>
     

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>docker on Honlyc - Your are free</title>
+    <link>http://www.honlyc.com/tags/docker/</link>
+    <description>Recent content in docker on Honlyc - Your are free</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Wed, 03 Mar 2021 11:35:27 +0800</lastBuildDate><atom:link href="http://www.honlyc.com/tags/docker/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Portainer in Action</title>
+      <link>http://www.honlyc.com/post/portainer-in-action/</link>
+      <pubDate>Wed, 03 Mar 2021 11:35:27 +0800</pubDate>
+      
+      <guid>http://www.honlyc.com/post/portainer-in-action/</guid>
+      <description>前言 在使用Docker时，尽管我们可以使用docker-compose来进行编排，但终归是命令行，一旦应用多起来，管理方面就成了很大问题。 但</description>
+    </item>
+    
+  </channel>
+</rss>

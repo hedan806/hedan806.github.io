@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Linux 下文本抽取统计及对比 - Honlyc - Your are free</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="Honlyc" /><meta name="description" content="场景 现在有两个词典，一个 1600万，一个 200万，里面的格式分别为： 1 2 3 4 5 1600万的格式： 101团 nr 0 200万的格式： 179 FC经理 x 0 领" /><meta name="keywords" content="Honlyc, golanh, java, 分享, elasticsearch, jvm" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.80.0 with theme even" />
+
+
+<link rel="canonical" href="http://www.honlyc.com/post/linux-awk/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.b5a744db6de49a86cadafb3b70f555ab443f83c307a483402259e94726b045ff.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Linux 下文本抽取统计及对比" />
+<meta property="og:description" content="场景 现在有两个词典，一个 1600万，一个 200万，里面的格式分别为： 1 2 3 4 5 1600万的格式： 101团 nr 0 200万的格式： 179 FC经理 x 0 领" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://www.honlyc.com/post/linux-awk/" />
+<meta property="article:published_time" content="2021-04-19T13:26:31+08:00" />
+<meta property="article:modified_time" content="2021-04-19T13:26:31+08:00" />
+<meta itemprop="name" content="Linux 下文本抽取统计及对比">
+<meta itemprop="description" content="场景 现在有两个词典，一个 1600万，一个 200万，里面的格式分别为： 1 2 3 4 5 1600万的格式： 101团 nr 0 200万的格式： 179 FC经理 x 0 领">
+<meta itemprop="datePublished" content="2021-04-19T13:26:31+08:00" />
+<meta itemprop="dateModified" content="2021-04-19T13:26:31+08:00" />
+<meta itemprop="wordCount" content="1232">
+
+
+
+<meta itemprop="keywords" content="awk,diff," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Linux 下文本抽取统计及对比"/>
+<meta name="twitter:description" content="场景 现在有两个词典，一个 1600万，一个 200万，里面的格式分别为： 1 2 3 4 5 1600万的格式： 101团 nr 0 200万的格式： 179 FC经理 x 0 领"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Honlyc</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Honlyc</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Linux 下文本抽取统计及对比</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2021-04-19 </span>
+        <div class="post-category">
+            <a href="/categories/linux/"> linux </a>
+            </div>
+          <span class="more-meta"> 1232 words </span>
+          <span class="more-meta"> 3 mins read </span>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#抽取及统计">抽取及统计</a>
+      <ul>
+        <li><a href="#统计长度">统计长度</a></li>
+        <li><a href="#判断长度">判断长度</a></li>
+        <li><a href="#统计词数量">统计词数量</a></li>
+      </ul>
+    </li>
+    <li><a href="#文本对比">文本对比</a></li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h1 id="场景">场景</h1>
+<p>现在有两个词典，一个 1600万，一个 200万，里面的格式分别为：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">1600万的格式：
+101团 nr <span class="m">0</span>
+
+200万的格式：
+<span class="m">179</span> FC经理 x <span class="m">0</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>领导说要统计一下其中长度大于 7 的词，以及对比两个词典中长度为 2 的词。</p>
+<p>通常的，我们可能会写个程序来进行对比，但我觉得太麻烦了，是不是有更快捷的方式？毕竟，我们在服务器上进行日志分析的时候，往往也会用到这种文本分析的。</p>
+<h1 id="实现">实现</h1>
+<h2 id="抽取及统计">抽取及统计</h2>
+<p>虽然我系统是<code>Window</code>，但不得不说，在命令行方面，还是<code>linux</code>用得爽得多，所以我这里用的是<code>WSL2</code>。日常连接服务器也是<code>WSL2 + tmux + ssh</code>，无缝切换，挺好。</p>
+<p>在<code>linux</code>下，常用的都有：<code>grep</code>,<code>cat</code>,<code>less</code>,<code>awk</code>这些文本方面的命令。其中最强大的就数<code>awk</code>了吧，尽管我基本用得很少，也不是很熟。</p>
+<h3 id="统计长度">统计长度</h3>
+<p>我们先看下怎样用<code>awk</code>统计每行的长度：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh">awk <span class="s1">&#39;{print NR &#34;:&#34; length($0);}&#39;</span> file.txt
+</code></pre></td></tr></table>
+</div>
+</div><p>结果为：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">26931:11
+...
+</code></pre></td></tr></table>
+</div>
+</div><p>这种格式，这里说明一下各个参数：</p>
+<p><code>print</code>：表示直接打印；</p>
+<p><code>NR</code>：表示当前行，输出来就是行号；</p>
+<p><code>length($0)</code>：这里因为是用的<code>$0</code>，所以是表示整行的长度，如果想要统计我需求里面的单个词，而不是整行，则需要使用<code>$1</code>，表示按空格或 <code>table</code>分割的第一个文本：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">101团 nr <span class="m">0</span>
+这个文本的参数对应关系：
+<span class="nv">$0</span>: 101团 nr <span class="m">0</span>
+<span class="nv">$1</span>: 101团
+<span class="nv">$2</span>: nr
+<span class="nv">$3</span>: <span class="m">0</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="判断长度">判断长度</h3>
+<p>现在可以统计长度了，那怎么判断只输出长度大于 7 的呢？</p>
+<p><code>awk</code>是支持判断、循环等分支操作的，同样很简单：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">awk <span class="s1">&#39;{
+</span><span class="s1">    // 取到词的长度，这里用的是 $1，而不是 $0
+</span><span class="s1">    num = length($1); 
+</span><span class="s1">    // 判断词长度 &gt;7 才输出
+</span><span class="s1">    if (num &gt; 7 ) print NR &#34;:&#34; num;
+</span><span class="s1">}&#39;</span> file.txt
+</code></pre></td></tr></table>
+</div>
+</div><p>这样，我们就可以看到所有词长度大于 7  的，就输出了。但这个输出很多，压根看不过来；而且我们要的也是一个合计，而不是词。</p>
+<h3 id="统计词数量">统计词数量</h3>
+<p>拿到所有的词后，我们可以通过管道进行统计。没错直接加一个<code>wc -l</code>即可：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">awk <span class="s1">&#39;{
+</span><span class="s1">    num = length($1); 
+</span><span class="s1">    if (num &gt; 7 ) print NR &#34;:&#34; num;
+</span><span class="s1">}&#39;</span> file.txt <span class="p">|</span> wc -l
+</code></pre></td></tr></table>
+</div>
+</div><p>这时，就只会输出整个结果的总数了。很快、很方便，不用写代码。</p>
+<h2 id="文本对比">文本对比</h2>
+<p>既然可以统计长度了，那我们可以先把长度为 2 的写到另外的文件，因为两个词典的格式有区别，所以这里要分别写，主要就是分割后的词位置不同：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">// 大词典
+awk <span class="s1">&#39;{
+</span><span class="s1">    num = length($1);
+</span><span class="s1">    if (num == 2 ) print $1;
+</span><span class="s1">}&#39;</span> big.txt &gt; 2_big.txt
+
+// 小词典
+awk <span class="s1">&#39;{
+</span><span class="s1">    num = length($2);
+</span><span class="s1">    if (num == 2 ) print $2;
+</span><span class="s1">}&#39;</span> small.txt &gt; 2_small.txt
+</code></pre></td></tr></table>
+</div>
+</div><p>这样，长度为 2 的所有词，就单独写到了不同的文件，我们只需要对比一下即可。</p>
+<p>如果我想看在小词典(<code>2_small.txt</code>)有，大词典(<code>2_big.txt</code>)中没有的词，就这样写：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">awk <span class="s1">&#39;NR==FNR{ a[$1]=$1 } NR&gt;FNR{ if(a[$1] == &#34;&#34;){ print $1}}&#39;</span> 2_big.txt 2_small.txt
+</code></pre></td></tr></table>
+</div>
+</div><p>相反，如果想看在大词典(<code>2_big.txt</code>)有，小词典(<code>2_small.txt</code>)中没有的词，就交换文件位置即可：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">awk <span class="s1">&#39;NR==FNR{ a[$1]=$1 } NR&gt;FNR{ if(a[$1] == &#34;&#34;){ print $1}}&#39;</span> 2_small.txt 2_big.txt
+</code></pre></td></tr></table>
+</div>
+</div><p>如果输出太多，不方便看，还可以直接写到另外的文件：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">awk <span class="s1">&#39;NR==FNR{ a[$1]=$1 } NR&gt;FNR{ if(a[$1] == &#34;&#34;){ print $1}}&#39;</span> 2_small.txt 2_big.txt &gt; in_big.txt
+</code></pre></td></tr></table>
+</div>
+</div><h1 id="总结">总结</h1>
+<p>对于这种文本统计、对比、简单分析的工作，其实不需要去些代码，往往就有非常简单的实现。写代码还要去读取文件、编码，还要编译环境、编码工具等等，通用性也不高。</p>
+<p>而通过这种使用命令的方式去实现，我们还能够从中学到知识。</p>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">Honlyc</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        2021-04-19
+        
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content">转载请注明出处。<a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a></span>
+  </p>
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">Reward</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/wxpay.png">
+        <span>wechat</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/alipay.png">
+        <span>alipay</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/awk/">awk</a>
+          <a href="/tags/diff/">diff</a>
+          </div>
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/fst-in-analyzer/">
+            <span class="next-text nav-default">使用 FST 做分词器</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="hedan806@gmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-stack-overflow" title="stack-overflow"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="http://localhost:1313" class="iconfont icon-zhihu" title="zhihu"></a>
+      <a href="http://localhost:1313" class="iconfont icon-douban" title="douban"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="http://www.honlyc.com/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2017 - 
+    2021<span class="heart"><i class="iconfont icon-heart"></i></span><span>Honlyc</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>
