@@ -2,6 +2,55 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://www.honlyc.com/tags/build/</loc>
+    <lastmod>2021-04-21T14:07:32+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.honlyc.com/categories/</loc>
+    <lastmod>2021-04-21T14:07:32+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.honlyc.com/categories/gradle/</loc>
+    <lastmod>2021-04-21T14:07:32+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.honlyc.com/post/gradle-in-action-buildsrc/</loc>
+    <lastmod>2021-04-21T14:07:32+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.honlyc.com/</loc>
+    <lastmod>2021-04-21T14:07:32+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.honlyc.com/post/</loc>
+    <lastmod>2021-04-21T14:07:32+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.honlyc.com/tags/</loc>
+    <lastmod>2021-04-21T14:07:32+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
     <loc>http://www.honlyc.com/tags/awk/</loc>
     <lastmod>2021-04-19T13:26:31+08:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -9,21 +58,7 @@
   </url>
   
   <url>
-    <loc>http://www.honlyc.com/categories/</loc>
-    <lastmod>2021-04-19T13:26:31+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
     <loc>http://www.honlyc.com/tags/diff/</loc>
-    <lastmod>2021-04-19T13:26:31+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>http://www.honlyc.com/</loc>
     <lastmod>2021-04-19T13:26:31+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
@@ -38,20 +73,6 @@
   
   <url>
     <loc>http://www.honlyc.com/post/linux-awk/</loc>
-    <lastmod>2021-04-19T13:26:31+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>http://www.honlyc.com/post/</loc>
-    <lastmod>2021-04-19T13:26:31+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>http://www.honlyc.com/tags/</loc>
     <lastmod>2021-04-19T13:26:31+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
@@ -221,13 +242,6 @@
   <url>
     <loc>http://www.honlyc.com/tags/scroll/</loc>
     <lastmod>2021-02-09T13:12:46+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>http://www.honlyc.com/post/gradle-in-action-1/</loc>
-    <lastmod>2021-02-05T10:51:18+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>

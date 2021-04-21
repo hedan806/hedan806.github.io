@@ -6,7 +6,16 @@
     <description>Recent content in Posts on Honlyc - Your are free</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Mon, 19 Apr 2021 13:26:31 +0800</lastBuildDate><atom:link href="http://www.honlyc.com/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 21 Apr 2021 14:07:32 +0800</lastBuildDate><atom:link href="http://www.honlyc.com/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Gradle 使用 buildSrc</title>
+      <link>http://www.honlyc.com/post/gradle-in-action-buildsrc/</link>
+      <pubDate>Wed, 21 Apr 2021 14:07:32 +0800</pubDate>
+      
+      <guid>http://www.honlyc.com/post/gradle-in-action-buildsrc/</guid>
+      <description>[TOC] 前言 最近在学习如何使用gradle，原本都是使用maven的，但随着gradle的广泛使用，开源项目基本上都改为gradle了。之前就碰到</description>
+    </item>
+    
     <item>
       <title>Linux 下文本抽取统计及对比</title>
       <link>http://www.honlyc.com/post/linux-awk/</link>
@@ -68,15 +77,6 @@
       
       <guid>http://www.honlyc.com/post/elasticsearch-scroll-performance/</guid>
       <description>前言 因为业务关系，我们需要从 ES 中查询出超大量的数据。其中又分为天索引及历史索引，天索引使用堆外内存进行优化，查询和索引都先走内存索引，提高效</description>
-    </item>
-    
-    <item>
-      <title>Gradle in Action 1</title>
-      <link>http://www.honlyc.com/post/gradle-in-action-1/</link>
-      <pubDate>Fri, 05 Feb 2021 10:51:18 +0800</pubDate>
-      
-      <guid>http://www.honlyc.com/post/gradle-in-action-1/</guid>
-      <description></description>
     </item>
     
     <item>

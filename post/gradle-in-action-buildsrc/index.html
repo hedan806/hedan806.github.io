@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Gradle 使用 buildSrc - Honlyc - Your are free</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="Honlyc" /><meta name="description" content="[TOC] 前言 最近在学习如何使用gradle，原本都是使用maven的，但随着gradle的广泛使用，开源项目基本上都改为gradle了。之前就碰到" /><meta name="keywords" content="Honlyc, golanh, java, 分享, elasticsearch, jvm" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.80.0 with theme even" />
+
+
+<link rel="canonical" href="http://www.honlyc.com/post/gradle-in-action-buildsrc/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.b5a744db6de49a86cadafb3b70f555ab443f83c307a483402259e94726b045ff.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Gradle 使用 buildSrc" />
+<meta property="og:description" content="[TOC] 前言 最近在学习如何使用gradle，原本都是使用maven的，但随着gradle的广泛使用，开源项目基本上都改为gradle了。之前就碰到" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://www.honlyc.com/post/gradle-in-action-buildsrc/" />
+<meta property="article:published_time" content="2021-04-21T14:07:32+08:00" />
+<meta property="article:modified_time" content="2021-04-21T14:07:32+08:00" />
+<meta itemprop="name" content="Gradle 使用 buildSrc">
+<meta itemprop="description" content="[TOC] 前言 最近在学习如何使用gradle，原本都是使用maven的，但随着gradle的广泛使用，开源项目基本上都改为gradle了。之前就碰到">
+<meta itemprop="datePublished" content="2021-04-21T14:07:32+08:00" />
+<meta itemprop="dateModified" content="2021-04-21T14:07:32+08:00" />
+<meta itemprop="wordCount" content="3553">
+
+
+
+<meta itemprop="keywords" content="build," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Gradle 使用 buildSrc"/>
+<meta name="twitter:description" content="[TOC] 前言 最近在学习如何使用gradle，原本都是使用maven的，但随着gradle的广泛使用，开源项目基本上都改为gradle了。之前就碰到"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Honlyc</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Honlyc</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Gradle 使用 buildSrc</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2021-04-21 </span>
+        <div class="post-category">
+            <a href="/categories/gradle/"> gradle </a>
+            </div>
+          <span class="more-meta"> 3553 words </span>
+          <span class="more-meta"> 8 mins read </span>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#从maven构建gradle项目">从<code>Maven</code>构建<code>gradle</code>项目</a>
+      <ul>
+        <li><a href="#buildsrc分析"><code>buildSrc</code>分析</a></li>
+        <li><a href="#lombok使用"><code>lombok</code>使用</a></li>
+        <li><a href="#依赖库自动补全">依赖库自动补全</a></li>
+        <li><a href="#模块嵌套">模块嵌套</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>[TOC]</p>
+<h1 id="前言">前言</h1>
+<p>最近在学习如何使用<code>gradle</code>，原本都是使用<code>maven</code>的，但随着<code>gradle</code>的广泛使用，开源项目基本上都改为<code>gradle</code>了。之前就碰到，构建<code>Elasticsearch</code>源码的时候，在<code>gradle</code>中找不到版本号定义的尴尬，所以尝试学习一下<code>gradle</code>。</p>
+<p>这个会是一个系列，主要记录我使用和学习时碰到的问题、方法及开源项目是如何使用<code>gradle</code>的。比较偏实战，希望自己可以保持学习、保持更新。</p>
+<h1 id="初步使用">初步使用</h1>
+<h2 id="从maven构建gradle项目">从<code>Maven</code>构建<code>gradle</code>项目</h2>
+<p>当前我的目标主要是将一个内部项目改为使用<code>gradle</code>，对于<code>maven</code>项目，<code>gradle</code>可以非常方便的直接进行转换，虽然后面还是需要少量的修改，但已经可以快速进行转换了。</p>
+<p>我们先看一下在<code>maven</code>下的目录：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">├── HELP.md
+├── honlyc-sample.iml
+├── mvnw
+├── mvnw.cmd
+├── pom.xml
+└── server
+    ├── HELP.md
+    ├── pom.xml
+    ├── server.iml
+    └── src
+</code></pre></td></tr></table>
+</div>
+</div><p>这是直接使用<code>Spring-Initler</code>初始化的一个项目，包含了一个子模块<code>server</code>。接下来我们会在这个项目进行我们的<code>gradle</code>学习和使用，首先，让我们进行转换。</p>
+<p>在<code>maven</code>项目的根路径，直接执行命令：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">gradle init
+// 执行后会提示你是否从 pom 构建：
+Found a Maven build. Generate a Gradle build from this? <span class="o">(</span>default: yes<span class="o">)</span> <span class="o">[</span>yes, no<span class="o">]</span>
+// 输入 yes ，会让选择使用 grovvy 还是 kotlin，我选的是 kotlin。
+Select build script DSL:
+  1: Groovy
+  2: Kotlin
+Enter selection <span class="o">(</span>default: Groovy<span class="o">)</span> <span class="o">[</span>1..2<span class="o">]</span> <span class="m">2</span>
+// 这里选 kotlin，主要后面有地方需要用到 kotlin 相关的特性
+</code></pre></td></tr></table>
+</div>
+</div><p>执行完成后，就可以看到<code>gradle</code>相关文件就已经创建好了。在看下目录结构：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">├── HELP.md
+├── buildSrc
+│   ├── build.gradle.kts
+│   └── src
+├── gradle
+│   └── wrapper
+├── gradlew
+├── gradlew.bat
+├── honlyc-sample.iml
+├── mvnw
+├── mvnw.cmd
+├── pom.xml
+├── server
+│   ├── HELP.md
+│   ├── build.gradle.kts
+│   ├── pom.xml
+│   ├── server.iml
+│   └── src
+└── settings.gradle.kts
+</code></pre></td></tr></table>
+</div>
+</div><p>可以看到，一键转换还是非常好用的，而且，我当前<code>gradle</code>版本是<code>6.7.1</code>，在构建时，自动给你使用了<code>buildSrc</code>的方式，我们待会再详细讲解这个。</p>
+<p>这时，我们在<code>IDEA</code>里面打开任意<code>build.gradle.kts</code>文件，就会提示你<code>Link Gradle Project</code>，点击，即可在<code>IDEA</code>里面使用<code>gradle</code>编译了。</p>
+<p><img src="http://img.honlyc.com/image-20210421150046084.png" alt="image-20210421150046084"></p>
+<p>可以看到，在使用<code>gradle</code>编译后，<code>buildSrc</code>是自动编译成一个模块了。</p>
+<p>好了，从<code>maven</code>转换成<code>gradle</code>，就暂时搞定，接下来就是各种实际的使用了。</p>
+<h3 id="buildsrc分析"><code>buildSrc</code>分析</h3>
+<p>在看<code>buildSrc</code>之前，我们先看一下<code>server</code>模块的<code>build.gradle.kts</code>文件：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="cm">/*
+</span><span class="cm"> * This file was generated by the Gradle &#39;init&#39; task.
+</span><span class="cm"> */</span>
+
+<span class="n">plugins</span> <span class="p">{</span>
+    <span class="n">id</span><span class="p">(</span><span class="s2">&#34;com.honlyc.java-conventions&#34;</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="n">description</span> <span class="p">=</span> <span class="s2">&#34;server&#34;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>咦，这里面只有一个<code>plugins</code>和<code>description</code>，那我的依赖呢？版本呢？带着这个疑问，我们再来看<code>buildSrc</code>模块，<code>buildSrc</code>模块也很简单，先看结构：</p>
+<p><img src="http://img.honlyc.com/image-20210421152908102.png" alt="image-20210421152908102"></p>
+<p>就两个文件，我们分别看：</p>
+<p><code>build.gradle.kts</code>内容：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="cm">/*
+</span><span class="cm"> * This file was generated by the Gradle &#39;init&#39; task.
+</span><span class="cm"> */</span>
+
+<span class="n">plugins</span> <span class="p">{</span>
+    <span class="c1">// Support convention plugins written in Kotlin. Convention plugins are build scripts in &#39;src/main&#39; that automatically become available as plugins in the main build.
+</span><span class="c1"></span>    <span class="nd">`kotlin</span><span class="p">-</span><span class="n">dsl</span><span class="err">`</span>
+<span class="p">}</span>
+
+<span class="n">repositories</span> <span class="p">{</span>
+    <span class="c1">// Use the plugin portal to apply community plugins in convention plugins.
+</span><span class="c1"></span>    <span class="n">gradlePluginPortal</span><span class="p">()</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>这个文件也很简单，依赖一个<code>plugin</code>，定义了一个<code>repositories</code>，还是没有看到我们想要的依赖、版本这些的定义。接着看另外一个文件，<code>com.honlyc.java-conventions.gradle.kts</code>内容：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="cm">/*
+</span><span class="cm"> * This file was generated by the Gradle &#39;init&#39; task.
+</span><span class="cm"> */</span>
+
+<span class="n">plugins</span> <span class="p">{</span>
+    <span class="nd">`java</span><span class="p">-</span><span class="n">library</span><span class="err">`</span>
+    <span class="nd">`maven</span><span class="p">-</span><span class="n">publish</span><span class="err">`</span>
+<span class="p">}</span>
+
+<span class="n">repositories</span> <span class="p">{</span>
+    <span class="n">mavenLocal</span><span class="p">()</span>
+    <span class="n">maven</span> <span class="p">{</span>
+        <span class="n">url</span> <span class="p">=</span> <span class="n">uri</span><span class="p">(</span><span class="s2">&#34;https://repo.maven.apache.org/maven2/&#34;</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">dependencies</span> <span class="p">{</span>
+    <span class="n">implementation</span><span class="p">(</span><span class="s2">&#34;commons-dbutils:commons-dbutils:1.4&#34;</span><span class="p">)</span>
+    <span class="n">implementation</span><span class="p">(</span><span class="s2">&#34;commons-lang:commons-lang:2.6&#34;</span><span class="p">)</span>
+    <span class="n">implementation</span><span class="p">(</span><span class="s2">&#34;commons-collections:commons-collections:3.2.1&#34;</span><span class="p">)</span>
+    <span class="n">implementation</span><span class="p">(</span><span class="s2">&#34;commons-io:commons-io:2.1&#34;</span><span class="p">)</span>
+    <span class="n">implementation</span><span class="p">(</span><span class="s2">&#34;commons-logging:commons-logging:1.1.1&#34;</span><span class="p">)</span>
+    <span class="n">testImplementation</span><span class="p">(</span><span class="s2">&#34;junit:junit:4.12&#34;</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="n">group</span> <span class="p">=</span> <span class="s2">&#34;com.honlyc&#34;</span>
+<span class="n">version</span> <span class="p">=</span> <span class="s2">&#34;0.0.1-SNAPSHOT&#34;</span>
+<span class="n">java</span><span class="p">.</span><span class="n">sourceCompatibility</span> <span class="p">=</span> <span class="n">JavaVersion</span><span class="p">.</span><span class="n">VERSION_1_8</span>
+
+<span class="n">publishing</span> <span class="p">{</span>
+    <span class="n">publications</span><span class="p">.</span><span class="n">create</span><span class="p">&lt;</span><span class="n">MavenPublication</span><span class="p">&gt;(</span><span class="s2">&#34;maven&#34;</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">from</span><span class="p">(</span><span class="n">components</span><span class="p">[</span><span class="s2">&#34;java&#34;</span><span class="p">])</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">tasks</span><span class="p">.</span><span class="n">withType</span><span class="p">&lt;</span><span class="n">JavaCompile</span><span class="p">&gt;()</span> <span class="p">{</span>
+    <span class="n">options</span><span class="p">.</span><span class="n">encoding</span> <span class="p">=</span> <span class="s2">&#34;UTF-8&#34;</span>
+<span class="p">}</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><p>终于，我们在这里看到了依赖、版本、仓库等内容，同时，我们也能够发现，这个我文件的命名是<code>com.honlyc.java-conventions</code>开头，这跟我们在<code>server</code>中依赖的插件名称一致。</p>
+<p>其实，<code>buildSrc</code>里面，这种写法就是自定义了一个<code>gradle</code>插件，插件名称为<code>com.honlyc.java-conventions</code>，这个插件里面定义了整个项目的仓库、名称、版本、公共依赖等一系列项目内共有的属性。其他所有的子模块，都只需要依赖这个插件，就可以直接应用到所有的内容，同时，也可以在子模块内部有自己的依赖。</p>
+<p>这样，在管理上，就一目了然了；在结构上，因为引入了<code>buildSrc</code>，所以也没有了跟<code>settings.gradle.kts</code>同级的<code>build.gradle.kts</code>文件的存在；</p>
+<p>关于<code>buildSrc</code>，我这里只是简单介绍，它还有很多使用技巧，后续我会陆续进行记录的。</p>
+<h3 id="lombok使用"><code>lombok</code>使用</h3>
+<p>相信很多小伙伴在项目中都会用到<code>lombok</code>这个工具，而在<code>gradle</code>中，它有不同的引入方式。我们这个项目因为使用了<code>buildSrc</code>，在使用上，又会有所不同，接下来，让我们一起来看看怎么用起来吧。</p>
+<p>首先，我们要在<code>buildSrc/build.gradle.kts</code>文件中添加一个依赖：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="n">dependencies</span> <span class="p">{</span>
+    <span class="n">implementation</span><span class="p">(</span><span class="s2">&#34;io.freefair.gradle:lombok-plugin:6.0.0-m2&#34;</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>表示<code>buildSrc</code>这个项目依赖了<code>lombok</code>，但这个时候，这个依赖并不会传递到<code>server</code>等子模块上去，我们需要在插件里面去引用才行。</p>
+<p>编辑<code>buildSrc/../com.honlyc.java-conventions.gradle.kts</code>文件，添加一个插件依赖：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="n">plugins</span> <span class="p">{</span>
+    <span class="nd">`java</span><span class="p">-</span><span class="n">library</span><span class="err">`</span>
+    <span class="nd">`maven</span><span class="p">-</span><span class="n">publish</span><span class="err">`</span>
+    <span class="n">id</span><span class="p">(</span><span class="s2">&#34;io.freefair.lombok&#34;</span><span class="p">)</span> <span class="c1">// 添加的 lombok 插件，这里不需要写版本号，因为在外面已经依赖了
+</span><span class="c1"></span><span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><code>gradle build</code>一下，我们就可以在<code>server</code>模块直接使用<code>lombok</code>啦：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="nd">@Data</span>
+<span class="nd">@Slf4j</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">BuildRes</span> <span class="o">{</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>不需要改动子模块，只需要在自定义插件里面进行修改即可，可以说是超级方便了。</p>
+<h3 id="依赖库自动补全">依赖库自动补全</h3>
+<p>在使用<code>gradle</code>时，有一点很难受，在依赖库时，没有代码补全，往往每次依赖都要去找，而在<code>maven</code>中，是有代码补全的。</p>
+<p>这里，我们可以使用<code>kotlin DSL</code>的特性，结合<code>buildSrc</code>来实现依赖库的伪代码补全，为什么说是<code>伪</code>呢？因为这个方式不是全自动的。</p>
+<p>废话不多说，直接上代码：</p>
+<p>首先，在<code>buildSrc</code>项目下，创建一个<code>Dependencies.kt</code>文件：</p>
+<p><img src="http://img.honlyc.com/image-20210421155729056.png" alt="image-20210421155729056"></p>
+<p>然后，把我们需要依赖的库、版本，分别定义到这个类中：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">object</span> <span class="nc">Deps</span> <span class="p">{</span>
+    <span class="k">val</span> <span class="py">jmh</span> <span class="p">=</span> <span class="n">Jmh</span>
+    <span class="k">val</span> <span class="py">log</span> <span class="p">=</span> <span class="n">Log</span>
+    <span class="k">val</span> <span class="py">lib</span> <span class="p">=</span> <span class="n">Lib</span>
+
+    <span class="k">object</span> <span class="nc">Jmh</span> <span class="p">{</span>
+        <span class="k">const</span> <span class="k">val</span> <span class="py">plugin</span> <span class="p">=</span> <span class="s2">&#34;me.champeau.gradle:jmh-gradle-plugin:0.5.0-rc-2&#34;</span>
+        <span class="k">const</span> <span class="k">val</span> <span class="py">core</span> <span class="p">=</span> <span class="s2">&#34;org.openjdk.jmh:jmh-core:1.23&#34;</span>
+    <span class="p">}</span>
+
+    <span class="k">object</span> <span class="nc">Log</span> <span class="p">{</span>
+        <span class="k">const</span> <span class="k">val</span> <span class="py">commonLog</span> <span class="p">=</span> <span class="s2">&#34;commons-logging:commons-logging:1.2&#34;</span>
+    <span class="p">}</span>
+
+    <span class="k">object</span> <span class="nc">Lib</span> <span class="p">{</span>
+        <span class="k">const</span> <span class="k">val</span> <span class="py">json2017</span> <span class="p">=</span> <span class="s2">&#34;org.json:json:20170516&#34;</span>
+        <span class="k">const</span> <span class="k">val</span> <span class="py">luceneCore</span> <span class="p">=</span> <span class="s2">&#34;org.apache.lucene:lucene-core:7.1.0&#34;</span>
+        <span class="k">const</span> <span class="k">val</span> <span class="py">luceneAnalyzer</span> <span class="p">=</span> <span class="s2">&#34;org.apache.lucene:lucene-analyzers-common:7.1.0&#34;</span>
+        <span class="k">const</span> <span class="k">val</span> <span class="py">mapdb</span> <span class="p">=</span> <span class="s2">&#34;org.mapdb:mapdb:3.0.8&#34;</span>
+        
+        <span class="k">const</span> <span class="k">val</span> <span class="py">log4jApi</span> <span class="p">=</span> <span class="s2">&#34;org.apache.logging.log4j:log4j-api:2.11.2&#34;</span>
+        <span class="k">const</span> <span class="k">val</span> <span class="py">log4jSlf4j</span> <span class="p">=</span> <span class="s2">&#34;org.apache.logging.log4j:log4j-slf4j-impl:2.11.2&#34;</span>
+    <span class="p">}</span>
+
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><code>gradle</code>编译后，就可以直接使用啦，在需要依赖时，直接使用：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="n">implementation</span><span class="p">(</span><span class="n">Deps</span><span class="p">.</span><span class="n">lib</span><span class="p">.</span><span class="n">log4jApi</span><span class="p">)</span>
+<span class="n">implementation</span><span class="p">(</span><span class="n">Deps</span><span class="p">.</span><span class="n">lib</span><span class="p">.</span><span class="n">log4jSlf4j</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>这个时候，因为相当于使用了<code>kotlin</code>代码，所以，这里是会有代码补全提示的，就可以很愉快地使用啦。</p>
+<p>当然，到这里，小伙伴们应该就发现问题了，这也是我为什么说是<code>伪代码补全</code>的原因，因为这个补全的前提是，我们需要在<code>Deps</code>类中定义好我们所需要的依赖，这个定义的过程，依旧还是需要我们去找、去查。</p>
+<p>尽管如此，还是友好太多了，我们只需要找一次，编写一次，然后在项目中，就可以随意使用、还是带代码补全的，效率提高可不止一点点哈。</p>
+<h3 id="模块嵌套">模块嵌套</h3>
+<p>在日常使用中，我们可能会存在模块嵌套，就是多个子模块有共同的父模块，并且有相同的依赖，这时就需要用到模块嵌套了。在<code>gradle</code>中，模块的嵌套语法其实很简单.</p>
+<p>先看我们的项目结构：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">...
+├── provider
+│   ├── build.gradle.kts
+│   ├── provider-one
+│   └── provider-two
+├── server
+│   ├── HELP.md
+│   ├── build
+│   ├── build.gradle.kts
+│   ├── pom.xml
+│   └── src
+└── settings.gradle.kts
+</code></pre></td></tr></table>
+</div>
+</div><p>这里我们有一个<code>provider</code>的模块，下面有有两个子模块<code>provider-one</code>和<code>provider-two</code>，他们两个是两个不同的实现，但是有一些相同的依赖。这时我们可以在<code>provider</code>下定义一个子模块依赖。</p>
+<p>编写<code>provider/build.gradle.kts</code>文件内容：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="c1">// 这里表示当前模块依赖的插件
+</span><span class="c1"></span><span class="n">plugins</span> <span class="p">{</span>
+    <span class="n">id</span><span class="p">(</span><span class="s2">&#34;com.honlyc.java-conventions&#34;</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="n">subprojects</span> <span class="p">{</span>
+    <span class="c1">// 这里表示所有子模块所依赖的插件
+</span><span class="c1"></span>    <span class="n">apply</span><span class="p">(</span><span class="n">plugin</span> <span class="p">=</span> <span class="s2">&#34;com.honlyc.java-conventions&#34;</span><span class="p">)</span>
+
+    <span class="c1">// 所有子模块所依赖的库
+</span><span class="c1"></span>    <span class="n">dependencies</span> <span class="p">{</span>
+        <span class="n">implementation</span><span class="p">(</span><span class="n">Deps</span><span class="p">.</span><span class="n">jmh</span><span class="p">.</span><span class="n">core</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// 当前模块名称
+</span><span class="c1"></span><span class="n">description</span> <span class="p">=</span> <span class="s2">&#34;provider&#34;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>这样定义后，该模块下的子模块就很简单了。</p>
+<p>编写<code>provider/provider-one/build.gradle.kts</code>文件内容：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="n">dependencies</span> <span class="p">{</span>
+	<span class="c1">// 内部其他的依赖
+</span><span class="c1"></span><span class="p">}</span>
+
+<span class="n">description</span> <span class="p">=</span> <span class="s2">&#34;provider-one&#34;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>编写<code>provider/provider-two/build.gradle.kts</code>文件内容：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="n">dependencies</span> <span class="p">{</span>
+	<span class="c1">// 内部其他的依赖
+</span><span class="c1"></span><span class="p">}</span>
+
+<span class="n">description</span> <span class="p">=</span> <span class="s2">&#34;provider-two&#34;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>我们可以发现，这两个子模块并没有再定义<code>plugins</code>了，因为在夫模块中已经定义好了。这样是不是更为简洁，同时把公共依赖也提取到夫模块中去了。Nice~~</p>
+<h1 id="总结">总结</h1>
+<p>整个转换过程当中，还是遇到很多问题，搞了差不多一天，才完整地弄完，并能够运行。感觉上，<code>gradle</code>还是比<code>maven</code>要方便很多，同样，需要学的也变多了。</p>
+<p>我主要是苦<code>maven</code>的<code>version</code>升级久矣，每次升级打包，就得心跳一番。在<code>gradle</code>完全就没这个问题，只需要改一个地方，直接打包就好了。</p>
+<p>因为也是初学，有说的不对的地方，小伙伴们可以积极指出，我会及时改正。</p>
+<p>以上。</p>
+<h1 id="参考">参考</h1>
+<p><a href="https://juejin.cn/post/6844903615346245646">https://juejin.cn/post/6844903615346245646</a></p>
+<p><a href="https://medium.com/bumble-tech/how-to-use-composite-builds-as-a-replacement-of-buildsrc-in-gradle-64ff99344b58">https://medium.com/bumble-tech/how-to-use-composite-builds-as-a-replacement-of-buildsrc-in-gradle-64ff99344b58</a></p>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">Honlyc</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        2021-04-21
+        
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content">转载请注明出处。<a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a></span>
+  </p>
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">Reward</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/wxpay.png">
+        <span>wechat</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/alipay.png">
+        <span>alipay</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/build/">build</a>
+          </div>
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/linux-awk/">
+            <span class="next-text nav-default">Linux 下文本抽取统计及对比</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="hedan806@gmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-stack-overflow" title="stack-overflow"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="http://localhost:1313" class="iconfont icon-zhihu" title="zhihu"></a>
+      <a href="http://localhost:1313" class="iconfont icon-douban" title="douban"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="http://www.honlyc.com/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2017 - 
+    2021<span class="heart"><i class="iconfont icon-heart"></i></span><span>Honlyc</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>
