@@ -123,118 +123,65 @@
           <section id="posts" class="posts">
     <article class="post">
   <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/fst-in-analyzer/">使用 FST 做分词器</a></h1>
+    <h1 class="post-title"><a class="post-link" href="/post/spring-webflux-remote-ip/">Spring Webflux 获取请求 IP 的方法</a></h1>
     <div class="post-meta">
-      <span class="post-time"> 2021-04-14 </span>
+      <span class="post-time"> 2019-04-04 </span>
       <div class="post-category">
-          <a href="/categories/lucene/"> lucene </a>
-          </div>
-        <span class="more-meta"> 3471 words </span>
-        <span class="more-meta"> 7 mins read </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      场景 在分词器的使用中，主要就是字典如何构建，能够达到空间和时间的最优化，常用的字典数据结构： 数据结构 优缺点 排序列表Array/List 使用二
-    </div>
-    <div class="read-more">
-      <a href="/post/fst-in-analyzer/" class="read-more-link">Read more...</a>
-    </div>
-  </div>
-</article>
-
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/portainer-in-action/">Portainer in Action</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 2021-03-03 </span>
-      <div class="post-category">
-          <a href="/categories/docker/"> docker </a>
-          <a href="/categories/swarm/"> swarm </a>
-          </div>
-        <span class="more-meta"> 262 words </span>
-        <span class="more-meta"> 1 min read </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      前言 在使用Docker时，尽管我们可以使用docker-compose来进行编排，但终归是命令行，一旦应用多起来，管理方面就成了很大问题。 但
-    </div>
-    <div class="read-more">
-      <a href="/post/portainer-in-action/" class="read-more-link">Read more...</a>
-    </div>
-  </div>
-</article>
-
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/ngrinder-in-action/">nGrinder 压测工具的使用</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 2021-03-02 </span>
-      <div class="post-category">
-          <a href="/categories/java/"> java </a>
-          <a href="/categories/ngrinder/"> ngrinder </a>
-          </div>
-        <span class="more-meta"> 1249 words </span>
-        <span class="more-meta"> 3 mins read </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      前言 我们在程序上线前，应该做好完备的测试工作：单元测试、集成测试等，同样的，压力测试也是一个重要指标，每次上线时的压力测试，可以直观地反应出
-    </div>
-    <div class="read-more">
-      <a href="/post/ngrinder-in-action/" class="read-more-link">Read more...</a>
-    </div>
-  </div>
-</article>
-
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/metrics-meterregistry-to-metricregistry/">MeterRegistry out to MetricRegistry</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 2021-03-01 </span>
-      <div class="post-category">
-          <a href="/categories/java/"> java </a>
           <a href="/categories/spring/"> spring </a>
           </div>
-        <span class="more-meta"> 485 words </span>
-        <span class="more-meta"> 1 min read </span>
+        <span class="more-meta"> 560 words </span>
+        <span class="more-meta"> 2 mins read </span>
     </div>
   </header>
   
   <div class="post-content">
     <div class="post-summary">
-      前言 在使用SpringBoot时，没有用默认的Tomcat容器，而是用的Undertow容器。 在线上使用时，发现没有对容器的线程池做监控，无
+      问题描述 在使用WebFlux时，因为业务需要，要获取请求 IP 并作为日志输出。我使用的是RouterFunction方式的路由： 1 2 3 4 5 6 7 8
     </div>
     <div class="read-more">
-      <a href="/post/metrics-meterregistry-to-metricregistry/" class="read-more-link">Read more...</a>
+      <a href="/post/spring-webflux-remote-ip/" class="read-more-link">Read more...</a>
     </div>
   </div>
 </article>
 
     <article class="post">
   <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/lucene-negative-booleanquery/">Lucene Pure Negative Booleanquery</a></h1>
+    <h1 class="post-title"><a class="post-link" href="/post/go-ssh-guide/">使用 Go 来进行远程执行命令</a></h1>
     <div class="post-meta">
-      <span class="post-time"> 2021-02-24 </span>
-      <div class="post-category">
-          <a href="/categories/lucene/"> lucene </a>
-          </div>
-        <span class="more-meta"> 1337 words </span>
-        <span class="more-meta"> 3 mins read </span>
+      <span class="post-time"> 2019-04-03 </span>
+      
+        <span class="more-meta"> 113 words </span>
+        <span class="more-meta"> 1 min read </span>
     </div>
   </header>
   
   <div class="post-content">
     <div class="post-summary">
-      问题 在开发中遇到一个情况，在直接使用Lucene查询时，使用查询语句： 1 hk (-cs) 无法查出内容： 1 security in hk 但是使用hk -(cs)又是可以的。 同时，还
+      封装一个Cli类，来作为主要执行的对象 1 2 3 4 5 6 7 8 type Cli struct { IP string //IP地址 Username string //用户名 Password string //密码 Port int //端口号 client *ssh.Client //ssh客户端 LastResult
     </div>
     <div class="read-more">
-      <a href="/post/lucene-negative-booleanquery/" class="read-more-link">Read more...</a>
+      <a href="/post/go-ssh-guide/" class="read-more-link">Read more...</a>
+    </div>
+  </div>
+</article>
+
+    <article class="post">
+  <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/first/">Git 基本使用</a></h1>
+    <div class="post-meta">
+      <span class="post-time"> 2019-04-01 </span>
+      
+        <span class="more-meta"> 12 words </span>
+        <span class="more-meta"> 1 min read </span>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      1. Git push 需要填写密码的问题
+    </div>
+    <div class="read-more">
+      <a href="/post/first/" class="read-more-link">Read more...</a>
     </div>
   </div>
 </article>
@@ -242,14 +189,11 @@
     </section>
   
   <nav class="pagination">
-    <a class="prev" href="/">
+    <a class="prev" href="/page/7/">
         <i class="iconfont icon-left"></i>
         <span class="prev-text">Prev</span>
       </a>
-    <a class="next" href="/page/3/">
-        <span class="next-text">Next</span>
-        <i class="iconfont icon-right"></i>
-      </a>
+    
   </nav>
         </div>
         

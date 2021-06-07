@@ -45,7 +45,7 @@
 <meta property="og:description" content="被社会毒打的程序猿一枚." />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="http://www.honlyc.com/" />
-<meta property="og:updated_time" content="2021-04-21T14:07:32+08:00" />
+<meta property="og:updated_time" content="2021-06-07T14:16:00+08:00" />
 <meta itemprop="name" content="Honlyc - Your are free">
 <meta itemprop="description" content="被社会毒打的程序猿一枚.">
 <meta name="twitter:card" content="summary"/>
@@ -123,6 +123,75 @@
           <section id="posts" class="posts">
     <article class="post">
   <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/elasticsearch-7.4.0-full-stack/">Elasticsearch 7.4 Full Stack</a></h1>
+    <div class="post-meta">
+      <span class="post-time"> 2020-03-24 </span>
+      <div class="post-category">
+          <a href="/categories/elasticsearch/"> elasticsearch </a>
+          </div>
+        <span class="more-meta"> 25 words </span>
+        <span class="more-meta"> 1 min read </span>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      [TOC] Overview Stack monitoring 普通版本的集群，无法做到多集群集合监控。 Metricbeat
+    </div>
+    <div class="read-more">
+      <a href="/post/elasticsearch-7.4.0-full-stack/" class="read-more-link">Read more...</a>
+    </div>
+  </div>
+</article>
+
+    <article class="post">
+  <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/elasticsearch-7.4.0-auth/">Docker 部署 Elasticsearch 7.4.0 集群并添加安全认证</a></h1>
+    <div class="post-meta">
+      <span class="post-time"> 2020-03-16 </span>
+      <div class="post-category">
+          <a href="/categories/elasticsearch/"> elasticsearch </a>
+          </div>
+        <span class="more-meta"> 807 words </span>
+        <span class="more-meta"> 2 mins read </span>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      本文主要介绍基于Docker部署时，Elasticsearch如何添加认证。 主要步骤 1. 生成认证秘钥 使用一个镜像，专门生成一个秘钥，使用p12
+    </div>
+    <div class="read-more">
+      <a href="/post/elasticsearch-7.4.0-auth/" class="read-more-link">Read more...</a>
+    </div>
+  </div>
+</article>
+
+    <article class="post">
+  <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/ambari-custom-alert-notification/">Ambari 自定义告警通知</a></h1>
+    <div class="post-meta">
+      <span class="post-time"> 2020-03-13 </span>
+      <div class="post-category">
+          <a href="/categories/ambari/"> ambari </a>
+          </div>
+        <span class="more-meta"> 481 words </span>
+        <span class="more-meta"> 1 min read </span>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      Ambari 自定义告警通知 创建一个自定义告警通知项： 1 2 3 4 5 6 7 8 9 10 11 12 13 14 curl -i -u admin:admin -H &#39;X-Requested-By: ambari&#39; -X POST &#34;http://ambari-server:8080/api/v1/alert_targets&#34; -d &#39; { &#34;AlertTarget&#34;: { &#34;name&#34;: &#34;test_dispatcher&#34;, &#34;description&#34;: &#34;Custom Notification Dispatcher&#34;, &#34;notification_type&#34;: &#34;ALERT_SCRIPT&#34;, &#34;global&#34;: true, &#34;alert_states&#34;: [&#34;CRITICAL&#34;,&#34;WARNING&#34;,&#34;UNKNOWN&#34;,&#34;OK&#34;], &#34;properties&#34;: { &#34;ambari.dispatch-property.script&#34;: &#34;notification.dispatch.alert.script&#34; } } } 编
+    </div>
+    <div class="read-more">
+      <a href="/post/ambari-custom-alert-notification/" class="read-more-link">Read more...</a>
+    </div>
+  </div>
+</article>
+
+    <article class="post">
+  <header class="post-header">
     <h1 class="post-title"><a class="post-link" href="/post/centos-init/">Centos Init</a></h1>
     <div class="post-meta">
       <span class="post-time"> 2020-02-20 </span>
@@ -161,73 +230,6 @@
     </div>
     <div class="read-more">
       <a href="/post/ambari-in-action-1/" class="read-more-link">Read more...</a>
-    </div>
-  </div>
-</article>
-
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/picgo-private-gitlab/">私有 GitLab 仓库 &#43; picGo 快速实现图床</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 2019-11-19 </span>
-      <div class="post-category">
-          <a href="/categories/git/"> git </a>
-          </div>
-        <span class="more-meta"> 272 words </span>
-        <span class="more-meta"> 1 min read </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      文章写完了，才发现Gitlab是可以直接粘贴图片的&hellip;（逃&hellip;.. 公司有自己的私有Gitlab库，但是没有自己的图床
-    </div>
-    <div class="read-more">
-      <a href="/post/picgo-private-gitlab/" class="read-more-link">Read more...</a>
-    </div>
-  </div>
-</article>
-
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/elasticsearch-decider-custom/">Custom Elasticsearch Shard Allocation Decider</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 2019-11-05 </span>
-      <div class="post-category">
-          <a href="/categories/elk/"> elk </a>
-          </div>
-        <span class="more-meta"> 805 words </span>
-        <span class="more-meta"> 2 mins read </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      [TOC] 场景 对于一台机器部署了多个ES实例时，在分配Shard时，可能会存在热点的情况，如下图： 在同一台机器上的不同实例上，分配了两个Primar
-    </div>
-    <div class="read-more">
-      <a href="/post/elasticsearch-decider-custom/" class="read-more-link">Read more...</a>
-    </div>
-  </div>
-</article>
-
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/elasticsearch-6.1.4-upgrade-to-7.4.0-problem/">Elasticsearch 6.1.4 upgrade to 7.4.0</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 2019-10-09 </span>
-      
-        <span class="more-meta"> 1003 words </span>
-        <span class="more-meta"> 3 mins read </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      [TOC] 1. 集群改动 1. Zen Discovery 改动 不再有discovery.zen.minimum_master_nodes这个控制集群脑裂的配置，转而由集群自主控制，
-    </div>
-    <div class="read-more">
-      <a href="/post/elasticsearch-6.1.4-upgrade-to-7.4.0-problem/" class="read-more-link">Read more...</a>
     </div>
   </div>
 </article>

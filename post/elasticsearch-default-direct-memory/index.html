@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Elasticsearch DirectMemory OOM 分析 - Honlyc - Your are free</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="Honlyc" /><meta name="description" content="[TOC] 问题 因为我们的索引集群分为天和历史，在天索引集群中，采用了自研的堆外内存插件，实现堆外的内存索引，减少GC，自主控制内存的使用。但在实际使" /><meta name="keywords" content="Honlyc, golanh, java, 分享, elasticsearch, jvm" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.80.0 with theme even" />
+
+
+<link rel="canonical" href="http://www.honlyc.com/post/elasticsearch-default-direct-memory/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.b5a744db6de49a86cadafb3b70f555ab443f83c307a483402259e94726b045ff.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Elasticsearch DirectMemory OOM 分析" />
+<meta property="og:description" content="[TOC] 问题 因为我们的索引集群分为天和历史，在天索引集群中，采用了自研的堆外内存插件，实现堆外的内存索引，减少GC，自主控制内存的使用。但在实际使" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://www.honlyc.com/post/elasticsearch-default-direct-memory/" />
+<meta property="article:published_time" content="2021-06-07T14:16:00+08:00" />
+<meta property="article:modified_time" content="2021-06-07T14:16:00+08:00" />
+<meta itemprop="name" content="Elasticsearch DirectMemory OOM 分析">
+<meta itemprop="description" content="[TOC] 问题 因为我们的索引集群分为天和历史，在天索引集群中，采用了自研的堆外内存插件，实现堆外的内存索引，减少GC，自主控制内存的使用。但在实际使">
+<meta itemprop="datePublished" content="2021-06-07T14:16:00+08:00" />
+<meta itemprop="dateModified" content="2021-06-07T14:16:00+08:00" />
+<meta itemprop="wordCount" content="1130">
+
+
+
+<meta itemprop="keywords" content="heap,OOM," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Elasticsearch DirectMemory OOM 分析"/>
+<meta name="twitter:description" content="[TOC] 问题 因为我们的索引集群分为天和历史，在天索引集群中，采用了自研的堆外内存插件，实现堆外的内存索引，减少GC，自主控制内存的使用。但在实际使"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Honlyc</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Honlyc</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Elasticsearch DirectMemory OOM 分析</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2021-06-07 </span>
+        <div class="post-category">
+            <a href="/categories/elasticsearch/"> elasticsearch </a>
+            <a href="/categories/jvm/"> jvm </a>
+            </div>
+          <span class="more-meta"> 1130 words </span>
+          <span class="more-meta"> 3 mins read </span>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#1-确认集群参数">1. 确认集群参数</a></li>
+        <li><a href="#2-官方设置的默认值">2. 官方设置的默认值</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>[TOC]</p>
+<h1 id="问题">问题</h1>
+<p>因为我们的索引集群分为天和历史，在天索引集群中，采用了自研的堆外内存插件，实现堆外的内存索引，减少GC，自主控制内存的使用。但在实际使用时，如果堆外内存大小限制不当，就会导致<code>OOM</code>，具体错误如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">java.lang.OutOfMemoryError: Cannot reserve <span class="m">131072</span> bytes of direct buffer memory <span class="o">(</span>allocated: 17179832357, limit: 17179869184<span class="o">)</span>
+        at java.nio.Bits.reserveMemory<span class="o">(</span>Bits.java:178<span class="o">)</span> ~<span class="o">[</span>?:?<span class="o">]</span>
+        at java.nio.DirectByteBuffer.&lt;init&gt;<span class="o">(</span>DirectByteBuffer.java:119<span class="o">)</span> ~<span class="o">[</span>?:?<span class="o">]</span>
+        at java.nio.ByteBuffer.allocateDirect<span class="o">(</span>ByteBuffer.java:320<span class="o">)</span> ~<span class="o">[</span>?:?<span class="o">]</span>
+        at com.antfact.nest.indexer.memory.ByteBufferPool.getBuffer<span class="o">(</span>ByteBufferPool.java:117<span class="o">)</span> ~<span class="o">[</span>?:?<span class="o">]</span>
+        at org.apache.lucene.store.offheap.RAMOffHeapFile3.newBuffer<span class="o">(</span>RAMOffHeapFile3.java:82<span class="o">)</span> ~<span class="o">[</span>?:?<span class="o">]</span>
+        at org.apache.lucene.store.offheap.RAMOffHeapFile3.addBuffer<span class="o">(</span>RAMOffHeapFile3.java:50<span class="o">)</span> ~<span class="o">[</span>?:?<span class="o">]</span>
+        at org.apache.lucene.store.offheap.RAMOffHeapOutputStream3.switchCurrentBuffer<span class="o">(</span>RAMOffHeapOutputStream3.java:124<span class="o">)</span> ~<span class="o">[</span>?:?<span class="o">]</span>
+        at org.apache.lucene.store.offheap.RAMOffHeapOutputStream3.writeBytes<span class="o">(</span>RAMOffHeapOutputStream3.java:107<span class="o">)</span> ~<span class="o">[</span>?:?<span class="o">]</span>
+        at org.elasticsearch.common.lucene.store.FilterIndexOutput.writeBytes<span class="o">(</span>FilterIndexOutput.java:59<span class="o">)</span> ~<span class="o">[</span>elasticsearch-7.4.0.jar:7.4.0<span class="o">]</span>
+        at org.elasticsearch.index.store.Store<span class="nv">$LuceneVerifyingIndexOutput</span>.writeBytes<span class="o">(</span>Store.java:1232<span class="o">)</span> ~<span class="o">[</span>elasticsearch-7.4.0.jar:7.4.0<span class="o">]</span>
+        at org.elasticsearch.indices.recovery.MultiFileWriter.innerWriteFileChunk<span class="o">(</span>MultiFileWriter.java:120<span class="o">)</span> ~<span class="o">[</span>elasticsearch-7.4.0.jar:7.4.0<span class="o">]</span>
+        at org.elasticsearch.indices.recovery.MultiFileWriter.access<span class="nv">$000</span><span class="o">(</span>MultiFileWriter.java:43<span class="o">)</span> ~<span class="o">[</span>elasticsearch-7.4.0.jar:7.4.0<span class="o">]</span>
+        at org.elasticsearch.indices.recovery.MultiFileWriter<span class="nv">$FileChunkWriter</span>.writeChunk<span class="o">(</span>MultiFileWriter.java:200<span class="o">)</span> ~<span class="o">[</span>elasticsearch-7.4.0.jar:7.4.0<span class="o">]</span>
+        at org.elasticsearch.indices.recovery.MultiFileWriter.writeFileChunk<span class="o">(</span>MultiFileWriter.java:68<span class="o">)</span> ~<span class="o">[</span>elasticsearch-7.4.0.jar:7.4.0<span class="o">]</span>
+        at org.elasticsearch.indices.recovery.RecoveryTarget.writeFileChunk<span class="o">(</span>RecoveryTarget.java:469<span class="o">)</span> ~<span class="o">[</span>elasticsearch-7.4.0.jar:7.4.0<span class="o">]</span>
+        at org.elasticsearch.indices.recovery.PeerRecoveryTargetService<span class="nv">$FileChunkTransportRequestHandler</span>.messageReceived<span class="o">(</span>PeerRecoveryTargetService.java:518<span class="o">)</span> ~<span class="o">[</span>elasticsearch-7.4.0.jar:7.4.0<span class="o">]</span>
+        at org.elasticsearch.indices.recovery.PeerRecoveryTargetService<span class="nv">$FileChunkTransportRequestHandler</span>.messageReceived<span class="o">(</span>PeerRecoveryTargetService.java:492<span class="o">)</span> ~<span class="o">[</span>elasticsearch-7.4.0.jar:7.4.0<span class="o">]</span>
+        at org.elasticsearch.transport.RequestHandlerRegistry.processMessageReceived<span class="o">(</span>RequestHandlerRegistry.java:63<span class="o">)</span> ~<span class="o">[</span>elasticsearch-7.4.0.jar:7.4.0<span class="o">]</span>
+        at org.elasticsearch.transport.InboundHandler<span class="nv">$RequestHandler</span>.doRun<span class="o">(</span>InboundHandler.java:264<span class="o">)</span> ~<span class="o">[</span>elasticsearch-7.4.0.jar:7.4.0<span class="o">]</span>
+        at org.elasticsearch.common.util.concurrent.ThreadContext<span class="nv">$ContextPreservingAbstractRunnable</span>.doRun<span class="o">(</span>ThreadContext.java:773<span class="o">)</span> ~<span class="o">[</span>elasticsearch-7.4.0.jar:7.4.0<span class="o">]</span>
+        at org.elasticsearch.common.util.concurrent.AbstractRunnable.run<span class="o">(</span>AbstractRunnable.java:37<span class="o">)</span> ~<span class="o">[</span>elasticsearch-7.4.0.jar:7.4.0<span class="o">]</span>
+        at java.util.concurrent.ThreadPoolExecutor.runWorker<span class="o">(</span>ThreadPoolExecutor.java:1128<span class="o">)</span> ~<span class="o">[</span>?:?<span class="o">]</span>
+        at java.util.concurrent.ThreadPoolExecutor<span class="nv">$Worker</span>.run<span class="o">(</span>ThreadPoolExecutor.java:628<span class="o">)</span> ~<span class="o">[</span>?:?<span class="o">]</span>
+        at java.lang.Thread.run<span class="o">(</span>Thread.java:830<span class="o">)</span> <span class="o">[</span>?:?<span class="o">]</span>
+</code></pre></td></tr></table>
+</div>
+</div><h1 id="问题分析">问题分析</h1>
+<p>可以很直观地看到，就是在分配堆外内存的时候，无法再进行分配导致的<code>OOM</code>，源于对<code>JVM</code>的不熟悉，一开始并不知道是有参数可以设置堆外内存使用量的。</p>
+<p>先说<code>-XX:MaxDirectMemorySize</code>这个参数，网上资料显示，如果没有主动配置，则默认使用<code>-Xmx</code>的值，我们集群的<code>-Xmx</code>是<code>32G</code>，按道理，日志中的<code>limit: 17179869184</code>因该是<code>32G</code>才对，但实际只有<code>16G</code>，而我们的配置里面，并没有哪里配置了<code>16G</code>这个值。</p>
+<h3 id="1-确认集群参数">1. 确认集群参数</h3>
+<p>由于是使用<code>docker</code>部署的集群，在查看集群参数时，可能会有一些坑，可以看我<a href="http://www.honlyc.com/post/elasticsearch-docker-jvm/">这篇文章</a>，这里，我们执行命令：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">docker <span class="nb">exec</span> -u 1000:0 -it elasticsearch bash
+</code></pre></td></tr></table>
+</div>
+</div><p>进入后，我们执行：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">jdk/bin/jinfo <span class="m">1</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>可以看到实例启动时的<code>JVM</code>参数有哪些，过滤一下，我们就可以看到<code>MaxDirectMemorySize</code>了：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">VM Arguments:
+jvm_args: -Xms32g -Xmx32g -XX:+UseG1GC -XX:CMSInitiatingOccupancyFraction<span class="o">=</span><span class="m">75</span> -XX:+UseCMSInitiatingOccupancyOnly -Des.networkaddress.cache.ttl<span class="o">=</span><span class="m">60</span> -Des.networkaddress.cache.negative.ttl<span class="o">=</span><span class="m">10</span> -XX:+AlwaysPreTouch -Xss1m -Djava.awt.headless<span class="o">=</span><span class="nb">true</span> -Dfile.encoding<span class="o">=</span>UTF-8 -Djna.nosys<span class="o">=</span><span class="nb">true</span> -XX:-OmitStackTraceInFastThrow -Dio.netty.noUnsafe<span class="o">=</span><span class="nb">true</span> -Dio.netty.noKeySetOptimization<span class="o">=</span><span class="nb">true</span> -Dio.netty.recycler.maxCapacityPerThread<span class="o">=</span><span class="m">0</span> -Dio.netty.allocator.numDirectArenas<span class="o">=</span><span class="m">0</span> -Dlog4j.shutdownHookEnabled<span class="o">=</span><span class="nb">false</span> -Dlog4j2.disable.jmx<span class="o">=</span><span class="nb">true</span> -Djava.io.tmpdir<span class="o">=</span>/tmp/elasticsearch-16662532178385968386 -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath<span class="o">=</span>data -XX:ErrorFile<span class="o">=</span>logs/hs_err_pid%p.log -Xlog:gc*,gc+age<span class="o">=</span>trace,safepoint:file<span class="o">=</span>logs/gc.log:utctime,pid,tags:filecount<span class="o">=</span>32,filesize<span class="o">=</span>64m -Djava.locale.providers<span class="o">=</span>COMPAT -Djava.security.policy<span class="o">=</span>/usr/share/elasticsearch/plugins/jieba/plugin-security.policy -Des.cgroups.hierarchy.override<span class="o">=</span>/ -Dio.netty.allocator.type<span class="o">=</span>pooled -XX:MaxDirectMemorySize<span class="o">=</span><span class="m">17179869184</span> -Des.path.home<span class="o">=</span>/usr/share/elasticsearch -Des.path.conf<span class="o">=</span>/usr/share/elasticsearch/config -Des.distribution.flavor<span class="o">=</span>default -Des.distribution.type<span class="o">=</span>docker -Des.bundled_jdk<span class="o">=</span><span class="nb">true</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>可以看到<code>-XX:MaxDirectMemorySize=17179869184</code>这里明确设置了为<code>16G</code>，那这个参数是哪来的呢？</p>
+<h3 id="2-官方设置的默认值">2. 官方设置的默认值</h3>
+<p>去<code>ES</code>的<code>Github</code>查查看，找到这个<code>Issue</code>，<a href="https://github.com/elastic/elasticsearch/issues/41954">Configure a limit on direct memory usage</a>这里明确说明了，由于官方文档建议设置<code>Heap Size </code>为物理内存的<code>50%</code>，而<code>MaxDirectMemorySize</code>默认又是<code>-Xmx</code>的大小，这样，会有可能导致<code>OOM</code>，所以官方就给默认设置为了<code>heapSize / 2 </code>作为<code>MaxDirectMemorySize</code>的大小。</p>
+<p>再看一下具体的<code>PR</code>：<a href="https://github.com/elastic/elasticsearch/pull/42006/files">Limit max direct memory size to half of heap size</a></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">final</span> <span class="kt">long</span> <span class="n">maxDirectMemorySize</span> <span class="o">=</span> <span class="n">extractMaxDirectMemorySize</span><span class="o">(</span><span class="n">finalJvmOptions</span><span class="o">);</span>
+<span class="k">if</span> <span class="o">(</span><span class="n">maxDirectMemorySize</span> <span class="o">==</span> <span class="n">0</span><span class="o">)</span> <span class="o">{</span>
+<span class="n">ergonomicChoices</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="s">&#34;-XX:MaxDirectMemorySize=&#34;</span> <span class="o">+</span> <span class="n">heapSize</span> <span class="o">/</span> <span class="n">2</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>简单直接，如果没有设置，就直接取<code>heapSize</code> 的一半。这里，就可以解释为什么我们集群的是<code>16G</code>了，因为<code>heapSize</code>是<code>32G</code>。</p>
+<h1 id="结论">结论</h1>
+<p>由于<code>ES</code>本身设置了堆外内存的默认值，导致我们使用自研插件时，尽管机器内存还是有，由于超出默认值，还是一样会<code>OOM</code>。</p>
+<p>我们只需要针对我们大内存的机器，主动设置<code>-XX:MaxDirectMemorySize</code>即可。</p>
+<p>通过分析这个问题，暴露出我对<code>JVM</code>参数的不熟悉及对<code>ES</code>整体的掌握不足，导致走了很多弯路，无法快速定位问题所在。这也更进一步惊醒自己，要多积累、多学习。</p>
+<p>以上。</p>
+<p>共勉。</p>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">Honlyc</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        2021-06-07
+        
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content">转载请注明出处。<a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a></span>
+  </p>
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">Reward</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/wxpay.png">
+        <span>wechat</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/alipay.png">
+        <span>alipay</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/heap/">heap</a>
+          <a href="/tags/oom/">OOM</a>
+          </div>
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/presto-in-action-1/">
+            <span class="next-text nav-default">Presto in Action 1</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="hedan806@gmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-stack-overflow" title="stack-overflow"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="http://localhost:1313" class="iconfont icon-zhihu" title="zhihu"></a>
+      <a href="http://localhost:1313" class="iconfont icon-douban" title="douban"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="http://www.honlyc.com/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2017 - 
+    2021<span class="heart"><i class="iconfont icon-heart"></i></span><span>Honlyc</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

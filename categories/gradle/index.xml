@@ -6,7 +6,16 @@
     <description>Recent content in gradle on Honlyc - Your are free</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Wed, 21 Apr 2021 14:07:32 +0800</lastBuildDate><atom:link href="http://www.honlyc.com/categories/gradle/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 14 May 2021 21:49:24 +0800</lastBuildDate><atom:link href="http://www.honlyc.com/categories/gradle/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Gradle Docker Action 1</title>
+      <link>http://www.honlyc.com/post/gradle-docker-action-1/</link>
+      <pubDate>Fri, 14 May 2021 21:49:24 +0800</pubDate>
+      
+      <guid>http://www.honlyc.com/post/gradle-docker-action-1/</guid>
+      <description>场景 因为最近在转用Gradle进行项目的编译，所以很多以前用maven的地方，还是有非常多的不同。这里主要针对Docker的使用，来进行记录</description>
+    </item>
+    
     <item>
       <title>Gradle 使用 buildSrc</title>
       <link>http://www.honlyc.com/post/gradle-in-action-buildsrc/</link>

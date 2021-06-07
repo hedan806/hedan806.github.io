@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>bigdata on Honlyc - Your are free</title>
+    <link>http://www.honlyc.com/categories/bigdata/</link>
+    <description>Recent content in bigdata on Honlyc - Your are free</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Wed, 02 Jun 2021 13:29:40 +0800</lastBuildDate><atom:link href="http://www.honlyc.com/categories/bigdata/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Presto in Action 1</title>
+      <link>http://www.honlyc.com/post/presto-in-action-1/</link>
+      <pubDate>Wed, 02 Jun 2021 13:29:40 +0800</pubDate>
+      
+      <guid>http://www.honlyc.com/post/presto-in-action-1/</guid>
+      <description>[TOC] 前言 公司因为架构调整，需要进行数据的实时加载。原本的方案是直接通过客户端查询索引，同时通过索引返回的id查询详情，整个流程比较复杂，并且其</description>
+    </item>
+    
+  </channel>
+</rss>

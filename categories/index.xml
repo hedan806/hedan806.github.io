@@ -6,11 +6,38 @@
     <description>Recent content in Categories on Honlyc - Your are free</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Wed, 21 Apr 2021 14:07:32 +0800</lastBuildDate><atom:link href="http://www.honlyc.com/categories/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 07 Jun 2021 14:16:00 +0800</lastBuildDate><atom:link href="http://www.honlyc.com/categories/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>elasticsearch</title>
+      <link>http://www.honlyc.com/categories/elasticsearch/</link>
+      <pubDate>Mon, 07 Jun 2021 14:16:00 +0800</pubDate>
+      
+      <guid>http://www.honlyc.com/categories/elasticsearch/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>jvm</title>
+      <link>http://www.honlyc.com/categories/jvm/</link>
+      <pubDate>Mon, 07 Jun 2021 14:16:00 +0800</pubDate>
+      
+      <guid>http://www.honlyc.com/categories/jvm/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>bigdata</title>
+      <link>http://www.honlyc.com/categories/bigdata/</link>
+      <pubDate>Wed, 02 Jun 2021 13:29:40 +0800</pubDate>
+      
+      <guid>http://www.honlyc.com/categories/bigdata/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>gradle</title>
       <link>http://www.honlyc.com/categories/gradle/</link>
-      <pubDate>Wed, 21 Apr 2021 14:07:32 +0800</pubDate>
+      <pubDate>Fri, 14 May 2021 21:49:24 +0800</pubDate>
       
       <guid>http://www.honlyc.com/categories/gradle/</guid>
       <description></description>
@@ -80,15 +107,6 @@
     </item>
     
     <item>
-      <title>elasticsearch</title>
-      <link>http://www.honlyc.com/categories/elasticsearch/</link>
-      <pubDate>Tue, 09 Feb 2021 13:12:46 +0800</pubDate>
-      
-      <guid>http://www.honlyc.com/categories/elasticsearch/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>flink</title>
       <link>http://www.honlyc.com/categories/flink/</link>
       <pubDate>Sat, 10 Oct 2020 11:25:18 +0800</pubDate>
@@ -112,15 +130,6 @@
       <pubDate>Tue, 14 Apr 2020 16:34:08 +0800</pubDate>
       
       <guid>http://www.honlyc.com/categories/ambari/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>jvm</title>
-      <link>http://www.honlyc.com/categories/jvm/</link>
-      <pubDate>Tue, 31 Mar 2020 11:23:47 +0800</pubDate>
-      
-      <guid>http://www.honlyc.com/categories/jvm/</guid>
       <description></description>
     </item>
     

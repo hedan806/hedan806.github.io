@@ -2,6 +2,111 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://www.honlyc.com/categories/</loc>
+    <lastmod>2021-06-07T14:16:00+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.honlyc.com/categories/elasticsearch/</loc>
+    <lastmod>2021-06-07T14:16:00+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.honlyc.com/post/elasticsearch-default-direct-memory/</loc>
+    <lastmod>2021-06-07T14:16:00+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.honlyc.com/tags/heap/</loc>
+    <lastmod>2021-06-07T14:16:00+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.honlyc.com/</loc>
+    <lastmod>2021-06-07T14:16:00+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.honlyc.com/categories/jvm/</loc>
+    <lastmod>2021-06-07T14:16:00+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.honlyc.com/tags/oom/</loc>
+    <lastmod>2021-06-07T14:16:00+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.honlyc.com/post/</loc>
+    <lastmod>2021-06-07T14:16:00+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.honlyc.com/tags/</loc>
+    <lastmod>2021-06-07T14:16:00+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.honlyc.com/categories/bigdata/</loc>
+    <lastmod>2021-06-02T13:29:40+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.honlyc.com/tags/presto/</loc>
+    <lastmod>2021-06-02T13:29:40+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.honlyc.com/post/presto-in-action-1/</loc>
+    <lastmod>2021-06-02T13:29:40+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.honlyc.com/tags/docker/</loc>
+    <lastmod>2021-05-14T21:49:24+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.honlyc.com/categories/gradle/</loc>
+    <lastmod>2021-05-14T21:49:24+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.honlyc.com/post/gradle-docker-action-1/</loc>
+    <lastmod>2021-05-14T21:49:24+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
     <loc>http://www.honlyc.com/tags/build/</loc>
     <lastmod>2021-04-21T14:07:32+08:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -9,42 +114,7 @@
   </url>
   
   <url>
-    <loc>http://www.honlyc.com/categories/</loc>
-    <lastmod>2021-04-21T14:07:32+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>http://www.honlyc.com/categories/gradle/</loc>
-    <lastmod>2021-04-21T14:07:32+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
     <loc>http://www.honlyc.com/post/gradle-in-action-buildsrc/</loc>
-    <lastmod>2021-04-21T14:07:32+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>http://www.honlyc.com/</loc>
-    <lastmod>2021-04-21T14:07:32+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>http://www.honlyc.com/post/</loc>
-    <lastmod>2021-04-21T14:07:32+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>http://www.honlyc.com/tags/</loc>
     <lastmod>2021-04-21T14:07:32+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
@@ -102,13 +172,6 @@
   <url>
     <loc>http://www.honlyc.com/post/fst-in-analyzer/</loc>
     <lastmod>2021-04-14T14:09:03+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>http://www.honlyc.com/tags/docker/</loc>
-    <lastmod>2021-03-03T11:35:27+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -220,13 +283,6 @@
   
   <url>
     <loc>http://www.honlyc.com/tags/7.4.0/</loc>
-    <lastmod>2021-02-09T13:12:46+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>http://www.honlyc.com/categories/elasticsearch/</loc>
     <lastmod>2021-02-09T13:12:46+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
@@ -381,13 +437,6 @@
   
   <url>
     <loc>http://www.honlyc.com/tags/heap-analysis/</loc>
-    <lastmod>2020-03-31T11:23:47+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>http://www.honlyc.com/categories/jvm/</loc>
     <lastmod>2020-03-31T11:23:47+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>

@@ -45,7 +45,7 @@
 <meta property="og:description" content="被社会毒打的程序猿一枚." />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="http://www.honlyc.com/" />
-<meta property="og:updated_time" content="2021-04-21T14:07:32+08:00" />
+<meta property="og:updated_time" content="2021-06-07T14:16:00+08:00" />
 <meta itemprop="name" content="Honlyc - Your are free">
 <meta itemprop="description" content="被社会毒打的程序猿一枚.">
 <meta name="twitter:card" content="summary"/>
@@ -123,13 +123,83 @@
           <section id="posts" class="posts">
     <article class="post">
   <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/elasticsearch-default-direct-memory/">Elasticsearch DirectMemory OOM 分析</a></h1>
+    <div class="post-meta">
+      <span class="post-time"> 2021-06-07 </span>
+      <div class="post-category">
+          <a href="/categories/elasticsearch/"> elasticsearch </a>
+          <a href="/categories/jvm/"> jvm </a>
+          </div>
+        <span class="more-meta"> 1130 words </span>
+        <span class="more-meta"> 3 mins read </span>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      [TOC] 问题 因为我们的索引集群分为天和历史，在天索引集群中，采用了自研的堆外内存插件，实现堆外的内存索引，减少GC，自主控制内存的使用。但在实际使
+    </div>
+    <div class="read-more">
+      <a href="/post/elasticsearch-default-direct-memory/" class="read-more-link">Read more...</a>
+    </div>
+  </div>
+</article>
+
+    <article class="post">
+  <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/presto-in-action-1/">Presto in Action 1</a></h1>
+    <div class="post-meta">
+      <span class="post-time"> 2021-06-02 </span>
+      <div class="post-category">
+          <a href="/categories/bigdata/"> bigdata </a>
+          </div>
+        <span class="more-meta"> 1253 words </span>
+        <span class="more-meta"> 3 mins read </span>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      [TOC] 前言 公司因为架构调整，需要进行数据的实时加载。原本的方案是直接通过客户端查询索引，同时通过索引返回的id查询详情，整个流程比较复杂，并且其
+    </div>
+    <div class="read-more">
+      <a href="/post/presto-in-action-1/" class="read-more-link">Read more...</a>
+    </div>
+  </div>
+</article>
+
+    <article class="post">
+  <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/gradle-docker-action-1/">Gradle Docker Action 1</a></h1>
+    <div class="post-meta">
+      <span class="post-time"> 2021-05-14 </span>
+      <div class="post-category">
+          <a href="/categories/gradle/"> gradle </a>
+          </div>
+        <span class="more-meta"> 342 words </span>
+        <span class="more-meta"> 1 min read </span>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      场景 因为最近在转用Gradle进行项目的编译，所以很多以前用maven的地方，还是有非常多的不同。这里主要针对Docker的使用，来进行记录
+    </div>
+    <div class="read-more">
+      <a href="/post/gradle-docker-action-1/" class="read-more-link">Read more...</a>
+    </div>
+  </div>
+</article>
+
+    <article class="post">
+  <header class="post-header">
     <h1 class="post-title"><a class="post-link" href="/post/gradle-in-action-buildsrc/">Gradle 使用 buildSrc</a></h1>
     <div class="post-meta">
       <span class="post-time"> 2021-04-21 </span>
       <div class="post-category">
           <a href="/categories/gradle/"> gradle </a>
           </div>
-        <span class="more-meta"> 3553 words </span>
+        <span class="more-meta"> 3555 words </span>
         <span class="more-meta"> 8 mins read </span>
     </div>
   </header>
@@ -163,77 +233,6 @@
     </div>
     <div class="read-more">
       <a href="/post/linux-awk/" class="read-more-link">Read more...</a>
-    </div>
-  </div>
-</article>
-
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/fst-in-analyzer/">使用 FST 做分词器</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 2021-04-14 </span>
-      <div class="post-category">
-          <a href="/categories/lucene/"> lucene </a>
-          </div>
-        <span class="more-meta"> 3471 words </span>
-        <span class="more-meta"> 7 mins read </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      场景 在分词器的使用中，主要就是字典如何构建，能够达到空间和时间的最优化，常用的字典数据结构： 数据结构 优缺点 排序列表Array/List 使用二
-    </div>
-    <div class="read-more">
-      <a href="/post/fst-in-analyzer/" class="read-more-link">Read more...</a>
-    </div>
-  </div>
-</article>
-
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/portainer-in-action/">Portainer in Action</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 2021-03-03 </span>
-      <div class="post-category">
-          <a href="/categories/docker/"> docker </a>
-          <a href="/categories/swarm/"> swarm </a>
-          </div>
-        <span class="more-meta"> 262 words </span>
-        <span class="more-meta"> 1 min read </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      前言 在使用Docker时，尽管我们可以使用docker-compose来进行编排，但终归是命令行，一旦应用多起来，管理方面就成了很大问题。 但
-    </div>
-    <div class="read-more">
-      <a href="/post/portainer-in-action/" class="read-more-link">Read more...</a>
-    </div>
-  </div>
-</article>
-
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/ngrinder-in-action/">nGrinder 压测工具的使用</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 2021-03-02 </span>
-      <div class="post-category">
-          <a href="/categories/java/"> java </a>
-          <a href="/categories/ngrinder/"> ngrinder </a>
-          </div>
-        <span class="more-meta"> 1249 words </span>
-        <span class="more-meta"> 3 mins read </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      前言 我们在程序上线前，应该做好完备的测试工作：单元测试、集成测试等，同样的，压力测试也是一个重要指标，每次上线时的压力测试，可以直观地反应出
-    </div>
-    <div class="read-more">
-      <a href="/post/ngrinder-in-action/" class="read-more-link">Read more...</a>
     </div>
   </div>
 </article>
