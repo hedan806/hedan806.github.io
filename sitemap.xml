@@ -436,6 +436,20 @@
   </url>
   
   <url>
+    <loc>http://www.honlyc.com/tags/auth/</loc>
+    <lastmod>2020-07-16T20:48:13+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.honlyc.com/post/elasticsearch-7-snapshot/</loc>
+    <lastmod>2020-07-16T20:48:13+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
     <loc>http://www.honlyc.com/post/elasticsearch-esrally-loadtest/</loc>
     <lastmod>2020-06-02T14:00:47+08:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -520,21 +534,7 @@
   </url>
   
   <url>
-    <loc>http://www.honlyc.com/tags/auth/</loc>
-    <lastmod>2020-03-16T20:48:13+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
     <loc>http://www.honlyc.com/post/elasticsearch-7.4.0-auth/</loc>
-    <lastmod>2020-03-16T20:48:13+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>http://www.honlyc.com/post/elasticsearch-7-snapshot/</loc>
     <lastmod>2020-03-16T20:48:13+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>

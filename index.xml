@@ -179,6 +179,15 @@
     </item>
     
     <item>
+      <title>Elasticsearch 7.4.0 使用 Snapshot 做数据迁移</title>
+      <link>http://www.honlyc.com/post/elasticsearch-7-snapshot/</link>
+      <pubDate>Thu, 16 Jul 2020 20:48:13 +0800</pubDate>
+      
+      <guid>http://www.honlyc.com/post/elasticsearch-7-snapshot/</guid>
+      <description>Elasticsearch Snapshot and Restore 、elasticsearch.yml配置path.repo，注意：这个目录必须是共享文件目录或者其他共享的，否则无法备份 1 path.repo: data 创建R</description>
+    </item>
+    
+    <item>
       <title>Elasticsearch esrally 基准测试</title>
       <link>http://www.honlyc.com/post/elasticsearch-esrally-loadtest/</link>
       <pubDate>Tue, 02 Jun 2020 14:00:47 +0800</pubDate>
@@ -230,15 +239,6 @@
       
       <guid>http://www.honlyc.com/post/elasticsearch-7.4.0-auth/</guid>
       <description>本文主要介绍基于Docker部署时，Elasticsearch如何添加认证。 主要步骤 1. 生成认证秘钥 使用一个镜像，专门生成一个秘钥，使用p12</description>
-    </item>
-    
-    <item>
-      <title>Elasticsearch 7.4.0 使用 Snapshot 做数据迁移</title>
-      <link>http://www.honlyc.com/post/elasticsearch-7-snapshot/</link>
-      <pubDate>Mon, 16 Mar 2020 20:48:13 +0800</pubDate>
-      
-      <guid>http://www.honlyc.com/post/elasticsearch-7-snapshot/</guid>
-      <description>Elasticsearch Snapshot and Restore 、elasticsearch.yml配置path.repo，注意：这个目录必须是共享文件目录或者其他共享的，否则无法备份 1 path.repo: data 创建R</description>
     </item>
     
     <item>
