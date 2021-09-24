@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Iceberg in Action 1 - Honlyc - Your are free</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="Honlyc" /><meta name="description" content="部署 安装 hadoop 下载 1 Hadoop ：https://archive.apache.org/dist/hadoop/core/hadoop-2.7.7/ 解压 1" /><meta name="keywords" content="Honlyc, golanh, java, 分享, elasticsearch, jvm" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.80.0 with theme even" />
+
+
+<link rel="canonical" href="http://www.honlyc.com/post/iceberg-in-action-1/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.b5a744db6de49a86cadafb3b70f555ab443f83c307a483402259e94726b045ff.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Iceberg in Action 1" />
+<meta property="og:description" content="部署 安装 hadoop 下载 1 Hadoop ：https://archive.apache.org/dist/hadoop/core/hadoop-2.7.7/ 解压 1" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://www.honlyc.com/post/iceberg-in-action-1/" />
+<meta property="article:published_time" content="2021-09-17T09:27:09+08:00" />
+<meta property="article:modified_time" content="2021-09-17T09:27:09+08:00" />
+<meta itemprop="name" content="Iceberg in Action 1">
+<meta itemprop="description" content="部署 安装 hadoop 下载 1 Hadoop ：https://archive.apache.org/dist/hadoop/core/hadoop-2.7.7/ 解压 1">
+<meta itemprop="datePublished" content="2021-09-17T09:27:09+08:00" />
+<meta itemprop="dateModified" content="2021-09-17T09:27:09+08:00" />
+<meta itemprop="wordCount" content="833">
+
+
+
+<meta itemprop="keywords" content="iceberg,flink," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Iceberg in Action 1"/>
+<meta name="twitter:description" content="部署 安装 hadoop 下载 1 Hadoop ：https://archive.apache.org/dist/hadoop/core/hadoop-2.7.7/ 解压 1"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Honlyc</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Honlyc</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Iceberg in Action 1</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2021-09-17 </span>
+        <div class="post-category">
+            <a href="/categories/data-lake/"> data lake </a>
+            </div>
+          <span class="more-meta"> 833 words </span>
+          <span class="more-meta"> 2 mins read </span>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#安装-hadoop">安装 hadoop</a></li>
+    <li><a href="#配置-flink">配置 Flink</a></li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h1 id="部署">部署</h1>
+<h2 id="安装-hadoop">安装 hadoop</h2>
+<ol>
+<li>
+<p>下载</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">Hadoop ：https://archive.apache.org/dist/hadoop/core/hadoop-2.7.7/	
+</code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>解压</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">tar -xvf hadoop-2.7.7.tar.gz
+</code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>配置环境变量</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nb">export</span> <span class="nv">HADOOP_HOME</span><span class="o">=</span>/path/to/hadoop-2.7.7
+<span class="nb">export</span> <span class="nv">HADOOP_CONF_DIR</span><span class="o">=</span><span class="nv">$HADOOP_HOME</span>/etc/hadoop
+<span class="nb">export</span> <span class="nv">HADOOP_HDFS_HOME</span><span class="o">=</span><span class="nv">$HADOOP_HOME</span>
+<span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span><span class="nv">$PATH</span>:<span class="nv">$HADOOP_HOME</span>/bin
+</code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>执行<code>source</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nb">source</span> .bash_profile
+</code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>验证</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">hadoop version
+</code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>配置<code>Hadoop</code></p>
+<p>进入<code>~/etc/hadoop/</code> 目录</p>
+<p>配置<code>hadoop-env.sh</code>配置：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nb">export</span> <span class="nv">JAVA_HOME</span><span class="o">=</span>/path/to/java/
+</code></pre></td></tr></table>
+</div>
+</div><p>配置<code>core-site.xml</code>:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-xml" data-lang="xml"><span class="nt">&lt;configuration&gt;</span>
+    <span class="nt">&lt;property&gt;</span>
+        <span class="nt">&lt;name&gt;</span>fs.defaultFS<span class="nt">&lt;/name&gt;</span>
+        <span class="nt">&lt;value&gt;</span>hdfs://localhost:9000<span class="nt">&lt;/value&gt;</span>
+    <span class="nt">&lt;/property&gt;</span>
+<span class="nt">&lt;/configuration&gt;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>配置<code>hdfs-site.xml</code>:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-xml" data-lang="xml"><span class="nt">&lt;configuration&gt;</span>
+  <span class="nt">&lt;configuration&gt;</span>
+    <span class="nt">&lt;property&gt;</span>
+      <span class="nt">&lt;name&gt;</span>dfs.replication<span class="nt">&lt;/name&gt;</span>
+      <span class="nt">&lt;value&gt;</span>1<span class="nt">&lt;/value&gt;</span>
+    <span class="nt">&lt;/property&gt;</span>
+    <span class="nt">&lt;property&gt;</span>
+      <span class="nt">&lt;name&gt;</span>dfs.namenode.name.dir<span class="nt">&lt;/name&gt;</span>
+      <span class="nt">&lt;value&gt;</span>file:/path/to/hadoop/hdfs/namenode<span class="nt">&lt;/value&gt;</span>
+    <span class="nt">&lt;/property&gt;</span>
+    <span class="nt">&lt;property&gt;</span>
+      <span class="nt">&lt;name&gt;</span>dfs.datanode.data.dir<span class="nt">&lt;/name&gt;</span>
+      <span class="nt">&lt;value&gt;</span>file:/path/to/hadoop/hdfs/datanode<span class="nt">&lt;/value&gt;</span>
+    <span class="nt">&lt;/property&gt;</span>
+  <span class="nt">&lt;/configuration&gt;</span>
+<span class="nt">&lt;/configuration&gt;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>格式化<code>hdfs</code>:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">hdfs namenode -format
+</code></pre></td></tr></table>
+</div>
+</div><p>启动<code>hadoop</code>:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nb">cd</span> <span class="o">{</span>hadoop_home<span class="o">}</span>/sbin
+./start-all.sh	
+</code></pre></td></tr></table>
+</div>
+</div><p>查看启动是否正常：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">jps
+<span class="m">1986</span> Jps
+<span class="m">41715</span> SecondaryNameNode
+<span class="m">41460</span> DataNode
+<span class="m">41287</span> NameNode
+<span class="m">39660</span> ResourceManager
+</code></pre></td></tr></table>
+</div>
+</div><p>出现<code>NameNode</code>和<code>DataNode</code>表示已经正常启动</p>
+<p><strong>注意：启动的时候，需要对机器做<code>ssh</code>免登入，包括本机也是，否则无法启动。</strong></p>
+</li>
+</ol>
+<h2 id="配置-flink">配置 Flink</h2>
+<p>Flink的接入，可以参照<a href="https://iceberg.apache.org/flink/">官方文档</a>来，我这里简单列一下步骤：</p>
+<ol>
+<li>
+<p>下载 Flink</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nv">FLINK_VERSION</span><span class="o">=</span>1.11.1
+<span class="nv">SCALA_VERSION</span><span class="o">=</span>2.12
+<span class="nv">APACHE_FLINK_URL</span><span class="o">=</span>archive.apache.org/dist/flink/
+wget <span class="si">${</span><span class="nv">APACHE_FLINK_URL</span><span class="si">}</span>/flink-<span class="si">${</span><span class="nv">FLINK_VERSION</span><span class="si">}</span>/flink-<span class="si">${</span><span class="nv">FLINK_VERSION</span><span class="si">}</span>-bin-scala_<span class="si">${</span><span class="nv">SCALA_VERSION</span><span class="si">}</span>.tgz
+tar xzvf flink-<span class="si">${</span><span class="nv">FLINK_VERSION</span><span class="si">}</span>-bin-scala_<span class="si">${</span><span class="nv">SCALA_VERSION</span><span class="si">}</span>.tgz
+</code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>在<code>Hadoop</code>环境中启动一个独立的<code>Flink</code>集群</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># HADOOP_HOME is your hadoop root directory after unpack the binary package.</span>
+<span class="nb">export</span> <span class="nv">HADOOP_CLASSPATH</span><span class="o">=</span><span class="sb">`</span><span class="nv">$HADOOP_HOME</span>/bin/hadoop classpath<span class="sb">`</span>
+   
+<span class="c1"># Start the flink standalone cluster</span>
+./bin/start-cluster.sh
+</code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>启动<code>Flink SQL Client</code>客户端</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># download Iceberg dependency</span>
+<span class="nv">ICEBERG_VERSION</span><span class="o">=</span>0.11.1
+<span class="nv">MAVEN_URL</span><span class="o">=</span>https://repo1.maven.org/maven2
+<span class="nv">ICEBERG_MAVEN_URL</span><span class="o">=</span><span class="si">${</span><span class="nv">MAVEN_URL</span><span class="si">}</span>/org/apache/iceberg
+<span class="nv">ICEBERG_PACKAGE</span><span class="o">=</span>iceberg-flink-runtime
+wget <span class="si">${</span><span class="nv">ICEBERG_MAVEN_URL</span><span class="si">}</span>/<span class="si">${</span><span class="nv">ICEBERG_PACKAGE</span><span class="si">}</span>/<span class="si">${</span><span class="nv">ICEBERG_VERSION</span><span class="si">}</span>/<span class="si">${</span><span class="nv">ICEBERG_PACKAGE</span><span class="si">}</span>-<span class="si">${</span><span class="nv">ICEBERG_VERSION</span><span class="si">}</span>.jar
+   
+<span class="c1"># download the flink-sql-connector-hive-${HIVE_VERSION}_${SCALA_VERSION}-${FLINK_VERSION}.jar</span>
+<span class="nv">HIVE_VERSION</span><span class="o">=</span>2.3.6
+<span class="nv">SCALA_VERSION</span><span class="o">=</span>2.11
+<span class="nv">FLINK_VERSION</span><span class="o">=</span>1.11.0
+<span class="nv">FLINK_CONNECTOR_URL</span><span class="o">=</span><span class="si">${</span><span class="nv">MAVEN_URL</span><span class="si">}</span>/org/apache/flink
+<span class="nv">FLINK_CONNECTOR_PACKAGE</span><span class="o">=</span>flink-sql-connector-hive
+wget <span class="si">${</span><span class="nv">FLINK_CONNECTOR_URL</span><span class="si">}</span>/<span class="si">${</span><span class="nv">FLINK_CONNECTOR_PACKAGE</span><span class="si">}</span>-<span class="si">${</span><span class="nv">HIVE_VERSION</span><span class="si">}</span>_<span class="si">${</span><span class="nv">SCALA_VERSION</span><span class="si">}</span>/<span class="si">${</span><span class="nv">FLINK_VERSION</span><span class="si">}</span>/<span class="si">${</span><span class="nv">FLINK_CONNECTOR_PACKAGE</span><span class="si">}</span>-<span class="si">${</span><span class="nv">HIVE_VERSION</span><span class="si">}</span>_<span class="si">${</span><span class="nv">SCALA_VERSION</span><span class="si">}</span>-<span class="si">${</span><span class="nv">FLINK_VERSION</span><span class="si">}</span>.jar
+   
+<span class="c1"># open the SQL client.</span>
+/path/to/bin/sql-client.sh embedded <span class="se">\
+</span><span class="se"></span>    -j <span class="si">${</span><span class="nv">ICEBERG_PACKAGE</span><span class="si">}</span>-<span class="si">${</span><span class="nv">ICEBERG_VERSION</span><span class="si">}</span>.jar <span class="se">\
+</span><span class="se"></span>    -j <span class="si">${</span><span class="nv">FLINK_CONNECTOR_PACKAGE</span><span class="si">}</span>-<span class="si">${</span><span class="nv">HIVE_VERSION</span><span class="si">}</span>_<span class="si">${</span><span class="nv">SCALA_VERSION</span><span class="si">}</span>-<span class="si">${</span><span class="nv">FLINK_VERSION</span><span class="si">}</span>.jar <span class="se">\
+</span><span class="se"></span>    shell
+</code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>简单使用</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sql" data-lang="sql"><span class="c1">-- 1. 创建 hadoop_catalog
+</span><span class="c1"></span><span class="k">CREATE</span> <span class="k">CATALOG</span> <span class="n">hadoop_catalog</span> <span class="k">WITH</span> <span class="p">(</span>
+  <span class="s1">&#39;type&#39;</span><span class="o">=</span><span class="s1">&#39;iceberg&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;catalog-type&#39;</span><span class="o">=</span><span class="s1">&#39;hadoop&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;warehouse&#39;</span><span class="o">=</span><span class="s1">&#39;hdfs://localhost:9000/user/hive/warehouse&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;property-version&#39;</span><span class="o">=</span><span class="s1">&#39;1&#39;</span>
+<span class="p">);</span>
+   
+<span class="c1">-- 2. 创建 database
+</span><span class="c1"></span><span class="k">CREATE</span> <span class="k">DATABASE</span> <span class="n">iceberg_db</span><span class="p">;</span>
+   
+<span class="n">use</span> <span class="n">iceberg_db</span><span class="p">;</span>
+   
+<span class="c1">-- 3. 创建非分区表和分区表；
+</span><span class="c1"></span><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="o">`</span><span class="n">hadoop_catalog</span><span class="o">`</span><span class="p">.</span><span class="o">`</span><span class="n">iceberg_db</span><span class="o">`</span><span class="p">.</span><span class="o">`</span><span class="n">sample</span><span class="o">`</span> <span class="p">(</span>
+     <span class="n">id</span> <span class="nb">BIGINT</span> <span class="k">COMMENT</span> <span class="s1">&#39;unique id&#39;</span><span class="p">,</span>
+     <span class="k">data</span> <span class="n">STRING</span>
+ <span class="p">);</span>
+    
+ <span class="k">CREATE</span> <span class="k">TABLE</span> <span class="o">`</span><span class="n">hadoop_catalog</span><span class="o">`</span><span class="p">.</span><span class="o">`</span><span class="n">iceberg_db</span><span class="o">`</span><span class="p">.</span><span class="o">`</span><span class="n">sample_partition</span><span class="o">`</span> <span class="p">(</span>
+    <span class="n">id</span> <span class="nb">BIGINT</span> <span class="k">COMMENT</span> <span class="s1">&#39;unique id&#39;</span><span class="p">,</span>
+    <span class="k">data</span> <span class="n">STRING</span>
+<span class="p">)</span> <span class="n">PARTITIONED</span> <span class="k">BY</span> <span class="p">(</span><span class="k">data</span><span class="p">);</span>
+   
+<span class="c1">-- 4. 插入数据
+</span><span class="c1"></span><span class="k">insert</span> <span class="k">into</span> <span class="o">`</span><span class="n">hadoop_catalog</span><span class="o">`</span><span class="p">.</span><span class="o">`</span><span class="n">iceberg_db</span><span class="o">`</span><span class="p">.</span><span class="o">`</span><span class="n">sample</span><span class="o">`</span> <span class="k">values</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="s1">&#39;test1&#39;</span><span class="p">);</span>
+<span class="k">insert</span> <span class="k">into</span> <span class="o">`</span><span class="n">hadoop_catalog</span><span class="o">`</span><span class="p">.</span><span class="o">`</span><span class="n">iceberg_db</span><span class="o">`</span><span class="p">.</span><span class="o">`</span><span class="n">sample</span><span class="o">`</span> <span class="k">values</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="s1">&#39;test2&#39;</span><span class="p">);</span>
+    
+<span class="k">INSERT</span> <span class="k">into</span> <span class="o">`</span><span class="n">hadoop_catalog</span><span class="o">`</span><span class="p">.</span><span class="o">`</span><span class="n">iceberg_db</span><span class="o">`</span><span class="p">.</span><span class="n">sample_partition</span> <span class="n">PARTITION</span><span class="p">(</span><span class="k">data</span><span class="o">=</span><span class="s1">&#39;city&#39;</span><span class="p">)</span> <span class="k">SELECT</span> <span class="mi">86</span><span class="p">;</span>
+   
+<span class="c1">-- 5. 查询数据
+</span><span class="c1"></span>   
+<span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="o">`</span><span class="n">hadoop_catalog</span><span class="o">`</span><span class="p">.</span><span class="o">`</span><span class="n">iceberg_db</span><span class="o">`</span><span class="p">.</span><span class="o">`</span><span class="n">sample</span><span class="o">`</span><span class="p">;</span>
+<span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="o">`</span><span class="n">hadoop_catalog</span><span class="o">`</span><span class="p">.</span><span class="o">`</span><span class="n">iceberg_db</span><span class="o">`</span><span class="p">.</span><span class="o">`</span><span class="n">sample</span><span class="o">`</span> <span class="k">where</span> <span class="n">id</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span> 
+<span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="o">`</span><span class="n">hadoop_catalog</span><span class="o">`</span><span class="p">.</span><span class="o">`</span><span class="n">iceberg_db</span><span class="o">`</span><span class="p">.</span><span class="o">`</span><span class="n">sample</span><span class="o">`</span> <span class="k">where</span> <span class="k">data</span><span class="o">=</span><span class="s1">&#39;test1&#39;</span><span class="p">;</span>
+   
+</code></pre></td></tr></table>
+</div>
+</div></li>
+<li></li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sql" data-lang="sql"><span class="k">CREATE</span> <span class="k">CATALOG</span> <span class="n">hive_catalog</span> <span class="k">WITH</span> <span class="p">(</span>
+  <span class="s1">&#39;type&#39;</span><span class="o">=</span><span class="s1">&#39;iceberg&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;catalog-type&#39;</span><span class="o">=</span><span class="s1">&#39;hive&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;uri&#39;</span><span class="o">=</span><span class="s1">&#39;thrift://localhost:9083&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;clients&#39;</span><span class="o">=</span><span class="s1">&#39;5&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;property-version&#39;</span><span class="o">=</span><span class="s1">&#39;1&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;warehouse&#39;</span><span class="o">=</span><span class="s1">&#39;hdfs://localhost:9000/user/hive/warehouse&#39;</span>
+<span class="p">);</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>hadoop_catalog</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sql" data-lang="sql"><span class="k">CREATE</span> <span class="k">CATALOG</span> <span class="n">hadoop_catalog</span> <span class="k">WITH</span> <span class="p">(</span>
+  <span class="s1">&#39;type&#39;</span><span class="o">=</span><span class="s1">&#39;iceberg&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;catalog-type&#39;</span><span class="o">=</span><span class="s1">&#39;hadoop&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;warehouse&#39;</span><span class="o">=</span><span class="s1">&#39;hdfs://localhost:9000/user/hive/warehouse&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;property-version&#39;</span><span class="o">=</span><span class="s1">&#39;1&#39;</span>
+<span class="p">);</span>
+</code></pre></td></tr></table>
+</div>
+</div><h1 id="遇到问题">遇到问题</h1>
+<ol>
+<li>hadoop 启动的时候，需要做免登入，本机也一样。</li>
+<li><code>iceberg</code>无法用于全文检索，但可以用于标签检索。</li>
+</ol>
+<h1 id="参考">参考</h1>
+<p><a href="https://xie.infoq.cn/article/e5d0422e873b6f299b104dac6">基于 Flink+Iceberg 构建企业级实时数据湖</a></p>
+<p><a href="https://flink-learning.org.cn/article?tab=Iceberg&amp;page=1">Flink Learning</a></p>
+<p><a href="https://xie.infoq.cn/article/0c97e738280ae9d19dca5b90f">通俗易懂了解什么是数据仓库</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/347660549">Flink + Iceberg 全场景实时数仓的建设实践_腾讯</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/389904827">Flink + Iceberg + 对象存储，构建数据湖方案_阿里</a></p>
+<p><a href="https://cloud.tencent.com/developer/article/1797918">基于 Flink+Iceberg 构建企业级实时数据湖</a></p>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">Honlyc</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        2021-09-17
+        
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content">转载请注明出处。<a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a></span>
+  </p>
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">Reward</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/wxpay.png">
+        <span>wechat</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/alipay.png">
+        <span>alipay</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/iceberg/">iceberg</a>
+          <a href="/tags/flink/">flink</a>
+          </div>
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/elasticsearch-docker-jvm-crash/">
+            <span class="next-text nav-default">Elasticsearch Docker Jvm Crash</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="hedan806@gmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-stack-overflow" title="stack-overflow"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="http://localhost:1313" class="iconfont icon-zhihu" title="zhihu"></a>
+      <a href="http://localhost:1313" class="iconfont icon-douban" title="douban"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="http://www.honlyc.com/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2017 - 
+    2021<span class="heart"><i class="iconfont icon-heart"></i></span><span>Honlyc</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

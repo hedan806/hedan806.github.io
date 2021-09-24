@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>crash on Honlyc - Your are free</title>
+    <link>http://www.honlyc.com/tags/crash/</link>
+    <description>Recent content in crash on Honlyc - Your are free</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Wed, 04 Aug 2021 09:21:43 +0800</lastBuildDate><atom:link href="http://www.honlyc.com/tags/crash/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Elasticsearch Docker Jvm Crash</title>
+      <link>http://www.honlyc.com/post/elasticsearch-docker-jvm-crash/</link>
+      <pubDate>Wed, 04 Aug 2021 09:21:43 +0800</pubDate>
+      
+      <guid>http://www.honlyc.com/post/elasticsearch-docker-jvm-crash/</guid>
+      <description>前言 今天上班日常巡检，发现一个ES集群报Red了，一看状态，应该是有一台机器挂了。赶紧查看问题 问题确认 登录到指定机器后，发现是磁盘满了，但问</description>
+    </item>
+    
+  </channel>
+</rss>

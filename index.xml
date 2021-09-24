@@ -6,7 +6,34 @@
     <description>Recent content on Honlyc - Your are free</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Mon, 07 Jun 2021 14:16:00 +0800</lastBuildDate><atom:link href="http://www.honlyc.com/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 17 Sep 2021 09:27:09 +0800</lastBuildDate><atom:link href="http://www.honlyc.com/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Iceberg in Action 1</title>
+      <link>http://www.honlyc.com/post/iceberg-in-action-1/</link>
+      <pubDate>Fri, 17 Sep 2021 09:27:09 +0800</pubDate>
+      
+      <guid>http://www.honlyc.com/post/iceberg-in-action-1/</guid>
+      <description>部署 安装 hadoop 下载 1 Hadoop ：https://archive.apache.org/dist/hadoop/core/hadoop-2.7.7/ 解压 1</description>
+    </item>
+    
+    <item>
+      <title>Elasticsearch Docker Jvm Crash</title>
+      <link>http://www.honlyc.com/post/elasticsearch-docker-jvm-crash/</link>
+      <pubDate>Wed, 04 Aug 2021 09:21:43 +0800</pubDate>
+      
+      <guid>http://www.honlyc.com/post/elasticsearch-docker-jvm-crash/</guid>
+      <description>前言 今天上班日常巡检，发现一个ES集群报Red了，一看状态，应该是有一台机器挂了。赶紧查看问题 问题确认 登录到指定机器后，发现是磁盘满了，但问</description>
+    </item>
+    
+    <item>
+      <title>Logstash 导入 Json 文件到 Elasticsearch</title>
+      <link>http://www.honlyc.com/post/logstash-import-json/</link>
+      <pubDate>Fri, 25 Jun 2021 16:39:36 +0800</pubDate>
+      
+      <guid>http://www.honlyc.com/post/logstash-import-json/</guid>
+      <description>前言 因为有个临时需求，需要搭建一个ES集群，并导入数据。所以需要从头开始，这里主要是记录一下集群搭建、数据导入的过程。 部署 Elasticsearch 因为是新集群，考</description>
+    </item>
+    
     <item>
       <title>Elasticsearch DirectMemory OOM 分析</title>
       <link>http://www.honlyc.com/post/elasticsearch-default-direct-memory/</link>
@@ -203,6 +230,15 @@
       
       <guid>http://www.honlyc.com/post/elasticsearch-7.4.0-auth/</guid>
       <description>本文主要介绍基于Docker部署时，Elasticsearch如何添加认证。 主要步骤 1. 生成认证秘钥 使用一个镜像，专门生成一个秘钥，使用p12</description>
+    </item>
+    
+    <item>
+      <title>Elasticsearch 7.4.0 使用 Snapshot 做数据迁移</title>
+      <link>http://www.honlyc.com/post/elasticsearch-7-snapshot/</link>
+      <pubDate>Mon, 16 Mar 2020 20:48:13 +0800</pubDate>
+      
+      <guid>http://www.honlyc.com/post/elasticsearch-7-snapshot/</guid>
+      <description>Elasticsearch Snapshot and Restore 、elasticsearch.yml配置path.repo，注意：这个目录必须是共享文件目录或者其他共享的，否则无法备份 1 path.repo: data 创建R</description>
     </item>
     
     <item>

@@ -6,11 +6,20 @@
     <description>Recent content in Categories on Honlyc - Your are free</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Mon, 07 Jun 2021 14:16:00 +0800</lastBuildDate><atom:link href="http://www.honlyc.com/categories/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 17 Sep 2021 09:27:09 +0800</lastBuildDate><atom:link href="http://www.honlyc.com/categories/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>data lake</title>
+      <link>http://www.honlyc.com/categories/data-lake/</link>
+      <pubDate>Fri, 17 Sep 2021 09:27:09 +0800</pubDate>
+      
+      <guid>http://www.honlyc.com/categories/data-lake/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>elasticsearch</title>
       <link>http://www.honlyc.com/categories/elasticsearch/</link>
-      <pubDate>Mon, 07 Jun 2021 14:16:00 +0800</pubDate>
+      <pubDate>Wed, 04 Aug 2021 09:21:43 +0800</pubDate>
       
       <guid>http://www.honlyc.com/categories/elasticsearch/</guid>
       <description></description>
@@ -19,9 +28,18 @@
     <item>
       <title>jvm</title>
       <link>http://www.honlyc.com/categories/jvm/</link>
-      <pubDate>Mon, 07 Jun 2021 14:16:00 +0800</pubDate>
+      <pubDate>Wed, 04 Aug 2021 09:21:43 +0800</pubDate>
       
       <guid>http://www.honlyc.com/categories/jvm/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>logstash</title>
+      <link>http://www.honlyc.com/categories/logstash/</link>
+      <pubDate>Fri, 25 Jun 2021 16:39:36 +0800</pubDate>
+      
+      <guid>http://www.honlyc.com/categories/logstash/</guid>
       <description></description>
     </item>
     

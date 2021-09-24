@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>data lake on Honlyc - Your are free</title>
+    <link>http://www.honlyc.com/categories/data-lake/</link>
+    <description>Recent content in data lake on Honlyc - Your are free</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Fri, 17 Sep 2021 09:27:09 +0800</lastBuildDate><atom:link href="http://www.honlyc.com/categories/data-lake/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Iceberg in Action 1</title>
+      <link>http://www.honlyc.com/post/iceberg-in-action-1/</link>
+      <pubDate>Fri, 17 Sep 2021 09:27:09 +0800</pubDate>
+      
+      <guid>http://www.honlyc.com/post/iceberg-in-action-1/</guid>
+      <description>部署 安装 hadoop 下载 1 Hadoop ：https://archive.apache.org/dist/hadoop/core/hadoop-2.7.7/ 解压 1</description>
+    </item>
+    
+  </channel>
+</rss>

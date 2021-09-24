@@ -45,7 +45,7 @@
 <meta property="og:description" content="被社会毒打的程序猿一枚." />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="http://www.honlyc.com/" />
-<meta property="og:updated_time" content="2021-06-07T14:16:00+08:00" />
+<meta property="og:updated_time" content="2021-09-17T09:27:09+08:00" />
 <meta itemprop="name" content="Honlyc - Your are free">
 <meta itemprop="description" content="被社会毒打的程序猿一枚.">
 <meta name="twitter:card" content="summary"/>
@@ -123,6 +123,92 @@
           <section id="posts" class="posts">
     <article class="post">
   <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/elasticsearch-decider-custom/">Custom Elasticsearch Shard Allocation Decider</a></h1>
+    <div class="post-meta">
+      <span class="post-time"> 2019-11-05 </span>
+      <div class="post-category">
+          <a href="/categories/elk/"> elk </a>
+          </div>
+        <span class="more-meta"> 805 words </span>
+        <span class="more-meta"> 2 mins read </span>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      [TOC] 场景 对于一台机器部署了多个ES实例时，在分配Shard时，可能会存在热点的情况，如下图： 在同一台机器上的不同实例上，分配了两个Primar
+    </div>
+    <div class="read-more">
+      <a href="/post/elasticsearch-decider-custom/" class="read-more-link">Read more...</a>
+    </div>
+  </div>
+</article>
+
+    <article class="post">
+  <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/elasticsearch-6.1.4-upgrade-to-7.4.0-problem/">Elasticsearch 6.1.4 upgrade to 7.4.0</a></h1>
+    <div class="post-meta">
+      <span class="post-time"> 2019-10-09 </span>
+      
+        <span class="more-meta"> 1003 words </span>
+        <span class="more-meta"> 3 mins read </span>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      [TOC] 1. 集群改动 1. Zen Discovery 改动 不再有discovery.zen.minimum_master_nodes这个控制集群脑裂的配置，转而由集群自主控制，
+    </div>
+    <div class="read-more">
+      <a href="/post/elasticsearch-6.1.4-upgrade-to-7.4.0-problem/" class="read-more-link">Read more...</a>
+    </div>
+  </div>
+</article>
+
+    <article class="post">
+  <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/golang-x509-certificate-unknown-authority/">解决 Golang https 请求时，x509: certificate signed by unknown authority 问题</a></h1>
+    <div class="post-meta">
+      <span class="post-time"> 2019-08-23 </span>
+      
+        <span class="more-meta"> 681 words </span>
+        <span class="more-meta"> 2 mins read </span>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      在使用http请求https://**网站时，报了x509: certificate signed by unknown authority这个错误。经查阅，是由于目标网站的CA证书在本机没有，
+    </div>
+    <div class="read-more">
+      <a href="/post/golang-x509-certificate-unknown-authority/" class="read-more-link">Read more...</a>
+    </div>
+  </div>
+</article>
+
+    <article class="post">
+  <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/elasticsearch-unassigned-process/">Elasticsearch Unassigned Process</a></h1>
+    <div class="post-meta">
+      <span class="post-time"> 2019-08-02 </span>
+      
+        <span class="more-meta"> 443 words </span>
+        <span class="more-meta"> 1 min read </span>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      问题 在使用ES时，有时候在服务器突然挂掉后重启时，会导致有Shard的状态变成 了UNASSIGEND,此时，本身集群的数据是不准确的，因为这
+    </div>
+    <div class="read-more">
+      <a href="/post/elasticsearch-unassigned-process/" class="read-more-link">Read more...</a>
+    </div>
+  </div>
+</article>
+
+    <article class="post">
+  <header class="post-header">
     <h1 class="post-title"><a class="post-link" href="/post/ubuntu-init/">Ubuntu Init</a></h1>
     <div class="post-meta">
       <span class="post-time"> 2019-07-23 </span>
@@ -138,98 +224,6 @@
     </div>
     <div class="read-more">
       <a href="/post/ubuntu-init/" class="read-more-link">Read more...</a>
-    </div>
-  </div>
-</article>
-
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/linux-hrpof/">Linux 中分析超大 JVM dump 文件</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 2019-06-13 </span>
-      <div class="post-category">
-          <a href="/categories/jvm/"> jvm </a>
-          </div>
-        <span class="more-meta"> 521 words </span>
-        <span class="more-meta"> 2 mins read </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      1. 场景 在使用Elasticsearch时，碰到内存溢出的情况，因为配置了-XX:+HeapDumpOnOutOfMemoryError索引会
-    </div>
-    <div class="read-more">
-      <a href="/post/linux-hrpof/" class="read-more-link">Read more...</a>
-    </div>
-  </div>
-</article>
-
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/go-web-vue-static-embed/">Gin 和 Vue 项目打包静态文件</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 2019-04-16 </span>
-      <div class="post-category">
-          <a href="/categories/golang/"> golang </a>
-          </div>
-        <span class="more-meta"> 679 words </span>
-        <span class="more-meta"> 2 mins read </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      在使用 Go 语言带来的便利时，我们往往也热衷于打包成单一的可执行文件，这样不仅方便传输，也便于维护。 如果是普通的Go程序，倒是直接可以编译成可执
-    </div>
-    <div class="read-more">
-      <a href="/post/go-web-vue-static-embed/" class="read-more-link">Read more...</a>
-    </div>
-  </div>
-</article>
-
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/go-web-config/">Go Web 读取配置文件</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 2019-04-06 </span>
-      <div class="post-category">
-          <a href="/categories/golang/"> golang </a>
-          </div>
-        <span class="more-meta"> 1464 words </span>
-        <span class="more-meta"> 3 mins read </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      Viper 简介 viper是spf13大神开发的开源配置解决方案，另外docker kubernetes等项目都在用的命令行解决方案cobra也是出自他
-    </div>
-    <div class="read-more">
-      <a href="/post/go-web-config/" class="read-more-link">Read more...</a>
-    </div>
-  </div>
-</article>
-
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/hugo-custom-favicon/">Hugo 常用修改</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 2019-04-04 </span>
-      <div class="post-category">
-          <a href="/categories/hugo/"> hugo </a>
-          </div>
-        <span class="more-meta"> 285 words </span>
-        <span class="more-meta"> 1 min read </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      favicon 使用Hugo搭建博客后，一般在使用了Theme后，会自带一个favicon，不过使用自己的会更(zhuang)好(13)。 其实使用这个很简
-    </div>
-    <div class="read-more">
-      <a href="/post/hugo-custom-favicon/" class="read-more-link">Read more...</a>
     </div>
   </div>
 </article>
