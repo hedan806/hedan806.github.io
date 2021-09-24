@@ -17,6 +17,15 @@
     </item>
     
     <item>
+      <title>Elasticsearch 7.4.0 使用 Snapshot 做数据迁移</title>
+      <link>http://www.honlyc.com/post/elasticsearch-7-snapshot/</link>
+      <pubDate>Fri, 16 Jul 2021 20:48:13 +0800</pubDate>
+      
+      <guid>http://www.honlyc.com/post/elasticsearch-7-snapshot/</guid>
+      <description>Elasticsearch Snapshot and Restore 、elasticsearch.yml配置path.repo，注意：这个目录必须是共享文件目录或者其他共享的，否则无法备份 1 path.repo: data 创建R</description>
+    </item>
+    
+    <item>
       <title>Logstash 导入 Json 文件到 Elasticsearch</title>
       <link>http://www.honlyc.com/post/logstash-import-json/</link>
       <pubDate>Fri, 25 Jun 2021 16:39:36 +0800</pubDate>
@@ -50,15 +59,6 @@
       
       <guid>http://www.honlyc.com/post/elasticsearch-src-qa/</guid>
       <description>1. AccessControlException 在调试ES源码时，如果我们需要直接用到FSDirectory.open(Paths.get(indexPath));这种的话，通常会碰到</description>
-    </item>
-    
-    <item>
-      <title>Elasticsearch 7.4.0 使用 Snapshot 做数据迁移</title>
-      <link>http://www.honlyc.com/post/elasticsearch-7-snapshot/</link>
-      <pubDate>Thu, 16 Jul 2020 20:48:13 +0800</pubDate>
-      
-      <guid>http://www.honlyc.com/post/elasticsearch-7-snapshot/</guid>
-      <description>Elasticsearch Snapshot and Restore 、elasticsearch.yml配置path.repo，注意：这个目录必须是共享文件目录或者其他共享的，否则无法备份 1 path.repo: data 创建R</description>
     </item>
     
     <item>

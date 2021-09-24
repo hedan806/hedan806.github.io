@@ -86,6 +86,27 @@
   </url>
   
   <url>
+    <loc>http://www.honlyc.com/tags/7.4.0/</loc>
+    <lastmod>2021-07-16T20:48:13+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.honlyc.com/tags/auth/</loc>
+    <lastmod>2021-07-16T20:48:13+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.honlyc.com/post/elasticsearch-7-snapshot/</loc>
+    <lastmod>2021-07-16T20:48:13+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
     <loc>http://www.honlyc.com/tags/import/</loc>
     <lastmod>2021-06-25T16:39:36+08:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -345,13 +366,6 @@
   </url>
   
   <url>
-    <loc>http://www.honlyc.com/tags/7.4.0/</loc>
-    <lastmod>2021-02-09T13:12:46+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
     <loc>http://www.honlyc.com/post/elasticsearch-scroll-performance/</loc>
     <lastmod>2021-02-09T13:12:46+08:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -431,20 +445,6 @@
   <url>
     <loc>http://www.honlyc.com/post/lucene-ram-format/</loc>
     <lastmod>2020-08-14T18:39:13+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>http://www.honlyc.com/tags/auth/</loc>
-    <lastmod>2020-07-16T20:48:13+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>http://www.honlyc.com/post/elasticsearch-7-snapshot/</loc>
-    <lastmod>2020-07-16T20:48:13+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
